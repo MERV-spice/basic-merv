@@ -1,11 +1,35 @@
 import React from 'react'
-import {AppRegistry, Image, StyleSheet, Text, View} from 'react-native'
+import {Navigator, Image, StyleSheet, Text, View} from 'react-native'
 import logo from './assets/logo.png'
 import GamesPage from './client/components/GamesPage'
 import CluePage from './client/components/CluePage'
+import NavBar from './client/components/NavBar'
 
 export default function App() {
-  return <CluePage />
+    /* return (
+       <Navigator
+       initialRoute={{title: 'cool', index: 0}}
+       renderScene={(route, navigator) => <Text> Hello </Text>}
+       navigationBar={
+       <Navigator.NavigationBar
+       routeMapper={{
+       LeftButton: (route, navigator, index, navState) => <Text>1</Text>,
+       RightButton: (route, navigator, index, navState) => <Text>1</Text>,
+       Title: (route, navigator, index, navState) => <Text>Nav</Text>,
+       }}
+       style={{backgroundColor: 'gray'}}
+       />
+       }
+       
+       />
+     * );
+     */
+    return (
+	<React.Fragment>
+	    <CluePage />
+	    <NavBar />
+	</React.Fragment>
+    )
   // return (<GamesPage />)
   // return (
   // <View style={styles.container}>
