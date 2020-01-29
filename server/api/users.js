@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+//const {User} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -15,3 +15,22 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/test', async (req,res,next) => {
+    try {
+	console.log(true);
+	res.end('nice!');
+    } catch (err) {
+	next(err);
+    }
+});
+
+router.post('/location', async (req, res, next) => {
+    try {
+	const user = await User.findByPk(req.body.userId);
+	await user.update({location: location});
+	res.status(201).send('changed your location');
+    } catch (err) {
+	next(err);
+    }
+});

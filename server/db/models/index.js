@@ -31,6 +31,6 @@ const Clue = require('./clue')
  */
 module.exports = {
   User,
-  Team,
+//  Team,
   Clue
 }
