@@ -1,6 +1,8 @@
 const User = require('./user')
 // const Team = require('./team')
 // const Picture = require('./picture')
+// const CluePicture = require('./cluePicture')
+const Clue = require('./clue')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -32,4 +34,6 @@ const User = require('./user')
 module.exports = {
   User, 
   Team
+	Clue,
 }
+
