@@ -1,4 +1,6 @@
 const router = require('express').Router()
+const sequelize = require('sequelize')
+const Location = require ('../db/models/location')
 //const {User} = require('../db/models')
 module.exports = router
 
@@ -16,9 +18,13 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/test', async (req,res,next) => {
-    try {
-	console.log(true);
+router.post('/test', async (req,res,next) => {
+	try {
+		const point = { type: 'Point', coordinates: [req.body.coords.latitude, req.body.coords.longitude] };
+	const location =	await Location.create({
+			point
+			})
+	console.log(location);
 	res.end('nice!');
     } catch (err) {
 	next(err);

@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const db = require('./db')
 const PORT = process.env.PORT || 8080
 const app = express()
+const compression = require('compression')
 module.exports = app
 
 const createApp = () => {
@@ -12,7 +13,8 @@ const createApp = () => {
 
   // body parsing middleware
   app.use(express.json())
-  app.use(express.urlencoded({extended: true}))
+	app.use(express.urlencoded({ extended: true }))
+	app.use(compression())
 
   // auth and api routes
   //app.use('/auth', require('./auth'))
@@ -52,7 +54,7 @@ const startListening = () => {
   )
 }
 
-const syncDb = () => db.sync()
+const syncDb = () => db.sync({force: true})
 
 async function bootApp() {
     try {

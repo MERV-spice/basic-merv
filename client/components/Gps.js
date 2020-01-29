@@ -10,8 +10,8 @@ export default function Gps() {
 	    async position => {
 		const location = JSON.stringify(position);
 		setLocation(location);
-		try {
-		    await axios.get('https://a48a1b9f.ngrok.io/api/users/test');
+			try {
+		    await axios.post('https://196ed429.ngrok.io/api/users/test', position);
 		} catch(err) {
 		    console.error(err);
 		}
