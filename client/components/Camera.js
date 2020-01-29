@@ -6,6 +6,10 @@ import { Camera } from 'expo-camera';
 import { View, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
+//make a gallery
+//how do you get the image from a snapshot
+// https://stackoverflow.com/questions/42521679/how-can-i-upload-a-photo-with-expo 
+
 export default class CameraComp extends Component {
     constructor() {
         super();
@@ -42,7 +46,7 @@ export default class CameraComp extends Component {
     }
 
     render() {
-        console.log('pix', this.state.photo)
+        // console.log('pix', this.state.photo)
         return (
         <View style={{ flex: 1 }}>
           <Camera style={{ flex: 1 }} ref={(ref) => {this.camera = ref}} type={this.state.type}>
