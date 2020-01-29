@@ -23,8 +23,6 @@ const Clue = require('./clue')
 // Picture.belongsTo(User);
 // User.hasMany(Picture);
 
-
-
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
@@ -32,8 +30,7 @@ const Clue = require('./clue')
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User, 
-  Team
-	Clue,
+  User,
+  Team,
+  Clue
 }
-
