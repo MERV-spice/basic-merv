@@ -1,14 +1,16 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, Image, StyleSheet, Text, View } from 'react-native';
 import logo from './assets/logo.png';
+import GamesPage from './client/components/HomePage';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-	<Image source={logo} style={styles.logo} />
-	<Text style={styles.textColor}>Wheres MERV?</Text>
-    </View>
-  );
+    return (<GamesPage />)
+    return (
+	<View style={styles.container}>
+	    <Image source={logo} style={styles.logo} />
+	    <Text style={styles.textColor}>Wheres MERV?</Text>
+	</View>
+    );
 }
 
 const styles = StyleSheet.create({

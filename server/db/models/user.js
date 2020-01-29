@@ -16,6 +16,11 @@ const User = db.define('user', {
       return () => this.getDataValue('password')
     }
   },
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true,
+  },
   salt: {
     type: Sequelize.STRING,
     // Making `.salt` act like a function hides it when serializing to JSON.
@@ -25,7 +30,10 @@ const User = db.define('user', {
     }
   },
   googleId: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+  }, 
+  facebookId: {
+    type: Sequelize.STRING,
   }
 })
 
