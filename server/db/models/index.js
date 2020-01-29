@@ -1,4 +1,8 @@
 const User = require('./user')
+// const CluePicture = require('./cluePicture')
+const Clue = require('./clue')
+
+
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -14,5 +18,7 @@ const User = require('./user')
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User
+	User,
+	Clue,
 }
+
