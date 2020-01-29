@@ -39,11 +39,10 @@ export default class CameraComp extends Component {
         }
         let photo = this.state.photo.uri;
         let id = this.state.id;
-        let plantInfo = await this.identifyPlant(this.state.photo.base64); 
-        this.props.addPlant({id, photo, plantInfo})
     }
 
     render() {
+        console.log('pix', this.state.photo)
         return (
         <View style={{ flex: 1 }}>
           <Camera style={{ flex: 1 }} ref={(ref) => {this.camera = ref}} type={this.state.type}>
@@ -85,13 +84,3 @@ export default class CameraComp extends Component {
         )
     }
 }
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: '#fff',
-//     },
-// 	captureButton: {
-		
-// 	}
-// });
