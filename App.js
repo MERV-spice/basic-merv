@@ -4,29 +4,15 @@ import logo from './assets/logo.png'
 import GamesPage from './client/components/GamesPage'
 import CluePage from './client/components/CluePage'
 import NavBar from './client/components/NavBar'
+import Gps from './client/components/Gps';
 import CameraComponent from'./client/components/Camera'; 
 
+
 export default function App() {
-    /* return (
-       <Navigator
-       initialRoute={{title: 'cool', index: 0}}
-       renderScene={(route, navigator) => <Text> Hello </Text>}
-       navigationBar={
-       <Navigator.NavigationBar
-       routeMapper={{
-       LeftButton: (route, navigator, index, navState) => <Text>1</Text>,
-       RightButton: (route, navigator, index, navState) => <Text>1</Text>,
-       Title: (route, navigator, index, navState) => <Text>Nav</Text>,
-       }}
-       style={{backgroundColor: 'gray'}}
-       />
-       }
-       
-       />
-     * );
-     */
     return (
 	<React.Fragment>
+	    <Gps />
+	    <NavBar />
 		<CameraComponent />
 	    {/* <CluePage />
 	    <NavBar /> */}
