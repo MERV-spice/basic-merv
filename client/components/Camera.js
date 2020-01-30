@@ -7,6 +7,7 @@ import { View, TouchableOpacity, Image, Text } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import findCoordinates from './Gps';
+import ngrokUrl from '../ngrok';
 
 //make a gallery
 //how do you get the image from a snapshot
@@ -23,12 +24,13 @@ export default class CameraComp extends Component {
       position: {},
     };
     this.upload = this.upload.bind(this);
+    this.snapPhoto = this.snapPhoto.bind(this); 
   }
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
-    console.log('found coordinates', findCoordinates((position) => this.setState({position}))); 
+    // console.log('found coordinates', ); 
   }
 
   async snapPhoto() {
@@ -47,40 +49,36 @@ export default class CameraComp extends Component {
         });
       });
       this.upload(this.state.photo.base64);
-      console.log(this.state.position); 
+      findCoordinates((position) => this.setState({position}));
+      // console.log(this.state.position); 
       // this.setState({location: })
     }
     // let photo = this.state.photo.uri;
     // let id = this.state.id;
   }
 
-  upload(picBase64) {
-    console.log('in upload');
+  async upload(picBase64) {
+    console.log('upload state position', this.state.position);
     const serverUrl = 'https://api.cloudinary.com/v1_1/basic-merv/image/upload';
     const data = picBase64;
     let formData = new FormData();
     formData.append('file', 'data:image/png;base64,' + data);
     formData.append('upload_preset', 'jb7k5twx');
     console.log('upload recording to ' + serverUrl);
-
-    axios({
-      url: serverUrl,
-      method: 'POST',
-      data: formData,
-    })
-      .then(function(res) {
-        const startIdx = res.request._response.indexOf(':') + 2;
-        const endIdx = res.request._response.indexOf(',') - 1;
-        const publicId = res.request._response.slice(startIdx, endIdx);
-        // THIS IS IMPORTANT!!!
-        console.log(
-          'public url to fetch image',
-          `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`
-        );
+    try {
+      const res = await axios.post(serverUrl, formData)
+      const startIdx = res.request._response.indexOf(':') + 2;
+      const endIdx = res.request._response.indexOf(',') - 1;
+      const publicId = res.request._response.slice(startIdx, endIdx);
+      const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`; 
+      console.log('state?', this.state)
+      await axios.post(`https://${ngrokUrl}.ngrok.io/api/images`, {
+        url: imageUrl, 
+        position: this.state.position, 
       })
-      .catch(function(err) {
-        console.log(err);
-      });
+    } catch(err) {
+        console.error(err);
+    }
   }
 
   render() {

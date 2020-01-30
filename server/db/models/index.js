@@ -1,6 +1,6 @@
 const User = require('./user')
 // const Team = require('./team')
-// const Picture = require('./picture')
+const Picture = require('./picture')
 // const CluePicture = require('./cluePicture')
 const Clue = require('./clue')
 const Location = require('./location')
@@ -31,8 +31,9 @@ const Location = require('./location')
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-	Location
+	Location, 
+	Picture,
 //   User,
-// //  Team,
+//  Team,
 //   Clue
 }

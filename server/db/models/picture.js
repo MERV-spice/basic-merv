@@ -1,23 +1,23 @@
 const Sequelize = require('sequelize');
-const db = require('db');
+const db = require('../db');
 
 const Picture = db.define('picture', {
-    NumTimesUsed: {
+    numTimesUsed: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
     }, 
-    Likes: {
+    likes: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
     }, 
-    Dislikes: {
+    dislikes: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
     }, 
-    AccessPic: {
+    accessPic: {
         type: Sequelize.STRING,
     },
-    Location: {
+    location: {
         type: Sequelize.GEOMETRY('POINT'),
     },
 })
