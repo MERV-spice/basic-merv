@@ -4,6 +4,8 @@ const db = require('../server/db'); //Will this change on the basis of our new d
 const {User, Game, Clue, Picture} = require('../server/db/models'); 
 const faker = require('faker/locale/en_US');
 
+// https://www.npmjs.com/package/faker --- for further use in faking it til we make it
+
 const makeClue = () => {
   const clues = [];
   for (let i = 0; i < 10; i++) {
@@ -32,11 +34,11 @@ const makePics = () => {
 async function seed() {
   await db.sync({force: true});
 
-  const clues = await Clue.bulkCreate(makeClue());
-  const pics = await Picture.bulkCreate(makePics());
+  // const clues = await Clue.bulkCreate(makeClue());
+  // const pics = await Picture.bulkCreate(makePics());
 
-  console.log(`seeded ${clues.length} clues`)
-  console.log(`seeded ${pics.length} pictures-- random key codes, these will not link to images`)
+  // console.log(`seeded ${clues.length} clues`)
+  // console.log(`seeded ${pics.length} pictures-- random key codes, these will not link to images`)
 }
 
 // We've separated the `seed` function from the `runSeed` function.

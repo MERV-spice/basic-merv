@@ -18,7 +18,7 @@ const Picture = db.define('picture', {
         type: Sequelize.STRING,
     },
     Location: {
-        type: Sequelize.ARRAY( Sequelize.DECIMAL )
+        type: Sequelize.GEOMETRY('POINT'),
     },
 })
 
