@@ -19,7 +19,7 @@ export default class CameraComp extends Component {
     this.state = {
       hasCameraPermission: null,
       type: Camera.Constants.Type.back,
-      photo: '',
+      photo: {},
       id: 0,
       position: {},
     };
@@ -30,6 +30,7 @@ export default class CameraComp extends Component {
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
+    findCoordinates((position) => this.setState({position}));
     // console.log('found coordinates', ); 
   }
 
@@ -49,7 +50,8 @@ export default class CameraComp extends Component {
         });
       });
       this.upload(this.state.photo.base64);
-      findCoordinates((position) => this.setState({position}));
+      await findCoordinates((position) => this.setState({position}));
+      console.log('position in location function', this.state.position);
       // console.log(this.state.position); 
       // this.setState({location: })
     }
@@ -71,7 +73,7 @@ export default class CameraComp extends Component {
       const endIdx = res.request._response.indexOf(',') - 1;
       const publicId = res.request._response.slice(startIdx, endIdx);
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`; 
-      console.log('state?', this.state)
+      // console.log('state?', this.state)
       await axios.post(`https://${ngrokUrl}.ngrok.io/api/images`, {
         url: imageUrl, 
         position: this.state.position, 
