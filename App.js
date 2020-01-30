@@ -5,13 +5,17 @@ import GamesPage from './client/components/GamesPage'
 import CluePage from './client/components/CluePage'
 import NavBar from './client/components/NavBar'
 import Gps from './client/components/Gps';
+import CameraComponent from'./client/components/Camera'; 
+
 
 export default function App() {
     return (
 	<React.Fragment>
-	    <CluePage />
 	    <Gps />
 	    <NavBar />
+		<CameraComponent />
+	    {/* <CluePage />
+	    <NavBar /> */}
 	</React.Fragment>
     )
   // return (<GamesPage />)
