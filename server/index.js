@@ -1,10 +1,11 @@
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
-const db = require('./db')
+const compression = require('compression')
 const PORT = process.env.PORT || 8080
 const app = express()
-const compression = require('compression')
+const db = require('./db')
+
 module.exports = app
 
 const createApp = () => {
@@ -13,9 +14,11 @@ const createApp = () => {
 
   // body parsing middleware
   app.use(express.json())
-	app.use(express.urlencoded({ extended: true }))
-	app.use(compression())
+  app.use(express.urlencoded({extended: true}))
 
+  // compression middleware
+  app.use(compression())
+  
   // auth and api routes
   //app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
@@ -58,11 +61,11 @@ const syncDb = () => db.sync({force: true})
 
 async function bootApp() {
     try {
-	await syncDb()
-	await createApp()
-	await startListening()
+	    await syncDb()
+	    await createApp()
+	    await startListening()
     } catch (err) {
-	console.error(err);
+	    console.error(err);
     }
 }
 

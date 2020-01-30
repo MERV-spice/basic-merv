@@ -15,6 +15,7 @@
     "seed": "node script/seed.js"
   },
   "dependencies": {
+    "clarifai": "^2.9.1",
     "axios": "^0.19.2",
     "compression": "^1.7.4",
     "expo": "~36.0.0",
