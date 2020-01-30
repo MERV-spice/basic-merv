@@ -64,7 +64,13 @@ export default class CameraComp extends Component {
       data: formData,
     })
       .then(function(res) {
-        console.log('in response', res);
+        const startIdx = res.request._response.indexOf(':') + 2;
+        const endIdx = res.request._response.indexOf(',') - 1;
+        const publicId = res.request._response.slice(startIdx, endIdx);
+        console.log(
+          'public url to fetch image',
+          `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`
+        );
       })
       .catch(function(err) {
         console.log(err);
