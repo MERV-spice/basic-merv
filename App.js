@@ -11,8 +11,8 @@ import CameraComponent from'./client/components/Camera';
 export default function App() {
     return (
 	<React.Fragment>
-	    <Gps />
-	    <NavBar />
+	    {/* <Gps />
+	    <NavBar /> */}
 		<CameraComponent />
 	    {/* <CluePage />
 	    <NavBar /> */}
