@@ -6,7 +6,6 @@ const sky = 'https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?au
 
 router.get('/compare', async (req, res, next) => {
     try {
-	
 	const ha = await compare(sky);
 	res.json(ha)
     } catch (err) {
