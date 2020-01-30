@@ -3,7 +3,7 @@
 import React , {Component} from 'react'
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Image, Text } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
 //make a gallery
@@ -19,18 +19,16 @@ export default class CameraComp extends Component {
             photo: '',
             id: 0
         }
+        this.upload=this.upload.bind(this)
     }
 
     async componentDidMount() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({ hasCameraPermission: status === 'granted' });
-        // console.log('this.camera', this.camera)
     }
 
     async snapPhoto() {       
-        // console.log('Button Pressed');
         if (this.camera) {
-            // console.log('Taking photo');
             const options = { quality: 1, base64: true, fixOrientation: true, 
             exif: true};
             await this.camera.takePictureAsync(options).then(photo => {
@@ -41,12 +39,29 @@ export default class CameraComp extends Component {
                 });
             });
         }
-        let photo = this.state.photo.uri;
-        let id = this.state.id;
+      let photo = this.state.photo.uri;
+      let id = this.state.id;
+    }
+
+    upload(picBase64) {
+      console.log('in upload')
+      var serverUrl = 'https://api.cloudinary.com/v1_1/basic-merv/image/upload';
+      var data = picBase64;
+      var formData = new FormData();
+      formData.append('file', data);
+      formData.append('upload_preset', 'jb7k5twx');
+      console.log('upload recording ' + data.name + ' to ' + serverUrl);
+
+      fetch(serverUrl, {
+        method: 'POST',
+        body: formData
+      })
+        .then(success => console.log('upload recording complete.'))
+        .catch(error => console.error('an upload error occurred!', error));
     }
 
     render() {
-        // console.log('pix', this.state.photo)
+        // console.log('pix', this.state.photo.base64)
         return (
         <View style={{ flex: 1 }}>
           <Camera style={{ flex: 1 }} ref={(ref) => {this.camera = ref}} type={this.state.type}>
@@ -69,6 +84,7 @@ export default class CameraComp extends Component {
                         ? Camera.Constants.Type.front
                         : Camera.Constants.Type.back,
                   });
+                  this.upload(this.state.photo.base64)
                 }}>
                 <Ionicons color="white" size={64} name="ios-reverse-camera"/>
               </TouchableOpacity>
@@ -84,6 +100,9 @@ export default class CameraComp extends Component {
                 </TouchableOpacity>
             </View>
           </Camera>
+          {this.state.photo.base64 ? 
+          <Image style={{width: 50, height: 50}}source={{uri:`data:image/png;base64,${this.state.photo.base64}`}} /> : <Text>You were wrong.</Text>
+          }
         </View>
         )
     }

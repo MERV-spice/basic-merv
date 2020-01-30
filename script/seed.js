@@ -1,7 +1,19 @@
 'use strict'
 
-const db = require('../server/db')
-const {User} = require('../server/db/models')
+const db = require('../server/db'); //Will this change on the basis of our new db location
+const {User, Game, Clue} = require('../server/db/models'); 
+const faker = require('faker/locale/en_US');
+
+const makeClue = () => {
+  const clues = [];
+  for (let i = 0; i < 10; i++) {
+    clues.push({
+      time: {
+        faker.date.recent();
+      }
+    })
+  }
+}
 
 async function seed() {
   await db.sync({force: true})

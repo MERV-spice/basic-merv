@@ -22,6 +22,7 @@
     "passport": "^0.4.1",
     "pg": "^7.18.0",
     "expo-camera": "~8.0.0",
+    "faker": "^4.1.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
