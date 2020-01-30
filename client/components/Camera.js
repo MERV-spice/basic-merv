@@ -6,6 +6,7 @@ import { Camera } from 'expo-camera';
 import { View, TouchableOpacity, Image, Text } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
+import findCoordinates from './Gps';
 
 //make a gallery
 //how do you get the image from a snapshot
@@ -19,6 +20,7 @@ export default class CameraComp extends Component {
       type: Camera.Constants.Type.back,
       photo: '',
       id: 0,
+      position: {},
     };
     this.upload = this.upload.bind(this);
   }
@@ -26,6 +28,7 @@ export default class CameraComp extends Component {
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
+    console.log('found coordinates', findCoordinates((position) => this.setState({position}))); 
   }
 
   async snapPhoto() {
@@ -44,9 +47,11 @@ export default class CameraComp extends Component {
         });
       });
       this.upload(this.state.photo.base64);
+      console.log(this.state.position); 
+      // this.setState({location: })
     }
-    let photo = this.state.photo.uri;
-    let id = this.state.id;
+    // let photo = this.state.photo.uri;
+    // let id = this.state.id;
   }
 
   upload(picBase64) {
