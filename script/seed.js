@@ -1,31 +1,42 @@
 'use strict'
 
 const db = require('../server/db'); //Will this change on the basis of our new db location
-const {User, Game, Clue} = require('../server/db/models'); 
+const {User, Game, Clue, Picture} = require('../server/db/models'); 
 const faker = require('faker/locale/en_US');
 
 const makeClue = () => {
   const clues = [];
   for (let i = 0; i < 10; i++) {
     clues.push({
-      time: {
-        faker.date.recent();
-      }
+      time: faker.date.recent(), 
+      lat: faker.random.number(),
+      text: faker.company.catchPhraseDescriptor(),
+      hint: faker.company.catchPhraseDescriptor(),
+    })
+  }
+}
+
+const makePics = () => {
+  const pics = []; 
+  for (let i = 0; i < 10; i++) {
+    pics.push({
+      NumTimesUsed: faker.random.number(),
+      Likes: faker.random.number(),
+      Dislikes: faker.random.number(), 
+      AccessPic: faker.random.number(),
+      Location: [faker.random.number(), faker.random.number()]
     })
   }
 }
 
 async function seed() {
-  await db.sync({force: true})
-  console.log('db synced!')
+  await db.sync({force: true});
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  const clues = await Clue.bulkCreate(makeClue());
+  const pics = await Picture.bulkCreate(makePics());
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+  console.log(`seeded ${clues.length} clues`)
+  console.log(`seeded ${pics.length} pictures-- random key codes, these will not link to images`)
 }
 
 // We've separated the `seed` function from the `runSeed` function.
