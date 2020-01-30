@@ -51,9 +51,9 @@ export default class CameraComp extends Component {
 
   upload(picBase64) {
     console.log('in upload');
-    var serverUrl = 'https://api.cloudinary.com/v1_1/basic-merv/image/upload';
-    var data = picBase64;
-    var formData = new FormData();
+    const serverUrl = 'https://api.cloudinary.com/v1_1/basic-merv/image/upload';
+    const data = picBase64;
+    let formData = new FormData();
     formData.append('file', 'data:image/png;base64,' + data);
     formData.append('upload_preset', 'jb7k5twx');
     console.log('upload recording to ' + serverUrl);
@@ -67,6 +67,7 @@ export default class CameraComp extends Component {
         const startIdx = res.request._response.indexOf(':') + 2;
         const endIdx = res.request._response.indexOf(',') - 1;
         const publicId = res.request._response.slice(startIdx, endIdx);
+        // THIS IS IMPORTANT!!!
         console.log(
           'public url to fetch image',
           `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`
