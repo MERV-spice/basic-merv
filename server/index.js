@@ -2,9 +2,10 @@ const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const compression = require('compression')
-//const db = require('./db')
 const PORT = process.env.PORT || 8080
 const app = express()
+const db = require('./db')
+
 module.exports = app
 
 const createApp = () => {
@@ -17,9 +18,9 @@ const createApp = () => {
 
   // compression middleware
   app.use(compression())
-
+  
   // auth and api routes
-    //app.use('/auth', require('./auth'))
+  //app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
 
   // static file-serving middleware
@@ -56,12 +57,16 @@ const startListening = () => {
   )
 }
 
-const syncDb = () => db.sync()
+const syncDb = () => db.sync({force: true})
 
 async function bootApp() {
-//  await syncDb()
-  await createApp()
-  await startListening()
+    try {
+	    await syncDb()
+	    await createApp()
+	    await startListening()
+    } catch (err) {
+	    console.error(err);
+    }
 }
 
 bootApp()
