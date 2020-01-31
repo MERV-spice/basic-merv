@@ -1,9 +1,9 @@
-const User = require('./user')
+const User = require('./user');
 // const Team = require('./team')
-const Picture = require('./picture')
+const Picture = require('./picture');
 // const CluePicture = require('./cluePicture')
-const Clue = require('./clue')
-const Location = require('./location')
+const Clue = require('./clue');
+const Location = require('./location');
 
 /**
  * If we had any associations to make, this would be a great place to put them!
