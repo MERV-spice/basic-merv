@@ -16,9 +16,11 @@ router.get('/compare', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        console.log(req.body.position)
 	const point = { type: 'Point', coordinates: [req.body.position.coords.latitude, req.body.position.coords.longitude] };
         await Picture.create({accessPic: req.body.url, location: point});
+	const id = 'sky';
+	const comparison = await compare(req.body.url, sky, id)
+	console.log(comparison.hits);
         res.status(202).end(); 
     } catch (err) {
         next(err)
