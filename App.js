@@ -1,11 +1,12 @@
 import React from 'react'
-import {Navigator, Image, StyleSheet, Text, View} from 'react-native'
+import {Image, StyleSheet, Text, View} from 'react-native'
 import logo from './assets/logo.png'
 import GamesPage from './client/components/GamesPage'
 import CluePage from './client/components/CluePage'
 import NavBar from './client/components/NavBar'
 import Gps from './client/components/Gps';
-import CameraComponent from'./client/components/Camera'; 
+import CameraComponent from './client/components/Camera'; 
+import Navigator from './routes/homeStack'
 
 
 export default function App() {
@@ -13,7 +14,7 @@ export default function App() {
 	<React.Fragment>
 	    {/* <Gps />
 	    <NavBar /> */}
-		<CameraComponent />
+		<Navigator />
 	    {/* <CluePage />
 	    <NavBar /> */}
 	</React.Fragment>
