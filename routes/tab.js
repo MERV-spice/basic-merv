@@ -18,17 +18,16 @@ const screens = {
 		navigationOptions: {
 			tabBarLabel: 'CluePage',
 		},
-		GamesPage: {
-			screen: GamesPage,
-			navigationOptions: {
-				tabBarLabel: 'GamesPage'
-			}
+	},
+	GamesPage: {
+		screen: GamesPage,
+		navigationOptions: {
+			tabBarLabel: 'GamesPage'
 		}
 	},
-
 }
 
 
-const tab = createBottomTabNavigator(screens, { tabBarOptions: { showLabel: false } })
+const tab = createBottomTabNavigator(screens, { tabBarOptions: { showLabel: true } })
 
 export default createAppContainer(tab)
