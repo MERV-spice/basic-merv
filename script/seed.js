@@ -16,6 +16,7 @@ const makeClue = () => {
       hint: faker.company.catchPhraseDescriptor(),
     })
   }
+  return clues
 }
 
 const makePics = () => {
@@ -29,16 +30,17 @@ const makePics = () => {
       Location: [faker.random.number(), faker.random.number()]
     })
   }
+  return pics
 }
 
 async function seed() {
   await db.sync({force: true});
 
-  // const clues = await Clue.bulkCreate(makeClue());
-  // const pics = await Picture.bulkCreate(makePics());
+  const clues = await Clue.bulkCreate(makeClue());
+  const pics = await Picture.bulkCreate(makePics());
 
-  // console.log(`seeded ${clues.length} clues`)
-  // console.log(`seeded ${pics.length} pictures-- random key codes, these will not link to images`)
+  console.log(`seeded ${clues.length} clues`)
+  console.log(`seeded ${pics.length} pictures-- random key codes, these will not link to images`)
 }
 
 // We've separated the `seed` function from the `runSeed` function.

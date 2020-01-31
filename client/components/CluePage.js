@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet, Text, View, Button} from 'react-native'
 
-export default function CluePage() {
+const CluePage = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.currClueTitle}>Clue: </Text>
@@ -30,3 +30,5 @@ const styles = StyleSheet.create({
     fontSize: 25
   }
 })
+
+export default CluePage;

@@ -9,7 +9,7 @@ const compare = async matchUrl => {
 	    input: {
 		url: matchUrl,
 	    }
-	})	
+	})
 	return ret;
     } catch (err) {
 	console.error(err);

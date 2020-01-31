@@ -24,7 +24,7 @@ const currGames = [
     },
 ];
 
-export default function GamesPage() {
+const GamesPage = () => {
     return (
 	<View style={styles.container}>
 	    <Text style={styles.currGamesTitle}>Current Games</Text>
@@ -55,3 +55,4 @@ const styles = StyleSheet.create({
     },
 });
 
+export default GamesPage;

@@ -4,10 +4,10 @@ import logo from './assets/logo.png'
 import GamesPage from './client/components/GamesPage'
 import CluePage from './client/components/CluePage'
 import NavBar from './client/components/NavBar'
+import HomePage from './client/components/HomePage';
 import Gps from './client/components/Gps';
 import CameraComponent from './client/components/Camera'; 
 import Navigator from './routes/tab'
-
 
 export default function App() {
     return (
@@ -15,17 +15,10 @@ export default function App() {
 	    {/* <Gps />
 	    <NavBar /> */}
 		<Navigator />
-	    {/* <CluePage />
-	    <NavBar /> */}
+	    {/* <CluePage /> */}
+	    <HomePage />
 	</React.Fragment>
     )
-  // return (<GamesPage />)
-  // return (
-  // <View style={styles.container}>
-  //     <Image source={logo} style={styles.logo} />
-  //     <Text style={styles.textColor}>Wheres MERV?</Text>
-  // </View>
-  // );
 }
 
 const styles = StyleSheet.create({
