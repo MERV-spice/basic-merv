@@ -3,9 +3,10 @@ import { StyleSheet } from 'react-native'
 import NavBar from './NavBar';
 import CluePage from './CluePage';
 import GamesPage from './GamesPage';
+import CameraComp from './Camera';
 
 const HomePage = () => {
-    const buttons = ['home', 'games', 'clue'];
+    const buttons = ['home', 'games', 'clue', 'camera'];
     const [page, setPage] = React.useState('home');
 
     let renderedPage;
@@ -13,6 +14,8 @@ const HomePage = () => {
 	renderedPage = <GamesPage />
     } else if (page === 'clue') {
 	renderedPage = <CluePage />
+    } else if (page === 'camera') {
+	renderedPage = <CameraComp />
     } else {
 	renderedPage = <GamesPage />
     }
@@ -22,7 +25,8 @@ const HomePage = () => {
 	    {renderedPage}
 	    <NavBar
 		fn={page => setPage(buttons[page])}
-		selected={page}
+	    selected={page}
+	    buttons={buttons}
 	    />
 	</React.Fragment>
     );

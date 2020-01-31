@@ -2,8 +2,7 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { ButtonGroup } from 'react-native-elements';
 
-const NavBar = ({fn, selected}) => {
-    const buttons = ['home', 'games', 'clue'];
+const NavBar = ({fn, selected, buttons}) => {
     const selectedIndex = buttons.indexOf(selected);
     
     return (
