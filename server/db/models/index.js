@@ -31,9 +31,9 @@ const Location = require('./location');
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  Location,
-  Picture,
+	Location, 
+	Picture,
   User,
-  //  Team,
-  //   Clue
-};
+//  Team,
+  Clue
+}

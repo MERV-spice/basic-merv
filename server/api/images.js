@@ -15,19 +15,18 @@ router.get('/compare', async (req, res, next) => {
   }
 });
 
+
+//send associated clueid to check against
 router.post('/', async (req, res, next) => {
-  try {
-    console.log(req.body.position);
-    const point = {
-      type: 'Point',
-      coordinates: [
-        req.body.position.coords.latitude,
-        req.body.position.coords.longitude,
-      ],
-    };
-    await Picture.create({ accessPic: req.body.url, location: point });
-    res.status(202).end();
-  } catch (err) {
-    next(err);
-  }
-});
+    try {
+	    const point = { type: 'Point', coordinates: [req.body.position.coords.latitude, req.body.position.coords.longitude] };
+      await Picture.create({accessPic: req.body.url, location: point});
+	    const comparison = await compare(req.body.url)
+	    //filter comparison.hits to only get the associated clue id score
+	    console.log(comparison.hits);
+      res.status(202).json(comparison.hits); 
+    } catch (err) {
+       next(err)
+    }
+})
+
