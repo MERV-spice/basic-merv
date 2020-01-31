@@ -6,10 +6,10 @@ import CluePage from '../screens/CluePage'
 import GamesPage from '../screens/GamesPage'
 
 const screens = {
-	Camera: {
-		screen: Camera,
+	GamesPage: {
+		screen: GamesPage,
 		navigationOptions: {
-			tabBarLabel: 'Camera',
+			tabBarLabel: 'GamesPage',
 		}
 	},
 	
@@ -19,10 +19,10 @@ const screens = {
 			tabBarLabel: 'CluePage',
 		},
 	},
-	GamesPage: {
-		screen: GamesPage,
+	Camera: {
+		screen: Camera,
 		navigationOptions: {
-			tabBarLabel: 'GamesPage'
+			tabBarLabel: 'Camera'
 		}
 	},
 }

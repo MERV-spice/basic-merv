@@ -3,11 +3,12 @@ import {StyleSheet, Text, View, Button} from 'react-native'
 
 export default function CluePage({ navigation }) {
 	const pressHandler = () => {
-		navigation.navigate('GamesPage')
+		navigation.navigate('Camera')
 	}
   return (
     <View style={styles.container}>
-      <Text style={styles.currClueTitle}>Clue: </Text>
+			<Text style={styles.currClueTitle}>Clue: </Text>
+		
       <Text style={styles.currClueText}>
         Find a yellow brick in a red wall.
       </Text>

@@ -6,9 +6,10 @@ import GamesPage from '../screens/GamesPage'
 
 
 const screens = {
-	Camera: { screen: Camera },
+	GamesPage: { screen: GamesPage },
 	CluePage: { screen: CluePage },
-	GamesPage: { screen: GamesPage }
+	Camera: { screen: Camera },
+	
 }
 
 const homeStack = createStackNavigator(screens)

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
 import { ListItem } from 'react-native-elements';
 //import logo from './assets/logo.png';
 
@@ -24,9 +24,13 @@ const currGames = [
     },
 ];
 
-export default function GamesPage() {
+export default function GamesPage({navigation}) {
+	const pressHandler = () => {
+		navigation.navigate('CluePage')
+	}
     return (
-	<View style={styles.container}>
+			<View style={styles.container}>
+			 <Button title="To Clues" onPress={pressHandler} />
 	    <Text style={styles.currGamesTitle}>Current Games</Text>
 	    {currGames.map(game =>
 		<ListItem
