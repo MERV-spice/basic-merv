@@ -7,7 +7,7 @@ const Clue = db.define('clue', {
 		allowNull: false,
 	},
 	lat: {
-		type: Sequelize.NUMBER,
+		type: Sequelize.DECIMAL,
 		allowNull: false,
 	},
 	text: {

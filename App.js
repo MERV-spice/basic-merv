@@ -5,6 +5,8 @@ import GamesPage from './client/components/GamesPage'
 import CluePage from './client/components/CluePage'
 import NavBar from './client/components/NavBar'
 import HomePage from './client/components/HomePage';
+import Gps from './client/components/Gps';
+import CameraComponent from'./client/components/Camera'; 
 
 export default function App() {
     return (
