@@ -36,8 +36,6 @@ const makePics = () => {
 async function seed() {
   await db.sync({force: true});
 
-  console.log(typeof Clue)
-
   const clues = await Clue.bulkCreate(makeClue());
   const pics = await Picture.bulkCreate(makePics());
 
