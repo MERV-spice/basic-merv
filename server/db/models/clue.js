@@ -19,3 +19,5 @@ const Clue = db.define('clue', {
 	}
 	
 })
+
+module.exports = Clue; 
