@@ -14,14 +14,17 @@ router.get('/compare', async (req, res, next) => {
     }
 })
 
+
+//send associated clueid to check against
 router.post('/', async (req, res, next) => {
     try {
 	const point = { type: 'Point', coordinates: [req.body.position.coords.latitude, req.body.position.coords.longitude] };
         await Picture.create({accessPic: req.body.url, location: point});
-	const id = 'sky';
-	const comparison = await compare(req.body.url, sky, id)
+	const comparison = await compare(req.body.url)
+
+	//filter comparison.hits to only get the associated clue id score
 	console.log(comparison.hits);
-        res.status(202).end(); 
+        res.status(202).json(comparison.hits); 
     } catch (err) {
         next(err)
     }
