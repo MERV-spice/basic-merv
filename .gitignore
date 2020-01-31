@@ -6,6 +6,8 @@ secrets.js
 .DS_Store
 npm-debug.log
 yarn-error.log
+# this is new and may be wrong so keep an eye on it
+ngrok.js
 # Logs
 logs
 *.log

@@ -33,7 +33,7 @@ const Location = require('./location')
 module.exports = {
 	Location, 
 	Picture,
-//   User,
+  User,
 //  Team,
-//   Clue
+  Clue
 }
