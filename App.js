@@ -4,27 +4,16 @@ import logo from './assets/logo.png'
 import GamesPage from './client/components/GamesPage'
 import CluePage from './client/components/CluePage'
 import NavBar from './client/components/NavBar'
+import HomePage from './client/components/HomePage';
 import Gps from './client/components/Gps';
 import CameraComponent from'./client/components/Camera'; 
-
 
 export default function App() {
     return (
 	<React.Fragment>
-	    {/* <Gps />
-	    <NavBar /> */}
-		<CameraComponent />
-	    {/* <CluePage />
-	    <NavBar /> */}
+	    <HomePage />
 	</React.Fragment>
     )
-  // return (<GamesPage />)
-  // return (
-  // <View style={styles.container}>
-  //     <Image source={logo} style={styles.logo} />
-  //     <Text style={styles.textColor}>Wheres MERV?</Text>
-  // </View>
-  // );
 }
 
 const styles = StyleSheet.create({
