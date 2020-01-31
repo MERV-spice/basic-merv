@@ -16,8 +16,9 @@ router.get('/compare', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        console.log('in api route')
-        await Picture.create({accessPic: req.body.url, location: req.body.position});
+        console.log(req.body.position)
+	const point = { type: 'Point', coordinates: [req.body.position.coords.latitude, req.body.position.coords.longitude] };
+        await Picture.create({accessPic: req.body.url, location: point});
         res.status(202).end(); 
     } catch (err) {
         next(err)
