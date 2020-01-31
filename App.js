@@ -6,7 +6,7 @@ import CluePage from './client/components/CluePage'
 import NavBar from './client/components/NavBar'
 import Gps from './client/components/Gps';
 import CameraComponent from './client/components/Camera'; 
-import Navigator from './routes/homeStack'
+import Navigator from './routes/tab'
 
 
 export default function App() {
