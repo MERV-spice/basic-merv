@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, TextInput} from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default class MakeGame extends React.Component {
   constructor() {
@@ -16,8 +17,10 @@ export default class MakeGame extends React.Component {
       startGame: null, 
       endGame: null,
       private: false,
-      keyCode: null
-    }
+      keyCode: null, 
+      isDatePickerVisible: false, 
+      setDatePickerVisibility: false
+    };
   }
 
   componentDidMount() {
@@ -35,6 +38,19 @@ export default class MakeGame extends React.Component {
   addclue() {
     this.setState({gameClues: [...this.state.gameClues,  {clueNum: this.state.clueNum, clueImgId: this.state.clueImgId, clueText: this.state.clueText}]})
     this.setState({clueNum: this.state.clueNum+1, clueImgId: '', clueText: '', createClue: false})
+  }
+  
+  showDatePicker() {
+    this.setState({setDatePickerVisibility: true});
+  }
+
+  hideDatePicker() {
+    this.setState({setDatePickerVisibility: false});
+  }
+
+  handleConfirm(date) {
+    console.log('date: ', date);
+    this.hideDatePicker();
   }
   
   render() {
@@ -92,10 +108,36 @@ export default class MakeGame extends React.Component {
             </React.Fragment>
 
             <Text style={styles.newGameText}>Start of Game: </Text>
-
+            <Button title="Show Date Picker" onPress={this.showDatePicker.bind(this)} />
+              <DateTimePickerModal
+                isVisible={this.state.isDatePickerVisible}
+                mode="date"
+                onConfirm={this.handleConfirm.bind(this)}
+                onCancel={this.hideDatePicker.bind(this)}
+              />
+                <DateTimePickerModal
+                isVisible={this.state.isDatePickerVisible}
+                mode="time"
+                onConfirm={this.handleConfirm.bind(this)}
+                onCancel={this.hideDatePicker.bind(this)}
+              />
             <Text style={styles.newGameText}>End of Game: </Text>
             {/* How to make an input that specifically represents hours/days/weeks as units of 
             time. Will this be two dropdowns, one to say number and one to say units? */}
+                <DateTimePickerModal
+                isVisible={this.state.isDatePickerVisible}
+                mode="date"
+                onConfirm={this.handleConfirm.bind(this)}
+                onCancel={this.hideDatePicker.bind(this)}
+              />
+                <DateTimePickerModal
+                isVisible={this.state.isDatePickerVisible}
+                mode="time"
+                onConfirm={this.handleConfirm.bind(this)}
+                onCancel={this.hideDatePicker.bind(this)}
+              />
+              {/* https://github.com/mmazzarolo/react-native-modal-datetime-picker 
+              <---- link to github for troubleshooting date/time picker */}
             <Text style={styles.newGameText}>This game will be: </Text>
               <RadioForm 
                 radio_props = {[{label: 'public', value: false}, {label: 'private', value: true}]}
