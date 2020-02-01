@@ -15,8 +15,9 @@
     "seed": "node script/seed.js"
   },
   "dependencies": {
-    "clarifai": "^2.9.1",
+    "@react-native-community/datetimepicker": "2.1.0",
     "axios": "^0.19.2",
+    "clarifai": "^2.9.1",
     "compression": "^1.7.4",
     "expo": "~36.0.0",
     "expo-camera": "~8.0.0",
@@ -29,6 +30,8 @@
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-elements": "^1.2.7",
+    "react-native-modal-datetime-picker": "^8.1.1",
+    "react-native-simple-radio-button": "^2.7.4",
     "react-native-web": "~0.11.7",
     "sequelize": "^5.21.3"
   },

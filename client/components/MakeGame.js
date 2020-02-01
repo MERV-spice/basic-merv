@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, TextInput} from 'react-native';
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 
 export default class MakeGame extends React.Component {
   constructor() {
@@ -15,6 +16,7 @@ export default class MakeGame extends React.Component {
       startGame: null, 
       endGame: null,
       private: false,
+      keyCode: null
     }
   }
 
@@ -90,18 +92,25 @@ export default class MakeGame extends React.Component {
             </React.Fragment>
 
             <Text style={styles.newGameText}>Start of Game: </Text>
-              
+
             <Text style={styles.newGameText}>End of Game: </Text>
             {/* How to make an input that specifically represents hours/days/weeks as units of 
             time. Will this be two dropdowns, one to say number and one to say units? */}
             <Text style={styles.newGameText}>This game will be: </Text>
-            {/* Radio? Select one: Public or private. Automatically generate key code upon 
-            selecting private. Perhaps connect with faker. Automatically copy it to clipboard 
-            and maybe also automatically email key code to game maker for them to share. 
-            Potentially in the future share it with users via their username. Might not be too 
-            hard since we already have their emails*/}
+              <RadioForm 
+                radio_props = {[{label: 'public', value: false}, {label: 'private', value: true}]}
+                initial = {false}
+                onPress = {(value) => {this.setState({private: value})}}
+              />
+              {/* https://github.com/moschan/react-native-simple-radio-button <--- info about radio 
+              buttons github */}
+              {/* Radio? Select one: Public or private. Automatically generate key code upon 
+              selecting private. Perhaps connect with faker. Automatically copy it to clipboard 
+              and maybe also automatically email key code to game maker for them to share. 
+              Potentially in the future share it with users via their username. Might not be too 
+              hard since we already have their emails*/}
             <Button title="Make Game" />
-            {/* Where will this button link to? */}
+            {/* Where will this button link to?, generate key code if this.state.private: true */}
         </View>
     )
   }
