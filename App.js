@@ -9,17 +9,16 @@ import Gps from './client/components/Gps';
 import CameraComponent from './client/components/Camera';
 import { Provider } from 'react-redux';
 import store from './client/store';
-import Navigator from './routes/tab'
+import Navigator from './routes/tab';
 
 export default function App() {
   return (
     <React.Fragment>
       <Provider store={store}>
-	<Navigator />
+        <Navigator />
       </Provider>
     </React.Fragment>
   );
-
 }
 
 const styles = StyleSheet.create({
