@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import logo from './assets/logo.png';
