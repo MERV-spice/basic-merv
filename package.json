@@ -12,7 +12,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "seed": "node script/seed.js"
+      "seed": "node script/seed.js",
+      "server": "nodemon server/index.js"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.6",
@@ -24,6 +25,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "faker": "^4.1.0",
+    "nodemon": "^2.0.2",
     "passport": "^0.4.1",
     "pg": "^7.18.0",
     "react": "~16.9.0",
