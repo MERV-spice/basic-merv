@@ -1,9 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
-import { /*Navigator*/ Image, StyleSheet, Text, View } from 'react-native';
-=======
 import { Image, StyleSheet, Text, View } from 'react-native';
->>>>>>> e9dae8d034fee314ed7b0055ffeb4f02449e6c2b
 import logo from './assets/logo.png';
 import GamesPage from './client/components/GamesPage';
 import CluePage from './client/components/CluePage';
@@ -19,15 +15,7 @@ export default function App() {
   return (
     <React.Fragment>
       <Provider store={store}>
-<<<<<<< HEAD
-        <HomePage />
-        {/* <Gps />
-	      <NavBar /> */}
-        {/* <Navigator /> */}
-        {/* <CluePage /> */}
-=======
-	<Navigator />
->>>>>>> e9dae8d034fee314ed7b0055ffeb4f02449e6c2b
+        <Navigator />
       </Provider>
     </React.Fragment>
   );
