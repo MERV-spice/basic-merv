@@ -12,7 +12,7 @@ const reducer = combineReducers({
 
 const middleware = applyMiddleware(
   thunkMiddleware,
-  createLogger({ collapsed: true })
+//  createLogger({ collapsed: true })
 );
 
 const store = createStore(reducer, middleware);

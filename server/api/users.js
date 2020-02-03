@@ -63,7 +63,7 @@ router.put('/joingame', async (req, res, next) => {
 	console.log(req.body);
 	const user = await User.findByPk(req.body.userId);
 	const game = await Game.findByPk(req.body.gameId, {
-	    include: [Clue],
+	    include: [Clue, User],
 	});	
 	await game.addUser(user);
 	await user.update({

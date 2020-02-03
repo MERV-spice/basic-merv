@@ -11,8 +11,7 @@ const screens = {
 		navigationOptions: {
 			tabBarLabel: 'GamesPage',
 		}
-	},
-	
+	},	
 	CluePage: {
 		screen: CluePage,
 		navigationOptions: {

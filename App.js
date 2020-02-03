@@ -1,36 +1,14 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import logo from './assets/logo.png';
-
 import { Provider } from 'react-redux';
 import store from './client/store';
-import Navigator from './routes/tab';
-
+import Route from './client/components/Route';
 export default function App() {
-    return (
-	<Provider store={store}>
-		{/* <Gps />
-	    <NavBar /> */}
-		<Navigator />
-		{/* <CluePage /> */}
-	</Provider>
-    )
+  return (
+    <React.Fragment>
+      <Provider store={store}>
+          <Route />
+      </Provider>
+    </React.Fragment>
+  );
 }
 
-const styles = StyleSheet.create({
-  logo: {
-    width: 305,
-    height: 305,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textColor: {
-    color: 'black',
-    fontSize: 36,
-    fontWeight: 'bold',
-  },
-});

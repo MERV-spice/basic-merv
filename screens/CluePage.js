@@ -2,7 +2,6 @@ import React, {useEffect} from 'react'
 import { StyleSheet, Text, View, Button, Image, ShadowPropTypesIOS } from 'react-native'
 import { useState } from 'react'
 import {connect} from 'react-redux'
-import {fetchClues} from '../client/store/clues'
 
  const Clue = [
  {
