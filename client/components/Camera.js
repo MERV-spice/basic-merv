@@ -24,14 +24,14 @@ export default class CameraComp extends Component {
       position: {},
     };
     this.upload = this.upload.bind(this);
-    this.snapPhoto = this.snapPhoto.bind(this); 
+    this.snapPhoto = this.snapPhoto.bind(this);
   }
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
-    findCoordinates((position) => this.setState({position}));
-    // console.log('found coordinates', ); 
+    findCoordinates(position => this.setState({ position }));
+    // console.log('found coordinates', );
   }
 
   async snapPhoto() {
@@ -50,9 +50,9 @@ export default class CameraComp extends Component {
         });
       });
       this.upload(this.state.photo.base64);
-      await findCoordinates((position) => this.setState({position}));
+      await findCoordinates(position => this.setState({ position }));
       console.log('position in location function', this.state.position);
-      // console.log(this.state.position); 
+      // console.log(this.state.position);
       // this.setState({location: })
     }
     // let photo = this.state.photo.uri;
@@ -68,18 +68,18 @@ export default class CameraComp extends Component {
     formData.append('upload_preset', 'jb7k5twx');
     console.log('upload recording to ' + serverUrl);
     try {
-      const res = await axios.post(serverUrl, formData)
+      const res = await axios.post(serverUrl, formData);
       const startIdx = res.request._response.indexOf(':') + 2;
       const endIdx = res.request._response.indexOf(',') - 1;
       const publicId = res.request._response.slice(startIdx, endIdx);
-      const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`; 
+      const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
       // console.log('state?', this.state)
       await axios.post(`https://${ngrokUrl}.ngrok.io/api/images`, {
-        url: imageUrl, 
-        position: this.state.position, 
-      })
-    } catch(err) {
-        console.error(err);
+        url: imageUrl,
+        position: this.state.position,
+      });
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -123,7 +123,7 @@ export default class CameraComp extends Component {
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',
-                marginLeft: 60,
+                marginLeft: 100,
               }}
             >
               <MaterialCommunityIcons
