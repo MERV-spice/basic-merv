@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { Picker, StyleSheet, Text, View, FlatList } from 'react-native';
+import { ListItem, Overlay, Button } from 'react-native-elements';
 //import logo from './assets/logo.png';
 
 const currGames = [
@@ -24,23 +24,43 @@ const currGames = [
     },
 ];
 
-export default function GamesPage({navigation}) {
-	const pressHandler = () => {
-		navigation.navigate('CluePage')
-	}
+const GamesPage = () => {
+    const [gameLookedAt, setGameLookedAt] = React.useState('');
+    
     return (
-			<View style={styles.container}>
-			 <Button title="To Clues" onPress={pressHandler} />
+	<View style={styles.container}>
 	    <Text style={styles.currGamesTitle}>Current Games</Text>
 	    {currGames.map(game =>
-		<ListItem
-		    key={game.id}
-		    titleStyle={styles.currGamesTitle}
-		    title={game.name}
-		    subtitle={game.timeLeft}
-		    chevron
-		    bottomDivider
-		/>
+		<React.Fragment key={game.id}>
+		    <Overlay
+			isVisible={game.id === gameLookedAt}
+			onBackdropPress={() => setGameLookedAt(-1)}
+			height={200}
+			overlayStyle={styles.overlayContainer}
+		    >
+			<React.Fragment>
+			    <React.Fragment>
+				<Text style={styles.currGamesTitle}>{game.name}</Text>
+				<Text style={styles.gameInfo}>Players: {game.points}</Text>
+			    </React.Fragment>
+			    <Button
+				title='Join Game'
+				raised={true}
+				containerStyle={styles.joinGameButton}
+			    />
+			</React.Fragment>
+		    </Overlay>
+	    
+		    <ListItem
+			key={game.id}
+			titleStyle={styles.currGamesTitle}
+			title={game.name}
+			subtitle={game.timeLeft}
+			onPress={() => setGameLookedAt(game.id)}
+			chevron
+			bottomDivider
+		    />
+		</React.Fragment>
 	    )}
 	</View>
     );
@@ -57,5 +77,20 @@ const styles = StyleSheet.create({
 	fontSize: 25,
 	fontWeight: 'bold',
     },
+    overlayContainer: {
+	display: 'flex',
+	alignItems: 'center',
+	flexDirection: 'column',
+	justifyContent: 'center',
+    },
+    gameInfo: {
+	fontSize: 20,	
+    },
+    joinGameButton: {
+	display: 'flex',
+	marginTop: 'auto',
+	backgroundColor: 'red',
+    }
 });
 
+export default GamesPage;

@@ -1,14 +1,14 @@
 'use strict'
 
 const db = require('../server/db'); //Will this change on the basis of our new db location
-const {User, Game, Clue, Picture} = require('../server/db/models'); 
+const { User, Game, Clue, Picture, CluePicture } = require('../server/db/models'); 
 const faker = require('faker/locale/en_US');
 
 // https://www.npmjs.com/package/faker --- for further use in faking it til we make it
 
 const makeClue = () => {
   const clues = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 30; i++) {
     clues.push({
       time: faker.date.recent(), 
       lat: faker.random.number(),
@@ -21,16 +21,39 @@ const makeClue = () => {
 
 const makePics = () => {
   const pics = []; 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 30; i++) {
     pics.push({
       NumTimesUsed: faker.random.number(),
       Likes: faker.random.number(),
       Dislikes: faker.random.number(), 
-      AccessPic: faker.random.number(),
+      AccessPic: 'https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
       Location: [faker.random.number(), faker.random.number()]
     })
   }
   return pics
+}
+
+const makeGames = () => {
+    const games = [];
+    for (let i = 0; i < 10; i++) {
+	games.push({
+	    name: `game ${i}`,
+	    time: new Date(),
+	});
+    }
+    return games;
+}
+
+const makeUsers = () => {
+    const users = [];
+    for (let i = 0; i < 30; i++) {
+	users.push({
+	    email: `user${i}@email.com`,
+	    password: '123',
+	    username: i,	    
+	});
+    }
+    return users;
 }
 
 async function seed() {
@@ -38,14 +61,19 @@ async function seed() {
 
   const clues = await Clue.bulkCreate(makeClue());
   const pics = await Picture.bulkCreate(makePics());
+  const games = await Game.bulkCreate(makeGames());
+  const users = await User.bulkCreate(makeUsers());
 
-  console.log(`seeded ${clues.length} clues`)
-  console.log(`seeded ${pics.length} pictures-- random key codes, these will not link to images`)
+  await Promise.all(clues.map((clue, i) => clue.addGame(games[Math.floor(i / 3)])));
+    await Promise.all(pics.map((pic, i) => pic.addClue(clues[i])));
+  await Promise.all(users.map((user, i) => user.setGame(games[Math.floor(i / 3)])));
+    
+  console.log(`seeded ${clues.length} clues`);
+  console.log(`seeded ${pics.length} pictures-- static url, these are all the same picture`);
+  console.log(`seeded ${games.length} games`);
+  console.log(`seeded ${users.length} users`);
 }
 
-// We've separated the `seed` function from the `runSeed` function.
-// This way we can isolate the error handling and exit trapping.
-// The `seed` function is concerned only with modifying the database.
 async function runSeed() {
   console.log('seeding...')
   try {
