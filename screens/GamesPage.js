@@ -14,7 +14,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
     }, []);
 
     const [gameLookedAt, setGameLookedAt] = React.useState('');
-  
+
     return (
 	<View style={styles.container}>
 	    <Text style={styles.currGamesTitle}>Current Games</Text>
@@ -110,7 +110,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
     setGames: () => dispatch(fetchGames()),
-    joinGame: (gameId, userId) => dispatch(joinGame(gameId, 2)),
+    joinGame: (gameId, userId) => dispatch(joinGame(gameId, userId)),
 });
 
 export default connect(mapState, mapDispatch)(GamesPage);
