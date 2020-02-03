@@ -1,53 +1,59 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { StyleSheet, Text, View, Button, Image, ShadowPropTypesIOS } from 'react-native'
 import { useState } from 'react'
 import {connect} from 'react-redux'
-import {fetchClues} from '../client/store/clue'
+import {fetchClues} from '../client/store/clues'
 
- const Clue = [
- {
-	lat: 67349,
-	text: 'secondary',
-	hint: 'dont worry about it',
-	imageUrl: 'https://i.ebayimg.com/images/i/161658946524-0-1/s-l1000.jpg',
-	points: 1,
+//  const Clue = [
+//  {
+// 	lat: 67349,
+// 	text: 'secondary',
+// 	hint: 'dont worry about it',
+// 	imageUrl: 'https://i.ebayimg.com/images/i/161658946524-0-1/s-l1000.jpg',
+// 	points: 1,
 	
-	},
- {
-	lat: 67350,
-	text: 'primary',
-	hint: 'this will be confusing',
-	imageUrl: 'https://thumbs.dreamstime.com/b/green-red-yellow-brick-wall-background-reggae-style-59162839.jpg',
-	points: 2
-	},
- {
-	lat: 67351,
-	text: 'tertiary',
-	hint: "you're out",
-	imageUrl: 'https://img-aws.ehowcdn.com/877x500p/photos.demandstudios.com/getty/article/152/213/484171235.jpg',
-	points: 3
+// 	},
+//  {
+// 	lat: 67350,
+// 	text: 'primary',
+// 	hint: 'this will be confusing',
+// 	imageUrl: 'https://thumbs.dreamstime.com/b/green-red-yellow-brick-wall-background-reggae-style-59162839.jpg',
+// 	points: 2
+// 	},
+//  {
+// 	lat: 67351,
+// 	text: 'tertiary',
+// 	hint: "you're out",
+// 	imageUrl: 'https://img-aws.ehowcdn.com/877x500p/photos.demandstudios.com/getty/article/152/213/484171235.jpg',
+// 	points: 3
 
-	}
-]
+// 	}
+// ]
 
 function CluePage(props) {
-	console.log(props)
+	useEffect(
+		() => {
+			props.fetchClues()
+		}, []
+	)
+	const Clue = props.clues
+	console.log(props.clues)
 	const [selected, setSelected] = useState(0)
 	const pressHandler = () => {
 		setSelected(selected +1)
 		props.navigation.navigate('Camera')
 	}
-  return (
+	return (
     <View style={styles.container}>
 			<Text style={styles.currClueTitle}>Clue: </Text>
-			<Image
+			{/* <Image
 				style= {{width: 200, height: 200}}
-				source= {{uri: Clue[selected].imageUrl}} />
+				source= {{uri: Clue[selected].imageUrl}} /> */}
       <Text style={styles.currClueText}>
         {Clue[selected].text}
 			</Text>
 			<Text>
-				Points Possible: {Clue[selected].points}
+				Points {/* Points Possible: {Clue[selected].points} */}
 			</Text>
       <Button title="I found it!" onPress={pressHandler} />
     </View>
@@ -55,7 +61,7 @@ function CluePage(props) {
 }
 
 const mapState = state => ({
-	clue: state.clue
+	clues: state.clues
 })
 
 const mapDispatch = {

@@ -3,11 +3,11 @@ import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
 import user from './user';
-import clue from './clue'
+import clues from './clues'
 
 const reducer = combineReducers({
 	user: user,
-	clue: clue
+	clues: clues
 });
 
 const middleware = applyMiddleware(
