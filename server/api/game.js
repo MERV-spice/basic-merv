@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { Game, Clue } = require('../db/models');
+const { Game, Clue, User } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
     try {
 	const games = await Game.findAll({
-	    include: [Clue]
+	    include: [Clue, User]
 	});
 	res.json(games);
     } catch (err) {
