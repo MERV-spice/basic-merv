@@ -1,3 +1,3 @@
-const ngrokUrl = 'a74429bc';
+const ngrokUrl = '658de470';
 
 export default ngrokUrl;
