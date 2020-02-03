@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const sequelize = require('sequelize');
 const Location = require('../db/models/location');
-const { User } = require('../db/models');
+const { User, Game, Clue } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
       // explicitly select only the id and email fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      // attributes: ['id', 'email'],
+      attributes: ['id', 'email'],
     });
     res.json(users);
   } catch (err) {
@@ -56,4 +56,21 @@ router.post('/location', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+router.put('/joingame', async (req, res, next) => {
+    try {
+	console.log(req.body);
+	const user = await User.findByPk(req.body.userId);
+	const game = await Game.findByPk(req.body.gameId, {
+	    include: [Clue],
+	});	
+	await game.addUser(user);
+	await user.update({
+	    currentClue: 0
+	});
+	res.status(201).json(game);
+    } catch (err) {
+	next(err);
+    }
 });

@@ -4,7 +4,7 @@ import logo from './assets/logo.png';
 
 import { Provider } from 'react-redux';
 import store from './client/store';
-import Navigator from './routes/tab'
+import Navigator from './routes/tab';
 
 export default function App() {
     return (

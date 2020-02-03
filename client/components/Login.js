@@ -1,33 +1,25 @@
 import React, { Component } from 'react';
 import { Alert, Button, TextInput, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { signUpUser } from '../store/user';
+import { auth } from '../store';
 
-class SignUp extends Component {
+class AuthForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: '',
       email: '',
       password: '',
     };
   }
 
-  onSignUp() {
-    const { username, email, password } = this.state;
-    this.props.signUpUser(this.state);
+  onLogin() {
+    const { email, password } = this.state;
+    this.props.auth(email, password);
   }
-
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
-          value={this.state.username}
-          onChangeText={username => this.setState({ username })}
-          placeholder={'Username'}
-          style={styles.input}
-        />
         <TextInput
           value={this.state.email}
           onChangeText={email => this.setState({ email })}
@@ -43,9 +35,9 @@ class SignUp extends Component {
         />
 
         <Button
-          title={'Sign Up'}
+          title={'Log In'}
           style={styles.input}
-          onPress={this.onSignUp.bind(this)}
+          onPress={this.onLogin.bind(this)}
         />
       </View>
     );
@@ -60,11 +52,10 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    signUpUser: user => dispatch(signUpUser(user)),
+    auth: (email, password) => dispatch(auth(email, password)),
   };
 };
-
-export default connect(mapState, mapDispatch)(SignUp);
+export default Login = connect(mapState, mapDispatch)(AuthForm);
 
 export const styles = StyleSheet.create({
   container: {

@@ -30,7 +30,11 @@ const User = db.define('user', {
   }, 
   facebookId: {
     type: Sequelize.STRING,
-  }
+  },
+    currentClue: {
+	type: Sequelize.INTEGER,
+	defaultValue: 0,
+    }
 })
 
 module.exports = User
