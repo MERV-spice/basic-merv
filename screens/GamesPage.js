@@ -14,7 +14,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
     }, []);
 
     const [gameLookedAt, setGameLookedAt] = React.useState('');
-
+  
     return (
 	<View style={styles.container}>
 	    <Text style={styles.currGamesTitle}>Current Games</Text>
@@ -37,7 +37,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
 					<Text style={styles.gameInfo}>Clues: {game.clues.length}</Text>
 				    </React.Fragment>
 				    <Button
-					title='Join Game'
+					       title='Join Game'
 					       raised={true}
 					       containerStyle={styles.joinGameButton}
 					       onPress={() => joinGame(game.id, userId)}
