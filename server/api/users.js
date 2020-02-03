@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const sequelize = require('sequelize');
 const Location = require('../db/models/location');
-const { User, Game, Clue } = require('../db/models');
+const { User, Game, Clue, Picture } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -32,22 +32,6 @@ router.post('/signup', async (req, res, next) => {
   }
 });
 
-router.post('/test', async (req, res, next) => {
-  try {
-    const point = {
-      type: 'Point',
-      coordinates: [req.body.coords.latitude, req.body.coords.longitude],
-    };
-    const location = await Location.create({
-      point,
-    });
-    console.log(location);
-    res.end('nice!');
-  } catch (err) {
-    next(err);
-  }
-});
-
 router.post('/location', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.body.userId);
@@ -63,7 +47,11 @@ router.put('/joingame', async (req, res, next) => {
 	console.log(req.body);
 	const user = await User.findByPk(req.body.userId);
 	const game = await Game.findByPk(req.body.gameId, {
-	    include: [Clue, User],
+	    include: [{
+		model: Clue,
+		include: [Picture]
+	    },
+		      User],
 	});	
 	await game.addUser(user);
 	await user.update({
