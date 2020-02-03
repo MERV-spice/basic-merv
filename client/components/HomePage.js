@@ -5,6 +5,7 @@ import CluePage from './CluePage';
 import GamesPage from './GamesPage';
 import CameraComp from './Camera';
 import SignUp from './SignUp';
+import Login from './Login';
 
 const HomePage = () => {
   const buttons = ['home', 'games', 'clue', 'camera'];
@@ -23,6 +24,7 @@ const HomePage = () => {
 
   return (
     <React.Fragment>
+      <Login />
       <SignUp />
       {/* {renderedPage}
       <NavBar
