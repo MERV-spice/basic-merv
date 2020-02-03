@@ -4,7 +4,8 @@ import thunkMiddleware from 'redux-thunk';
 import user from './user';
 
 const reducer = combineReducers({
-  user: user,
+    user: user,
+    games: games,
 });
 
 const middleware = applyMiddleware(

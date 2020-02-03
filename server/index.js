@@ -84,7 +84,11 @@ const startListening = () => {
   );
 };
 
+<<<<<<< HEAD
 const syncDb = () => db.sync({ force: true });
+=======
+const syncDb = () => db.sync({force: false})
+>>>>>>> e9dae8d034fee314ed7b0055ffeb4f02449e6c2b
 
 async function bootApp() {
   try {
