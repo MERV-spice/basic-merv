@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react'
 import { StyleSheet, Text, View, Button, Image, ShadowPropTypesIOS } from 'react-native'
 import { useState } from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { fetchGames } from '../client/store/games';
+
 
  const Clue = [
  {
@@ -29,11 +31,17 @@ import {connect} from 'react-redux'
 	}
 ]
 
-function CluePage(props) {
+const CluePage = (props) => {
 
+	useEffect(() => {
+		const setter = async () => {
+			await props.setGames();
+		}
+		setter()
+	},[])
 	
-	const [selected, setSelected] = useState(0)
-	const pressHandler = () => {
+	 const [selected, setSelected] = useState(0)
+	 const pressHandler = () => {
 		setSelected(selected +1)
 		props.navigation.navigate('Camera')
 	}
@@ -76,6 +84,15 @@ const styles = StyleSheet.create({
 		padding: 50
   }
 })
+
+const mapState = state => ({
+	games: state.games,
+	userId: state.user.id,
+});
+
+const mapDispatch = dispatch => ({
+	setGames: () => dispatch(fetchGames()),
+});
 
 
 export default connect()(CluePage)
