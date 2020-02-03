@@ -1,6 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View, Button, Image, ShadowPropTypesIOS } from 'react-native'
 import { useState } from 'react'
+import {connect} from 'react-redux'
+import {fetchClues} from '../client/store/clue'
 
  const Clue = [
  {
@@ -8,8 +10,7 @@ import { useState } from 'react'
 	text: 'secondary',
 	hint: 'dont worry about it',
 	imageUrl: 'https://i.ebayimg.com/images/i/161658946524-0-1/s-l1000.jpg',
-	points: 1
-
+	points: 1,
 	
 	},
  {
@@ -29,11 +30,12 @@ import { useState } from 'react'
 	}
 ]
 
-export default function CluePage({ navigation }) {
+function CluePage(props) {
+	console.log(props)
 	const [selected, setSelected] = useState(0)
 	const pressHandler = () => {
 		setSelected(selected +1)
-		navigation.navigate('Camera')
+		props.navigation.navigate('Camera')
 	}
   return (
     <View style={styles.container}>
@@ -50,6 +52,14 @@ export default function CluePage({ navigation }) {
       <Button title="I found it!" onPress={pressHandler} />
     </View>
   )
+}
+
+const mapState = state => ({
+	clue: state.clue
+})
+
+const mapDispatch = {
+	fetchClues
 }
 
 const styles = StyleSheet.create({
@@ -72,3 +82,6 @@ const styles = StyleSheet.create({
 		padding: 50
   }
 })
+
+
+export default connect(mapState, mapDispatch)(CluePage)

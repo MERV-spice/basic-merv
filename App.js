@@ -14,12 +14,12 @@ import Navigator from './routes/tab'
 
 export default function App() {
     return (
-	<React.Fragment>
-	    {/* <Gps />
+	<Provider store={store}>
+		{/* <Gps />
 	    <NavBar /> */}
 		<Navigator />
-	    {/* <CluePage /> */}
-	</React.Fragment>
+		{/* <CluePage /> */}
+	</Provider>
     )
 }
 
