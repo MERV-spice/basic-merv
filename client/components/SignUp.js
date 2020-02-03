@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Button, TextInput, View, StyleSheet } from 'react-native';
+import { Button, TextInput, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { signUpUser } from '../store/user';
 
@@ -12,11 +12,6 @@ class SignUp extends Component {
       email: '',
       password: '',
     };
-  }
-
-  onSignUp() {
-    const { username, email, password } = this.state;
-    this.props.signUpUser(this.state);
   }
 
   render() {
