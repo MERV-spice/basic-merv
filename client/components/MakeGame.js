@@ -1,9 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, TextInput, Image} from 'react-native';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+// import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+// import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Actions } from 'react-native-router-flux';
-// import { Link } from 'react-router-native'
 
 export default class MakeGame extends React.Component {
   constructor() {
@@ -38,8 +37,11 @@ export default class MakeGame extends React.Component {
   }
 
   addclue() {
-    this.setState({gameClues: [...this.state.gameClues,  {clueNum: this.state.clueNum, clueImgId: this.state.clueImgId, clueText: this.state.clueText}]})
-    this.setState({clueNum: this.state.clueNum+1, clueImgId: '', clueText: '', createClue: false})
+    let newGameClues = this.state.gameClues.concat(
+      [{clueNum: this.state.clueNum, clueImgUrl: this.state.clueImgUrl, clueText: this.state.clueText}]
+    )
+    this.setState({gameClues: newGameClues});
+    this.setState({clueNum: this.state.clueNum+1, clueImgUrl: '', clueText: '', createClue: false});
   }
   
   showDatePicker() {
@@ -50,7 +52,7 @@ export default class MakeGame extends React.Component {
     this.setState({setDatePickerVisibility: false});
   }
 
-  handleConfirm(date) {
+  handleConfirm(/*date*/) {
     // console.log('date: ', date);
     this.hideDatePicker();
   }
@@ -72,13 +74,16 @@ export default class MakeGame extends React.Component {
 
           <Text style={styles.newGameSubHeader}>Clues: </Text>
           {/* preexisting clues for this game */}
+
           {this.state.gameClues.length > 0 ? 
-          this.state.clues.forEach(clue => (
-            <React.Fragment key={`${clue.userId + clue.gameName + clue.clueNum}`}>
+          this.state.gameClues.map(clue => (
+            <React.Fragment key={`${clue.userId + clue.gameName + clue.clueNum + clue.clueImgUrl}`}>
               <Text style={styles.newGameSubHeader}>Clue {clue.clueNum}: </Text>
-              <Text style={styles.newGameText}>Image: {clue.clueImgId}</Text>
-              {/* Make this access the image itself from an upload or from selected 
-              images in preexisting clues */}
+              <Text style={styles.newGameText}>Image: </Text>
+              <Image
+                style={{ width: 50, height: 50 }}
+                source={{ uri: clue.clueImgUrl }}
+              />
               <Text style={styles.newGameText}>Clue Text: {clue.clueText}</Text>
             </React.Fragment>
             )) : 
@@ -101,18 +106,13 @@ export default class MakeGame extends React.Component {
                     value={this.state.clueText}
                     onChangeText={clueText => this.setState({clueText})} />
                   <Text style={styles.newGameText}>Clue Image: </Text>
+                    {this.state.clueImgUrl ? 
+                    <Image
+                      style={{ width: 50, height: 50 }}
+                      source={{ uri: this.state.clueImgUrl }}
+                    /> : null
+                    }
                     <Button title="Take a New Image" onPress={this.goToCamera.bind(this)}/>
-                  {/* button links to MakeClueCamera component-- how to access the image 
-                  taken in that component -- ongoing issue*/}
-                  {/* Button will link to camera component, on press for camera button 
-                  will return to make game page, update state with resulting image id */}
-                  {console.log('state imageurl', this.state.clueImgUrl, 'done')}
-                  {this.state.clueImgUrl ? 
-                  <Image
-                    style={{ width: 50, height: 50 }}
-                    source={{ uri: this.state.clueImgUrl }}
-                  /> : null
-                  }
                   <Button title="Add Clue"  onPress={this.addclue.bind(this)} />
                 </React.Fragment>
                 : 
@@ -173,8 +173,8 @@ export default class MakeGame extends React.Component {
               and maybe also automatically email key code to game maker for them to share. 
               Potentially in the future share it with users via their username. Might not be too 
               hard since we already have their emails*/}
-            <Button title="Make Game" />
             {/* What will this button do?, generate key code if this.state.private: true */}
+            <Button title="Make Game" />
         </View>
     )
   }

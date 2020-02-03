@@ -31,7 +31,7 @@ export default class CameraComp extends Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
     findCoordinates((position) => this.setState({position}));
-    console.log(this.props); 
+    // console.log(this.props); 
   }
 
   async snapPhoto() {
@@ -123,7 +123,7 @@ export default class CameraComp extends Component {
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',
-                marginLeft: 60,
+                marginLeft: 100,
               }}
             >
               <MaterialCommunityIcons

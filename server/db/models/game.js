@@ -13,12 +13,11 @@ const Game = db.define('game', {
   },
   makerId: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   passcode: {
-    type: Sequelize.STRING,
-    notNull: true,
-    notEmpty: true,
+      type: Sequelize.STRING,
+      allowNull: true,
   },
 });
 
