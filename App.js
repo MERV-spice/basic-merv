@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Navigator, Image, StyleSheet, Text, View } from 'react-native';
+import { /*Navigator*/ Image, StyleSheet, Text, View } from 'react-native';
 import logo from './assets/logo.png';
 import GamesPage from './client/components/GamesPage';
 import CluePage from './client/components/CluePage';
@@ -10,7 +9,7 @@ import Gps from './client/components/Gps';
 import CameraComponent from './client/components/Camera';
 import { Provider } from 'react-redux';
 import store from './client/store';
-import Navigator from './routes/tab'
+import Navigator from './routes/tab';
 
 export default function App() {
   return (
@@ -19,12 +18,11 @@ export default function App() {
         <HomePage />
         {/* <Gps />
 	      <NavBar /> */}
-		    <Navigator />
-	      {/* <CluePage /> */}
+        {/* <Navigator /> */}
+        {/* <CluePage /> */}
       </Provider>
     </React.Fragment>
   );
-
 }
 
 const styles = StyleSheet.create({
