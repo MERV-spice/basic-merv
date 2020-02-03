@@ -14,8 +14,8 @@ import ngrokUrl from '../ngrok';
 // https://stackoverflow.com/questions/42521679/how-can-i-upload-a-photo-with-expo
 
 export default class CameraComp extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       hasCameraPermission: null,
       type: Camera.Constants.Type.back,
@@ -31,7 +31,7 @@ export default class CameraComp extends Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
     findCoordinates((position) => this.setState({position}));
-    // console.log('found coordinates', ); 
+    console.log(this.props); 
   }
 
   async snapPhoto() {
@@ -53,31 +53,31 @@ export default class CameraComp extends Component {
       await findCoordinates((position) => this.setState({position}));
       // console.log('position in location function', this.state.position);
       // console.log(this.state.position); 
-      // this.setState({location: })
     }
     // let photo = this.state.photo.uri;
     // let id = this.state.id;
   }
 
   async upload(picBase64) {
-    console.log('upload state position', this.state.position);
+    // console.log('upload state position', this.state.position);
     const serverUrl = 'https://api.cloudinary.com/v1_1/basic-merv/image/upload';
     const data = picBase64;
     let formData = new FormData();
     formData.append('file', 'data:image/png;base64,' + data);
     formData.append('upload_preset', 'jb7k5twx');
-    console.log('upload recording to ' + serverUrl);
+    // console.log('upload recording to ' + serverUrl);
     try {
       const res = await axios.post(serverUrl, formData)
       const startIdx = res.request._response.indexOf(':') + 2;
       const endIdx = res.request._response.indexOf(',') - 1;
       const publicId = res.request._response.slice(startIdx, endIdx);
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`; 
-      // console.log('state?', this.state)
       await axios.post(`https://${ngrokUrl}.ngrok.io/api/images`, {
-        url: imageUrl, 
-        position: this.state.position, 
+          url: imageUrl, 
+          position: this.state.position,
+          compare: true,
       })
+        this.props.data(imageUrl)
     } catch(err) {
         console.error(err);
     }
@@ -100,7 +100,7 @@ export default class CameraComp extends Component {
               flexDirection: 'row',
             }}
           >
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{
                 flex: 0.3,
                 alignSelf: 'flex-end',
@@ -117,7 +117,7 @@ export default class CameraComp extends Component {
               }}
             >
               <Ionicons color="white" size={64} name="ios-reverse-camera" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={this.snapPhoto.bind(this)}
               style={{

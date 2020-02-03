@@ -3,19 +3,21 @@
 import React, { Component } from 'react';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
-import { View, TouchableOpacity, Image, Text } from 'react-native';
+import { View, TouchableOpacity, Image, Text, Button } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import findCoordinates from './Gps';
-import ngrokUrl from '../ngrok';
+import ngrokUrl from '../client/ngrok';
+
+
 
 //make a gallery
 //how do you get the image from a snapshot
 // https://stackoverflow.com/questions/42521679/how-can-i-upload-a-photo-with-expo
 
 export default class CameraComp extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       hasCameraPermission: null,
       type: Camera.Constants.Type.back,
@@ -25,8 +27,10 @@ export default class CameraComp extends Component {
     };
     this.upload = this.upload.bind(this);
     this.snapPhoto = this.snapPhoto.bind(this); 
-  }
-
+	}
+	pressHandler = () => {
+		this.props.navigation.navigate('CluePage')
+	}
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
@@ -51,7 +55,7 @@ export default class CameraComp extends Component {
       });
       this.upload(this.state.photo.base64);
       await findCoordinates((position) => this.setState({position}));
-      // console.log('position in location function', this.state.position);
+      console.log('position in location function', this.state.position);
       // console.log(this.state.position); 
       // this.setState({location: })
     }
@@ -85,7 +89,8 @@ export default class CameraComp extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+			<View style={{ flex: 1 }}>
+				<Button title='go to clue' onPress={this.pressHandler}/>
         <Camera
           style={{ flex: 1 }}
           ref={ref => {
