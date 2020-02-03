@@ -16,7 +16,6 @@ export default function App() {
 	    <NavBar /> */}
 		<Navigator />
 	    {/* <CluePage /> */}
-	    <HomePage />
 	</React.Fragment>
     )
 }
