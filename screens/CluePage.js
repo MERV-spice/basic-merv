@@ -23,8 +23,15 @@ const CluePage = (props) => {
 		})
 		setHint(0)
 	}
+	const thenFun= () => {
+		setScore(0);
+		setSelected(selected + 1)
+		console.log('in if', selected)
+	}
 	const [hint, setHint] = useState(0)
-	console.log(score)
+	console.log(score > .7)
+	score > .70 ? thenFun() : console.log('in else');
+	console.log('selected:', selected)
 	return (
     <View style={styles.container}>
 			<Text style={styles.currClueTitle}>Clue: </Text>
@@ -36,7 +43,7 @@ const CluePage = (props) => {
 			</Text>
 			{!hint ? (<Button
 				title='Show Hint' onPress={() => setHint(1)} />
-			) : <Text> style={styles.currClueText}
+			) : <Text> 
 				Hint: {clues[selected].hint}
 			</Text>}
       <Button title="I found it!" onPress={pressHandler} />
