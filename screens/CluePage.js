@@ -5,58 +5,40 @@ import { connect } from 'react-redux'
 import { fetchGames } from '../client/store/games';
 
 
- const Clue = [
- {
-	lat: 67349,
-	text: 'secondary',
-	hint: 'dont worry about it',
-	imageUrl: 'https://i.ebayimg.com/images/i/161658946524-0-1/s-l1000.jpg',
-	points: 1,
-	
-	},
- {
-	lat: 67350,
-	text: 'primary',
-	hint: 'this will be confusing',
-	imageUrl: 'https://thumbs.dreamstime.com/b/green-red-yellow-brick-wall-background-reggae-style-59162839.jpg',
-	points: 2
-	},
- {
-	lat: 67351,
-	text: 'tertiary',
-	hint: "you're out",
-	imageUrl: 'https://img-aws.ehowcdn.com/877x500p/photos.demandstudios.com/getty/article/152/213/484171235.jpg',
-	points: 3
-
-	}
-]
+ 
 
 const CluePage = (props) => {
 
-	useEffect(() => {
-		const setter = async () => {
-			await props.setGames();
-		}
-		setter()
-	},[])
-	
-	 const [selected, setSelected] = useState(0)
-	 const pressHandler = () => {
-		setSelected(selected +1)
-		props.navigation.navigate('Camera')
+	const clues = props.user.game.clues
+
+	const [score, setScore] = useState(0)
+
+	// console.log(props.user.game)
+	const [selected, setSelected] = useState(0)
+	const id = 'sky'
+	const pressHandler = () => {
+		setSelected(selected)
+		props.navigation.navigate('Camera', {
+			setScore, id
+		})
+		setHint(0)
 	}
+	const [hint, setHint] = useState(0)
+	console.log(score)
 	return (
     <View style={styles.container}>
 			<Text style={styles.currClueTitle}>Clue: </Text>
-			{/* <Image
+			<Image
 				style= {{width: 200, height: 200}}
-				source= {{uri: Clue[selected].imageUrl}} /> */}
+				source= {{uri: clues[selected].pictures[0].accessPic}} />
       <Text style={styles.currClueText}>
-        {Clue[selected].text}
+        Clue :{clues[selected].text}
 			</Text>
-			<Text>
-				Points {/* Points Possible: {Clue[selected].points} */}
-			</Text>
+			{!hint ? (<Button
+				title='Show Hint' onPress={() => setHint(1)} />
+			) : <Text> style={styles.currClueText}
+				Hint: {clues[selected].hint}
+			</Text>}
       <Button title="I found it!" onPress={pressHandler} />
     </View>
   )
@@ -86,13 +68,7 @@ const styles = StyleSheet.create({
 })
 
 const mapState = state => ({
-	games: state.games,
-	userId: state.user.id,
+	user: state.user,
 });
 
-const mapDispatch = dispatch => ({
-	setGames: () => dispatch(fetchGames()),
-});
-
-
-export default connect()(CluePage)
+export default connect(mapState)(CluePage)

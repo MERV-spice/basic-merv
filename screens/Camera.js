@@ -24,9 +24,10 @@ export default class CameraComp extends Component {
       photo: {},
       id: 0,
       position: {},
-    };
+		};
+		
     this.upload = this.upload.bind(this);
-    this.snapPhoto = this.snapPhoto.bind(this); 
+		this.snapPhoto = this.snapPhoto.bind(this); 
 	}
 	pressHandler = () => {
 		this.props.navigation.navigate('CluePage')
@@ -77,11 +78,16 @@ export default class CameraComp extends Component {
       const endIdx = res.request._response.indexOf(',') - 1;
       const publicId = res.request._response.slice(startIdx, endIdx);
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`; 
-      // console.log('state?', this.state)
-      await axios.post(`https://${ngrokUrl}.ngrok.io/api/images`, {
+			// console.log('state?', this.state)
+			
+
+      const {data} = await axios.post(`https://${ngrokUrl}.ngrok.io/api/images`, {
         url: imageUrl, 
         position: this.state.position, 
-      })
+			}) 
+
+
+			this.props.navigation.state.params.setScore(data.filter(l => l.input.id === this.props.navigation.state.params.id)[0].score)
     } catch(err) {
         console.error(err);
     }
