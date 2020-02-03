@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, TextInput, Image} from 'react-native';
+import {StyleSheet, Text, View, Button, TextInput, Image, FlatList} from 'react-native';
 // import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Actions } from 'react-native-router-flux';
@@ -74,23 +74,26 @@ export default class MakeGame extends React.Component {
 
           <Text style={styles.newGameSubHeader}>Clues: </Text>
           {/* preexisting clues for this game */}
-
           {this.state.gameClues.length > 0 ? 
-          this.state.gameClues.map(clue => (
-            <React.Fragment key={`${clue.userId + clue.gameName + clue.clueNum + clue.clueImgUrl}`}>
-              <Text style={styles.newGameSubHeader}>Clue {clue.clueNum}: </Text>
-              <Text style={styles.newGameText}>Image: </Text>
-              <Image
+          <FlatList 
+          data = {this.state.gameClues}
+          renderItem={clue => {
+            clue=clue.item;
+            return (
+              <React.Fragment key={`${clue.userId + clue.gameName + clue.clueNum + clue.clueImgUrl}`}>
+               <Text style={styles.newGameSubHeader}>Clue {clue.clueNum}: </Text>
+               <Text style={styles.newGameText}>Image: </Text>
+               <Image
                 style={{ width: 50, height: 50 }}
                 source={{ uri: clue.clueImgUrl }}
-              />
+                />
               <Text style={styles.newGameText}>Clue Text: {clue.clueText}</Text>
             </React.Fragment>
-            )) : 
+            )}}
+          /> : 
             <React.Fragment>
               <Text style={styles.newGameText}>No clues so far... try adding one! </Text>
             </React.Fragment>}
-            {/* new clue for this game */}
             <React.Fragment>
               <Button title="Pick a Clue" onPress={this.selectFromClues.bind(this)}/>
               <Button title="Create a New Clue" onPress={this.newClueText.bind(this)} />
