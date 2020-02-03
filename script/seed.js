@@ -8,7 +8,7 @@ const faker = require('faker/locale/en_US');
 
 const makeClue = () => {
   const clues = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 30; i++) {
     clues.push({
       time: faker.date.recent(), 
       lat: faker.random.number(),
@@ -33,19 +33,45 @@ const makePics = () => {
   return pics
 }
 
+const makeGames = () => {
+    const games = [];
+    for (let i = 0; i < 10; i++) {
+	games.push({
+	    name: `game ${i}`,
+	    time: new Date(),
+	});
+    }
+    return games;
+}
+
+const makeUsers = () => {
+    const users = [];
+    for (let i = 0; i < 10; i++) {
+	users.push({
+	    email: `user${i}@email.com`,
+	    password: '123',
+	    username: i,	    
+	});
+    }
+    return users;
+}
+
 async function seed() {
   await db.sync({force: true});
 
   const clues = await Clue.bulkCreate(makeClue());
   const pics = await Picture.bulkCreate(makePics());
+  const games = await Game.bulkCreate(makeGames());
+  const users = await User.bulkCreate(makeUsers());
 
+  await Promise.all(clues.map((clue, i) => clue.addGame(games[Math.floor(i / 3)])))
+    
   console.log(`seeded ${clues.length} clues`)
   console.log(`seeded ${pics.length} pictures-- random key codes, these will not link to images`)
+  console.log(`seeded ${games.length} games`)
+  console.log(`seeded ${users.length} users`)
 }
 
-// We've separated the `seed` function from the `runSeed` function.
-// This way we can isolate the error handling and exit trapping.
-// The `seed` function is concerned only with modifying the database.
 async function runSeed() {
   console.log('seeding...')
   try {
