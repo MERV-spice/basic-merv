@@ -15,7 +15,7 @@ export const fetchGames = () => {
       const { data } = await axios.get(
         `https://${ngrokUrl}.ngrok.io/api/games`
       );
-      dispatch(setGames(data));
+      return dispatch(setGames(data));
     } catch (err) {
       console.log(err);
     }
@@ -28,7 +28,7 @@ export const addGameThunk = (game) => {
       const { data } = await axios.post(
         `https://${ngrokUrl}.ngrok.io/api/games`, game
       );
-      dispatch(addGame(data));
+      return dispatch(addGame(data));
     } catch (err) {
       console.log(err)
     }

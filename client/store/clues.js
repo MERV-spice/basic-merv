@@ -17,7 +17,7 @@ const addClue = newClue => {
 export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_CLUE:
-            return action;
+            return action.newClue;
         default: 
             return state;
     }
@@ -31,7 +31,7 @@ export const newClueThunk = (newClueObj) => {
                 '/api/clues', 
                 newClueObj
             );
-            dispatch(addClue(data));
+            return dispatch(addClue(data));
         } catch (err) {
             console.log(err)
         }

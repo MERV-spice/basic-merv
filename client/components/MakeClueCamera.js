@@ -42,6 +42,7 @@ export default class CameraComp extends Component {
         fixOrientation: true,
         exif: true,
       };
+      //const photo = photo.uri
       await this.camera.takePictureAsync(options).then(photo => {
         photo.exif.Orientation = 1;
         this.setState({
@@ -49,7 +50,7 @@ export default class CameraComp extends Component {
           id: ++this.state.id,
         });
       });
-      this.upload(this.state.photo.base64);
+      this.upload(this.state.photo.base64); //photo.uri
       await findCoordinates((position) => this.setState({position}));
       // console.log('position in location function', this.state.position);
       // console.log(this.state.position); 
@@ -66,6 +67,11 @@ export default class CameraComp extends Component {
     formData.append('file', 'data:image/png;base64,' + data);
     formData.append('upload_preset', 'jb7k5twx');
     // console.log('upload recording to ' + serverUrl);
+    //building a network request that has the raw data
+    //smaller file size to start with (photo.uri)
+    //changing upload strategy is a last resort
+    //instead of the formData, create an analogous object (get photo, 
+    //pull URI, construct & submit obj)
     try {
       const res = await axios.post(serverUrl, formData)
       const startIdx = res.request._response.indexOf(':') + 2;

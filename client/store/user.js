@@ -15,7 +15,7 @@ export const signUpUser = user => {
         `https://${ngrokUrl}.ngrok.io/api/users/signup`,
         user
       );
-      dispatch(signUp(res.data));
+      return dispatch(signUp(res.data));
     } catch (err) {
       console.log(err);
     }
@@ -48,7 +48,7 @@ export const joinGame = (gameId, userId) => async dispatch => {
 	    gameId,
 	    userId
 	});
-	dispatch(setGame(data));
+	return dispatch(setGame(data));
     } catch (err) {
 	console.error(err);
     }
