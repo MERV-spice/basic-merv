@@ -55,10 +55,7 @@ const mapDispatch = dispatch => {
     auth: (email, password) => dispatch(auth(email, password))
   };
 };
-export default Login = connect(
-  mapState,
-  mapDispatch
-)(AuthForm);
+export default (Login = connect(mapState, mapDispatch)(AuthForm));
 
 export const styles = StyleSheet.create({
   container: {

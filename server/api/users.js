@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const sequelize = require('sequelize');
-const Location = require('../db/models/location');
 const {User, Game, Clue, Picture} = require('../db/models');
 module.exports = router;
 
