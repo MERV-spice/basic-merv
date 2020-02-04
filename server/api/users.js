@@ -41,6 +41,29 @@ router.post('/location', async (req, res, next) => {
   }
 });
 
+//route to increase current clue by 1;
+router.post('/clue', async (req, res, next) => {
+  try {
+    console.log('we in daz put route', req.body);
+    const user = await User.findByPk(req.body.id);
+    await user.increment('currentClue');
+    res.sendStatus(202);
+  } catch (err) {
+    console.log(req.body);
+    next(err);
+  }
+});
+//route to reset current clue to zero, should be called when a user switches games
+router.put('/reset', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.body.userId);
+    await user.update({currentClue: 0});
+    res.status(201).send('current clue reset to zero');
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.put('/joingame', async (req, res, next) => {
   try {
     console.log(req.body);

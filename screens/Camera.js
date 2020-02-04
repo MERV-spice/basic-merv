@@ -20,10 +20,7 @@ export default class CameraComp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasCameraPermission: null,
       type: Camera.Constants.Type.back,
-      photo: {},
-      id: 0
     };
     this.snapPhoto = this.snapPhoto.bind(this);
     this.position = {};
@@ -34,12 +31,11 @@ export default class CameraComp extends Component {
   };
 
   async componentDidMount() {
-    const {status} = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({hasCameraPermission: status === 'granted'});
+    await Permissions.askAsync(Permissions.CAMERA);
     findCoordinates(position => (this.position = position));
   }
 
-  async snapPhoto() {
+async snapPhoto() {
     if (this.camera) {
       const options = {
         quality: 0.25,
@@ -47,18 +43,20 @@ export default class CameraComp extends Component {
         fixOrientation: true,
         exif: true
       };
+
       const photo = await this.camera.takePictureAsync(options);
+      photo.exif.Orientation = 1;
       await findCoordinates(position => (this.position = position));
 
       const comparison = await compare(photo.base64);
-      const id = 'sky';
       let comp;
       for (let i = 0; i < comparison.hits.length; i++) {
-        if (comparison.hits[i].input.id === id) {
+        if (comparison.hits[i].input.id === this.props.navigation.state.params.id) {
           comp = comparison.hits[i].score;
           break;
         }
       }
+      this.props.navigation.state.params.setScore(comp)
     }
   }
 

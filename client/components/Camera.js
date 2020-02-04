@@ -57,7 +57,6 @@ export default class CameraComp extends Component {
   }
 
   async upload(picBase64) {
-    // console.log('upload state position', this.state.position);
     const serverUrl = 'https://api.cloudinary.com/v1_1/basic-merv/image/upload';
     const data = picBase64;
     let formData = new FormData();
