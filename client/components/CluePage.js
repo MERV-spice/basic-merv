@@ -1,5 +1,5 @@
-import React from 'react'
-import {StyleSheet, Text, View, Button} from 'react-native'
+import React from 'react';
+import {StyleSheet, Text, View, Button} from 'react-native';
 
 const CluePage = () => {
   return (
@@ -10,8 +10,8 @@ const CluePage = () => {
       </Text>
       <Button title="I found it!" />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 25
   }
-})
+});
 
 export default CluePage;

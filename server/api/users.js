@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const sequelize = require('sequelize');
-const Location = require('../db/models/location');
 const {User, Game, Clue, Picture} = require('../db/models');
 module.exports = router;
 
@@ -69,6 +68,8 @@ router.put('/joingame', async (req, res, next) => {
   try {
     console.log(req.body);
     const user = await User.findByPk(req.body.userId);
+    //get session id instead of user id from the req.body so that nobody
+    //can craft an id to mimic that user
     const game = await Game.findByPk(req.body.gameId, {
       include: [
         {

@@ -10,31 +10,32 @@ import {
 import {useState} from 'react';
 import {connect} from 'react-redux';
 import {currentCluePlus} from '../client/store/user';
+import {fetchGames} from '../client/store/games';
 
 const CluePage = props => {
   const clues = props.user.game.clues;
-
   const currentClue = props.user.currentClue;
-
+  
   const [score, setScore] = useState(0);
+  const [hint, setHint] = useState(0);
 
-  //console.log('in clue page', props.user);
   const id = 'sky';
+  
   const pressHandler = () => {
+    setSelected(selected);
     props.navigation.navigate('Camera', {
       setScore,
       id
-    });
+   });
   };
-  const [hint, setHint] = useState(0);
-
+  
   const thenFun = () => {
     setScore(0);
-    console.log('in thenFun');
     props.currentCluePlus(props.user);
     setHint(0);
   };
-  score > 0.7 ? thenFun() : console.log('in else');
+  score > 0.7 ? thenFun() : null;
+
   return (
     <View style={styles.container}>
       <Text style={styles.currClueTitle}>Clue: </Text>

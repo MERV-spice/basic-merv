@@ -1,20 +1,30 @@
-import React, {Component} from 'react';
-import {Text, Button, View, StyleSheet} from 'react-native';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { Text, Button, View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
+import { fetchScores } from '../store/scores';
 
 class GameOver extends Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    this.props.fetchScores(4);
+  }
+
+  renderScores() {
+    return this.props.scores.map((item, index) => (
+      <Text key={index}>
+        {item.user.username}: {item.score}
+      </Text>
+    ));
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Good Job null!!!</Text>
+        <Text>Good Job {this.props.user.username}!!!</Text>
         <Text>Leaderboard:</Text>
-        <Text>1...</Text>
-        <Text>2...</Text>
-        <Text>3...</Text>
+        {this.renderScores()}
         <Text>Time elapsed: null</Text>
         <Text>Number of Items Found: null</Text>
         <Button title="Play Again?" style={styles.input} />
@@ -23,19 +33,20 @@ class GameOver extends Component {
   }
 }
 
-// const mapState = state => {
-//   return {
-//     user: state.user,
-//   };
-// };
+const mapState = state => {
+  return {
+    scores: state.scores,
+    user: state.user,
+  };
+};
 
-// const mapDispatch = dispatch => {
-//   return {
-//     signUpUser: user => dispatch(signUpUser(user)),
-//   };
-// };
+const mapDispatch = dispatch => {
+  return {
+    fetchScores: gameId => dispatch(fetchScores(gameId)),
+  };
+};
 
-export default connect(null)(GameOver);
+export default connect(mapState, mapDispatch)(GameOver);
 
 export const styles = StyleSheet.create({
   container: {

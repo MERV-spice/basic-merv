@@ -8,7 +8,7 @@ class AuthForm extends Component {
     super(props);
 
     this.state = {
-      email: 'user1@email.com',
+      email: 'user0@email.com',
       password: '123'
     };
   }
