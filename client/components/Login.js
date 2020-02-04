@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Alert, Button, TextInput, View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
-import { auth } from '../store';
+import React, {Component} from 'react';
+import {Alert, Button, TextInput, View, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import {auth} from '../store';
 
 class AuthForm extends Component {
   constructor(props) {
@@ -9,12 +9,12 @@ class AuthForm extends Component {
 
     this.state = {
       email: '',
-      password: '',
+      password: ''
     };
   }
 
   onLogin() {
-    const { email, password } = this.state;
+    const {email, password} = this.state;
     this.props.auth(email, password);
   }
   render() {
@@ -22,20 +22,20 @@ class AuthForm extends Component {
       <View style={styles.container}>
         <TextInput
           value={this.state.email}
-          onChangeText={email => this.setState({ email })}
-          placeholder={'Email'}
+          onChangeText={email => this.setState({email})}
+          placeholder="Email"
           style={styles.input}
         />
         <TextInput
           value={this.state.password}
-          onChangeText={password => this.setState({ password })}
-          placeholder={'Password'}
+          onChangeText={password => this.setState({password})}
+          placeholder="Password"
           secureTextEntry={true}
           style={styles.input}
         />
 
         <Button
-          title={'Log In'}
+          title="Log In"
           style={styles.input}
           onPress={this.onLogin.bind(this)}
         />
@@ -46,23 +46,23 @@ class AuthForm extends Component {
 
 const mapState = state => {
   return {
-    user: state.user,
+    user: state.user
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    auth: (email, password) => dispatch(auth(email, password)),
+    auth: (email, password) => dispatch(auth(email, password))
   };
 };
-export default Login = connect(mapState, mapDispatch)(AuthForm);
+export default (Login = connect(mapState, mapDispatch)(AuthForm));
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#ecf0f1'
   },
   input: {
     width: 200,
@@ -70,6 +70,6 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
-    marginBottom: 10,
-  },
+    marginBottom: 10
+  }
 });
