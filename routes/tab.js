@@ -4,6 +4,7 @@ import { createAppContainer } from 'react-navigation'
 import  Camera  from '../screens/Camera'
 import CluePage from '../screens/CluePage'
 import GamesPage from '../screens/GamesPage'
+import { createStackNavigator } from 'react-navigation-stack'
 
 const screens = {
 	GamesPage: {
@@ -21,14 +22,6 @@ const screens = {
 
 		},
 	},
-	Camera: {
-		screen: Camera,
-		navigationOptions: {
-			tabBarLabel: 'Camera',
-
-			
-		}
-	},
 }
 
 
@@ -39,4 +32,14 @@ const tab = createBottomTabNavigator(screens, {
 	}
 })
 
-export default createAppContainer(tab)
+const appCon = createStackNavigator({
+	tabs: tab,
+	Camera: {
+		screen: Camera,
+		navigationOptions: {
+			tabBarLabel: 'Camera',
+		}
+	}
+})
+
+export default createAppContainer(appCon)
