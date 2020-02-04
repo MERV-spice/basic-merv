@@ -7,7 +7,6 @@ const SET_GAMES = 'SET_GAMES';
 const ADD_GAME = 'ADD_GAME';
 const RESET_GAME = 'RESET_GAME';
 
-const setGames = games => ({type: SET_GAMES, games});
 const addGame = game => ({type: ADD_GAME, game});
 const setGames = games => ({type: SET_GAMES, games});
 export const resetGame = game => ({type: RESET_GAME, game});
