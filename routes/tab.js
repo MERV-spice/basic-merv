@@ -3,11 +3,11 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import Camera from '../screens/Camera';
 import CluePage from '../screens/CluePage';
-import GamesPage from '../screens/GamesPage';
+import Scene from '../screens/Scene';
 
 const screens = {
   GamesPage: {
-    screen: GamesPage,
+    screen: Scene,
     navigationOptions: {
       tabBarLabel: 'GamesPage'
     }
