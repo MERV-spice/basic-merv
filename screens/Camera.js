@@ -29,6 +29,7 @@ export default class CameraComp extends Component {
   pressHandler = () => {
     this.props.navigation.navigate('CluePage');
   };
+
   async componentDidMount() {
     const {status} = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({hasCameraPermission: status === 'granted'});
@@ -75,7 +76,6 @@ export default class CameraComp extends Component {
       const endIdx = res.request._response.indexOf(',') - 1;
       const publicId = res.request._response.slice(startIdx, endIdx);
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
-      // console.log('state?', this.state)
       await axios.post(`${url}/api/images`, {
         url: imageUrl,
         position: this.state.position

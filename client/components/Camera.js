@@ -51,9 +51,6 @@ export default class CameraComp extends Component {
       });
       this.upload(this.state.photo.base64);
       await findCoordinates(position => this.setState({position}));
-      console.log('position in location function', this.state.position);
-      // console.log(this.state.position);
-      // this.setState({location: })
     }
     // let photo = this.state.photo.uri;
     // let id = this.state.id;

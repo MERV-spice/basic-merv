@@ -5,8 +5,8 @@ import user from './user';
 import games from './games';
 
 const reducer = combineReducers({
-    user: user,
-    games: games,
+	user: user,
+	games: games
 });
 
 const middleware = applyMiddleware(
