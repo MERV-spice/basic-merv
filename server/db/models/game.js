@@ -4,21 +4,21 @@ const db = require('../db');
 const Game = db.define('game', {
   time: {
     type: Sequelize.DATE,
-    allowNull: false,
+    allowNull: true
   },
   name: {
     type: Sequelize.STRING,
     allowNull: false,
-    notEmpty: true,
+    notEmpty: true
   },
   makerId: {
     type: Sequelize.INTEGER,
-    allowNull: true,
+    allowNull: true
   },
   passcode: {
-      type: Sequelize.STRING,
-      allowNull: true,
-  },
+    type: Sequelize.STRING,
+    allowNull: true
+  }
 });
 
 module.exports = Game;

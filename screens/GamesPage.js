@@ -118,4 +118,7 @@ const mapDispatch = dispatch => ({
   joinGame: (gameId, userId) => dispatch(joinGame(gameId, userId))
 });
 
-export default connect(mapState, mapDispatch)(GamesPage);
+export default connect(
+  mapState,
+  mapDispatch
+)(GamesPage);
