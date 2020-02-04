@@ -66,10 +66,10 @@ const makeUsers = () => {
 
 const makeScores = () => {
   const scores = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 50; i++) {
     scores.push({
-      userId: 1,
-      gameId: 1,
+      userId: Math.ceil(Math.random() * 10),
+      gameId: Math.ceil(Math.random() * 10),
       score: Math.floor(Math.random() * 100),
     });
   }

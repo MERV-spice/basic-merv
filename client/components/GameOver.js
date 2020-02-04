@@ -8,12 +8,14 @@ class GameOver extends Component {
     super(props);
   }
   componentDidMount() {
-    this.props.fetchScores(1);
+    this.props.fetchScores(4);
   }
 
   renderScores() {
     return this.props.scores.map((item, index) => (
-      <Text key={index}>{item.score}</Text>
+      <Text key={index}>
+        {item.user.username}: {item.score}
+      </Text>
     ));
   }
 
