@@ -15,26 +15,26 @@ import {fetchGames} from '../client/store/games';
 const CluePage = props => {
   const clues = props.user.game.clues;
   const currentClue = props.user.currentClue;
-  
+
   const [score, setScore] = useState(0);
   const [hint, setHint] = useState(0);
 
   const id = 'sky';
-  
+
   const pressHandler = () => {
     setSelected(selected);
     props.navigation.navigate('Camera', {
       setScore,
       id
-   });
+    });
   };
-  
+
   const thenFun = () => {
     setScore(0);
     props.currentCluePlus(props.user);
     setHint(0);
   };
-  score > 0.7 ? thenFun() : null;
+  if (score > 0.7) thenFun();
 
   return (
     <View style={styles.container}>
