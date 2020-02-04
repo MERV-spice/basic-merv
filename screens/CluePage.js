@@ -9,43 +9,44 @@ import {
 } from 'react-native';
 import {useState} from 'react';
 import {connect} from 'react-redux';
-import {fetchGames} from '../client/store/games';
 import {currentCluePlus} from '../client/store/user';
 
 const CluePage = props => {
   const clues = props.user.game.clues;
 
+  const currentClue = props.user.currentClue;
+
   const [score, setScore] = useState(0);
 
-  console.log('in clue page', props.user);
-  const [selected, setSelected] = useState(0);
+  //console.log('in clue page', props.user);
   const id = 'sky';
   const pressHandler = () => {
-    setSelected(selected);
     props.navigation.navigate('Camera', {
       setScore,
       id
     });
   };
+  const [hint, setHint] = useState(0);
+
   const thenFun = () => {
     setScore(0);
-    setSelected(selected + 1);
+    console.log('in thenFun');
+    props.currentCluePlus(props.user);
     setHint(0);
   };
-  const [hint, setHint] = useState(0);
   score > 0.7 ? thenFun() : console.log('in else');
   return (
     <View style={styles.container}>
       <Text style={styles.currClueTitle}>Clue: </Text>
       <Image
         style={{width: 200, height: 200}}
-        source={{uri: clues[selected].pictures[0].accessPic}}
+        source={{uri: clues[currentClue].pictures[0].accessPic}}
       />
-      <Text style={styles.currClueText}>Clue :{clues[selected].text}</Text>
+      <Text style={styles.currClueText}>Clue :{clues[currentClue].text}</Text>
       {!hint ? (
         <Button title="Show Hint" onPress={() => setHint(1)} />
       ) : (
-        <Text>Hint: {clues[selected].hint}</Text>
+        <Text>Hint: {clues[currentClue].hint}</Text>
       )}
       <Button title="I found it!" onPress={pressHandler} />
     </View>

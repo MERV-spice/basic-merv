@@ -54,7 +54,7 @@ export default class CameraComp extends Component {
       });
       this.upload(this.state.photo.base64);
       await findCoordinates(position => this.setState({position}));
-      console.log('position in location function', this.state.position);
+      // console.log('position in location function', this.state.position);
       // console.log(this.state.position);
       // this.setState({location: })
     }
@@ -63,23 +63,28 @@ export default class CameraComp extends Component {
   }
 
   async upload(picBase64) {
-    console.log('upload state position', this.state.position);
+    //console.log('upload state position', this.state.position);
     const serverUrl = 'https://api.cloudinary.com/v1_1/basic-merv/image/upload';
     const data = picBase64;
     let formData = new FormData();
     formData.append('file', 'data:image/png;base64,' + data);
     formData.append('upload_preset', 'jb7k5twx');
-    console.log('upload recording to ' + serverUrl);
+    //console.log('upload recording to ' + serverUrl);
     try {
       const res = await axios.post(serverUrl, formData);
       const startIdx = res.request._response.indexOf(':') + 2;
       const endIdx = res.request._response.indexOf(',') - 1;
       const publicId = res.request._response.slice(startIdx, endIdx);
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
-      await axios.post(`${url}/api/images`, {
+      const {data} = await axios.post(`${url}/api/images`, {
         url: imageUrl,
         position: this.state.position
       });
+      this.props.navigation.state.params.setScore(
+        data.filter(
+          l => l.input.id === this.props.navigation.state.params.id
+        )[0].score
+      );
     } catch (err) {
       console.error(err);
     }

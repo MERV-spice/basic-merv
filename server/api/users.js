@@ -43,13 +43,14 @@ router.post('/location', async (req, res, next) => {
 });
 
 //route to increase current clue by 1;
-router.put('/clue', async (req, res, next) => {
+router.post('/clue', async (req, res, next) => {
   try {
     console.log('we in daz put route', req.body);
-    const user = await User.findByPk(req.body.userId);
-    await user.update({currentClue: sequelize.literal('currentClue +1')});
-    res.status(201).send('current clue updated');
+    const user = await User.findByPk(req.body.id);
+    await user.increment('currentClue');
+    res.sendStatus(202);
   } catch (err) {
+    console.log(req.body);
     next(err);
   }
 });
