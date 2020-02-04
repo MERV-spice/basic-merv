@@ -123,7 +123,6 @@ export default class CameraComp extends Component {
                       ? Camera.Constants.Type.front
                       : Camera.Constants.Type.back,
                 });
-                this.upload(this.state.photo.base64);
               }}
             >
               <Ionicons color="white" size={64} name="ios-reverse-camera" />
