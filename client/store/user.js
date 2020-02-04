@@ -6,11 +6,13 @@ const SIGN_UP = 'SIGN_UP';
 const GET_USER = 'GET_USER';
 const SET_GAME = 'SET_GAME';
 const CLUE_PLUS = 'CLUE_PLUS';
+const CLUE_RESET = 'CLUE_RESET';
 
 const signUp = user => ({type: SIGN_UP, user});
 const getUser = user => ({type: GET_USER, user});
 const setGame = game => ({type: SET_GAME, game});
 const cluePlus = () => ({type: CLUE_PLUS});
+const clueRest = () => ({type: CLUE_RESET});
 
 export const signUpUser = user => {
   return async dispatch => {
@@ -27,6 +29,19 @@ export const currentCluePlus = user => {
   return async dispatch => {
     try {
       const {status} = await axios.post(`${url}/api/users/clue`, user);
+      if (status === 202) {
+        dispatch(cluePlus());
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const currentClueReset = user => {
+  return async dispatch => {
+    try {
+      const {status} = await axios.post(`${url}/api/users/reset`, user);
       if (status === 202) {
         dispatch(cluePlus());
       }

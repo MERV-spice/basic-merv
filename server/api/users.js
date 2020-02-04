@@ -50,12 +50,11 @@ router.post('/clue', async (req, res, next) => {
     await user.increment('currentClue');
     res.sendStatus(202);
   } catch (err) {
-    console.log(req.body);
     next(err);
   }
 });
 //route to reset current clue to zero, should be called when a user switches games
-router.put('/reset', async (req, res, next) => {
+router.post('/reset', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.body.userId);
     await user.update({currentClue: 0});
