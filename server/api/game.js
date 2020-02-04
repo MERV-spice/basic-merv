@@ -24,3 +24,18 @@ router.get('/:gameId', async (req, res, next) => {
     }
 });
 
+router.post('/', async (req, res, next) => {
+	console.log('req body', req.body)
+	try {
+		const newGame = await Game.create({name: req.body.name});
+		const newClues = await Clue.bulkCreate(req.body.clues.map(clue => {
+			return {text: clue.clueText}
+		}))
+		// await Promise.all(newClues.map(async (clue, i) => {
+
+		// }))
+		res.json(newGame)
+	} catch (err) {
+		next(err)
+	}
+})

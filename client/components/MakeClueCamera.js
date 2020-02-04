@@ -72,12 +72,13 @@ export default class CameraComp extends Component {
       const endIdx = res.request._response.indexOf(',') - 1;
       const publicId = res.request._response.slice(startIdx, endIdx);
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`; 
-      await axios.post(`https://${ngrokUrl}.ngrok.io/api/images`, {
+      const { data } = await axios.post(`https://${ngrokUrl}.ngrok.io/api/images`, {
           url: imageUrl, 
           position: this.state.position,
-          compare: true,
+          compare: false,
       })
-        this.props.data(imageUrl)
+      console.log('data', data)
+        this.props.data(data)
     } catch(err) {
         console.error(err);
     }

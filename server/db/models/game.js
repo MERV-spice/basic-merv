@@ -4,7 +4,7 @@ const db = require('../db');
 const Game = db.define('game', {
   time: {
     type: Sequelize.DATE,
-    allowNull: false,
+    allowNull: true,
   },
   name: {
     type: Sequelize.STRING,

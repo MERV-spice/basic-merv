@@ -7,7 +7,7 @@ const sky =
   'https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
 
 //send associated clueid to check against
-router.post('/', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
 	    const point = { type: 'Point', coordinates: [req.body.position.coords.latitude, req.body.position.coords.longitude] };
       await Picture.create({accessPic: req.body.url, location: point});
@@ -22,4 +22,15 @@ router.post('/', async (req, res, next) => {
     } catch (err) {
        next(err)
     }
+})
+
+router.post('/', async (req, res, next) => {
+  try {
+    const point = { type: 'Point', coordinates: [req.body.position.coords.latitude, req.body.position.coords.longitude] };
+    const picture = await Picture.create({accessPic: req.body.url, location: point});
+    console.log(picture)
+    res.status(202).json(picture);
+  } catch (err) {
+    next(err)
+  }
 })

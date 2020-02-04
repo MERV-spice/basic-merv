@@ -4,11 +4,7 @@ const db = require('../db')
 const Clue = db.define('clue', {
 	time: {
 		type: Sequelize.STRING,
-		allowNull: false,
-	},
-	lat: {
-		type: Sequelize.DECIMAL,
-		allowNull: false,
+		allowNull: true,
 	},
 	text: {
 		type: Sequelize.STRING,
@@ -17,7 +13,6 @@ const Clue = db.define('clue', {
 	hint: {
 		type: Sequelize.TEXT
 	}
-	
 })
 
 module.exports = Clue; 

@@ -5,6 +5,7 @@ router.use('/users', require('./users'));
 router.use('/images', require('./images'));
 router.use('/auth', require('../auth'));
 router.use('/games', require('./game'));
+router.use('/clues', require('./clues'));
 
 router.use((req, res, next) => {
   const error = new Error('Not Found');
