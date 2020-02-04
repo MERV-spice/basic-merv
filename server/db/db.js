@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
-const pkg = require('../../package.json')
+const Sequelize = require('sequelize');
+const pkg = require('../../package.json');
 
 const databaseName = pkg.name;
 
@@ -8,6 +8,5 @@ const db = new Sequelize(
   {
     logging: false
   }
-)
-module.exports = db
-
+);
+module.exports = db;

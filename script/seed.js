@@ -95,6 +95,14 @@ async function seed() {
   );
   await Promise.all(scores);
 
+  await Promise.all(
+    clues.map((clue, i) => clue.addGame(games[Math.floor(i / 3)]))
+  );
+  await Promise.all(pics.map((pic, i) => pic.addClue(clues[i])));
+  await Promise.all(
+    users.map((user, i) => user.setGame(games[Math.floor(i / 3)]))
+  );
+
   console.log(`seeded ${clues.length} clues`);
   console.log(
     `seeded ${

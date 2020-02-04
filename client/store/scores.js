@@ -1,5 +1,5 @@
 import axios from 'axios';
-import ngrokUrl from '../ngrok';
+import url from '../ngrok';
 
 const initialState = [];
 
@@ -10,8 +10,8 @@ const setScores = scores => ({type: SET_SCORES, scores});
 export const fetchScores = gameId => {
   return async dispatch => {
     try {
-      const res = await axios.get(`${ngrokUrl}/api/score/${gameId}`);
-      dispatch(setScores(res.data));
+      const {data} = await axios.get(`${url}/api/score/${gameId}`);
+      dispatch(setScores(data));
     } catch (err) {
       console.log(err);
     }

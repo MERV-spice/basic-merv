@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import * as Permissions from 'expo-permissions';
 import {Camera} from 'expo-camera';
 import {View, TouchableOpacity, Image, Text} from 'react-native';
-import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 import axios from 'axios';
 import findCoordinates from './Gps';
 import url from '../ngrok';
@@ -14,46 +14,34 @@ import url from '../ngrok';
 // https://stackoverflow.com/questions/42521679/how-can-i-upload-a-photo-with-expo
 
 export default class CameraComp extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      hasCameraPermission: null,
-      type: Camera.Constants.Type.back,
-      photo: {},
-      id: 0,
-      position: {}
+      type: Camera.Constants.Type.back
     };
+    this.position = {};
     this.upload = this.upload.bind(this);
     this.snapPhoto = this.snapPhoto.bind(this);
   }
 
   async componentDidMount() {
-    const {status} = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({hasCameraPermission: status === 'granted'});
-    findCoordinates(position => this.setState({position}));
-    // console.log('found coordinates', );
+    await Permissions.askAsync(Permissions.CAMERA);
+    findCoordinates(position => (this.position = position));
   }
 
   async snapPhoto() {
     if (this.camera) {
       const options = {
-        quality: 1,
+        quality: 0.25,
         base64: true,
         fixOrientation: true,
         exif: true
       };
-      await this.camera.takePictureAsync(options).then(photo => {
-        photo.exif.Orientation = 1;
-        this.setState({
-          photo: photo,
-          id: ++this.state.id
-        });
-      });
-      this.upload(this.state.photo.base64);
-      await findCoordinates(position => this.setState({position}));
+      const photo = await this.camera.takePictureAsync(options);
+      photo.exif.Orientation = 1;
+      this.upload(photo.base64);
+      // await findCoordinates(position => this.setState({position}));
     }
-    // let photo = this.state.photo.uri;
-    // let id = this.state.id;
   }
 
   async upload(picBase64) {
@@ -63,17 +51,22 @@ export default class CameraComp extends Component {
     formData.append('file', 'data:image/png;base64,' + data);
     formData.append('upload_preset', 'jb7k5twx');
     // console.log('upload recording to ' + serverUrl);
+    //building a network request that has the raw data
+    //smaller file size to start with (photo.uri)
+    //changing upload strategy is a last resort
+    //instead of the formData, create an analogous object (get photo,
+    //pull URI, construct & submit obj)
     try {
       const res = await axios.post(serverUrl, formData);
-      const startIdx = res.request._response.indexOf(':') + 2;
-      const endIdx = res.request._response.indexOf(',') - 1;
-      const publicId = res.request._response.slice(startIdx, endIdx);
+      console.log('thanks', JSON.parse(res.request._response).public_id);
+      const publicId = JSON.parse(res.request._response).public_id;
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
-      // console.log('state?', this.state)
-      await axios.post(`${url}/api/images`, {
+      const {data} = await axios.post(`${url}/api/images`, {
         url: imageUrl,
-        position: this.state.position
+        position: this.state.position,
+        compare: false
       });
+      this.props.fn(data);
     } catch (err) {
       console.error(err);
     }
@@ -96,30 +89,29 @@ export default class CameraComp extends Component {
               flexDirection: 'row'
             }}
           >
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{
                 flex: 0.3,
                 alignSelf: 'flex-end',
-                alignItems: 'center'
+                alignItems: 'center',
               }}
               onPress={() => {
                 this.setState({
                   type:
                     this.state.type === Camera.Constants.Type.back
                       ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back
+                      : Camera.Constants.Type.back,
                 });
-                this.upload(this.state.photo.base64);
               }}
             >
               <Ionicons color="white" size={64} name="ios-reverse-camera" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={this.snapPhoto.bind(this)}
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',
-                marginLeft: 60
+                marginLeft: 100
               }}
             >
               <MaterialCommunityIcons
@@ -130,14 +122,6 @@ export default class CameraComp extends Component {
             </TouchableOpacity>
           </View>
         </Camera>
-        {this.state.photo.base64 ? (
-          <Image
-            style={{width: 50, height: 50}}
-            source={{uri: `data:image/png;base64,${this.state.photo.base64}`}}
-          />
-        ) : (
-          <Text>You were wrong.</Text>
-        )}
       </View>
     );
   }
