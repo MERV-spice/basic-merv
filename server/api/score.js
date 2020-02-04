@@ -9,6 +9,8 @@ router.get('/:gameId', async (req, res, next) => {
       where: {
         gameId: req.params.gameId,
       },
+      order: [['score', 'DESC']],
+      limit: 5,
     });
     console.log(
       'RES.JSON',
