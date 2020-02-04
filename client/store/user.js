@@ -26,9 +26,7 @@ export const signUpUser = user => {
 export const currentCluePlus = user => {
   return async dispatch => {
     try {
-      const {data} = await axios.post(
-        `https://${ngrokUrl}.ngrok.io/api/users/clue`
-      );
+      const {data} = await axios.put(`${url}/api/users/clue`);
       dispatch(cluePlus(data));
     } catch (err) {
       console.log(err);

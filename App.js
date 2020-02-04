@@ -9,9 +9,8 @@ export default function App() {
     <React.Fragment>
       <Provider store={store}>
         <Route />
-        <GameOver />
+        {/* <GameOver /> */}
         {/* <Navigator /> */}
-        <CameraComponent />
       </Provider>
     </React.Fragment>
   );
