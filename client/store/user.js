@@ -12,16 +12,8 @@ const setGame = game => ({type: SET_GAME, game});
 export const signUpUser = user => {
   return async dispatch => {
     try {
-<<<<<<< HEAD
-      const res = await axios.post(
-        `https://${ngrokUrl}.ngrok.io/api/users/signup`,
-        user
-      );
-      return dispatch(signUp(res.data));
-=======
       const res = await axios.post(`${url}/api/users/signup`, user);
       dispatch(signUp(res.data));
->>>>>>> e8e78997e3bdb9b8e1c17bb31b409634e0bb10a5
     } catch (err) {
       console.log(err);
     }
@@ -48,18 +40,6 @@ export const auth = (email, password) => async dispatch => {
 };
 
 export const joinGame = (gameId, userId) => async dispatch => {
-<<<<<<< HEAD
-    try {
-	// console.log(gameId, userId);
-	const { data } = await axios.put(`https://${ngrokUrl}.ngrok.io/api/users/joingame`, {
-	    gameId,
-	    userId
-	});
-	return dispatch(setGame(data));
-    } catch (err) {
-	console.error(err);
-    }
-=======
   try {
     console.log(gameId, userId);
     const {data} = await axios.put(`${url}/api/users/joingame`, {
@@ -71,7 +51,6 @@ export const joinGame = (gameId, userId) => async dispatch => {
   } catch (err) {
     console.error(err);
   }
->>>>>>> e8e78997e3bdb9b8e1c17bb31b409634e0bb10a5
 };
 
 export default function(state = {}, action) {

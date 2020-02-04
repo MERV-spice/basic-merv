@@ -1,10 +1,10 @@
 // // https://snack.expo.io/@charliecruzan/camerja  <--- Resource for camera info and largely where we sourced our code from
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import * as Permissions from 'expo-permissions';
-import { Camera } from 'expo-camera';
-import { View, TouchableOpacity, Image, Text } from 'react-native';
-import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import {Camera} from 'expo-camera';
+import {View, TouchableOpacity, Image, Text} from 'react-native';
+import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import axios from 'axios';
 import findCoordinates from './Gps';
 import ngrokUrl from '../ngrok';
@@ -21,17 +21,17 @@ export default class CameraComp extends Component {
       type: Camera.Constants.Type.back,
       photo: {},
       id: 0,
-      position: {},
+      position: {}
     };
     this.upload = this.upload.bind(this);
-    this.snapPhoto = this.snapPhoto.bind(this); 
+    this.snapPhoto = this.snapPhoto.bind(this);
   }
 
   async componentDidMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
-    findCoordinates((position) => this.setState({position}));
-    // console.log(this.props); 
+    const {status} = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({hasCameraPermission: status === 'granted'});
+    findCoordinates(position => this.setState({position}));
+    // console.log(this.props);
   }
 
   async snapPhoto() {
@@ -40,20 +40,20 @@ export default class CameraComp extends Component {
         quality: 1,
         base64: true,
         fixOrientation: true,
-        exif: true,
+        exif: true
       };
       //const photo = photo.uri
       await this.camera.takePictureAsync(options).then(photo => {
         photo.exif.Orientation = 1;
         this.setState({
           photo: photo,
-          id: ++this.state.id,
+          id: ++this.state.id
         });
       });
       this.upload(this.state.photo.base64); //photo.uri
-      await findCoordinates((position) => this.setState({position}));
+      await findCoordinates(position => this.setState({position}));
       // console.log('position in location function', this.state.position);
-      // console.log(this.state.position); 
+      // console.log(this.state.position);
     }
     // let photo = this.state.photo.uri;
     // let id = this.state.id;
@@ -70,31 +70,34 @@ export default class CameraComp extends Component {
     //building a network request that has the raw data
     //smaller file size to start with (photo.uri)
     //changing upload strategy is a last resort
-    //instead of the formData, create an analogous object (get photo, 
+    //instead of the formData, create an analogous object (get photo,
     //pull URI, construct & submit obj)
     try {
-      const res = await axios.post(serverUrl, formData)
+      const res = await axios.post(serverUrl, formData);
       const startIdx = res.request._response.indexOf(':') + 2;
       const endIdx = res.request._response.indexOf(',') - 1;
       const publicId = res.request._response.slice(startIdx, endIdx);
-      const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`; 
-      const { data } = await axios.post(`https://${ngrokUrl}.ngrok.io/api/images`, {
-          url: imageUrl, 
+      const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
+      const {data} = await axios.post(
+        `https://${ngrokUrl}.ngrok.io/api/images`,
+        {
+          url: imageUrl,
           position: this.state.position,
-          compare: false,
-      })
-      console.log('data', data)
-        this.props.data(data)
-    } catch(err) {
-        console.error(err);
+          compare: false
+        }
+      );
+      console.log('data', data);
+      this.props.data(data);
+    } catch (err) {
+      console.error(err);
     }
   }
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <Camera
-          style={{ flex: 1 }}
+          style={{flex: 1}}
           ref={ref => {
             this.camera = ref;
           }}
@@ -104,7 +107,7 @@ export default class CameraComp extends Component {
             style={{
               flex: 1,
               backgroundColor: 'transparent',
-              flexDirection: 'row',
+              flexDirection: 'row'
             }}
           >
             {/* <TouchableOpacity
@@ -130,7 +133,7 @@ export default class CameraComp extends Component {
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',
-                marginLeft: 100,
+                marginLeft: 100
               }}
             >
               <MaterialCommunityIcons
@@ -143,8 +146,8 @@ export default class CameraComp extends Component {
         </Camera>
         {this.state.photo.base64 ? (
           <Image
-            style={{ width: 50, height: 50 }}
-            source={{ uri: `data:image/png;base64,${this.state.photo.base64}` }}
+            style={{width: 50, height: 50}}
+            source={{uri: `data:image/png;base64,${this.state.photo.base64}`}}
           />
         ) : (
           <Text>You were wrong.</Text>

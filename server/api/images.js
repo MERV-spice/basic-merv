@@ -8,29 +8,44 @@ const sky =
 
 //send associated clueid to check against
 router.get('/', async (req, res, next) => {
-    try {
-	    const point = { type: 'Point', coordinates: [req.body.position.coords.latitude, req.body.position.coords.longitude] };
-      await Picture.create({accessPic: req.body.url, location: point});
-      if (req.body.compare) {
-        const comparison = await compare(req.body.url)
-        //filter comparison.hits to only get the associated clue id score
-        // console.log(comparison.hits);
-        res.status(202).json(comparison.hits);
-      } else {
-        res.sendStatus(202)
-      }
-    } catch (err) {
-       next(err)
+  try {
+    const point = {
+      type: 'Point',
+      coordinates: [
+        req.body.position.coords.latitude,
+        req.body.position.coords.longitude
+      ]
+    };
+    await Picture.create({accessPic: req.body.url, location: point});
+    if (req.body.compare) {
+      const comparison = await compare(req.body.url);
+      //filter comparison.hits to only get the associated clue id score
+      // console.log(comparison.hits);
+      res.status(202).json(comparison.hits);
+    } else {
+      res.sendStatus(202);
     }
-})
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post('/', async (req, res, next) => {
   try {
-    const point = { type: 'Point', coordinates: [req.body.position.coords.latitude, req.body.position.coords.longitude] };
-    const picture = await Picture.create({accessPic: req.body.url, location: point});
-    console.log(picture)
+    const point = {
+      type: 'Point',
+      coordinates: [
+        req.body.position.coords.latitude,
+        req.body.position.coords.longitude
+      ]
+    };
+    const picture = await Picture.create({
+      accessPic: req.body.url,
+      location: point
+    });
+    console.log(picture);
     res.status(202).json(picture);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});

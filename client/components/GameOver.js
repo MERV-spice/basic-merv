@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Text, Button, View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {Text, Button, View, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
 
 class GameOver extends Component {
   constructor(props) {
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#ecf0f1'
   },
   input: {
     width: 200,
@@ -50,6 +50,6 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
-    marginBottom: 10,
-  },
+    marginBottom: 10
+  }
 });
