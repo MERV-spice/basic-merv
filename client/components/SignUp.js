@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Alert, Button, TextInput, View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
-import { signUpUser } from '../store/user';
+import React, {Component} from 'react';
+import {Alert, Button, TextInput, View, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import {signUpUser} from '../store/user';
 
 class SignUp extends Component {
   constructor(props) {
@@ -10,12 +10,12 @@ class SignUp extends Component {
     this.state = {
       username: '',
       email: '',
-      password: '',
+      password: ''
     };
   }
 
   onSignUp() {
-    const { username, email, password } = this.state;
+    const {username, email, password} = this.state;
     this.props.signUpUser(this.state);
   }
 
@@ -24,26 +24,26 @@ class SignUp extends Component {
       <View style={styles.container}>
         <TextInput
           value={this.state.username}
-          onChangeText={username => this.setState({ username })}
-          placeholder={'Username'}
+          onChangeText={username => this.setState({username})}
+          placeholder="Username"
           style={styles.input}
         />
         <TextInput
           value={this.state.email}
-          onChangeText={email => this.setState({ email })}
-          placeholder={'Email'}
+          onChangeText={email => this.setState({email})}
+          placeholder="Email"
           style={styles.input}
         />
         <TextInput
           value={this.state.password}
-          onChangeText={password => this.setState({ password })}
-          placeholder={'Password'}
+          onChangeText={password => this.setState({password})}
+          placeholder="Password"
           secureTextEntry={true}
           style={styles.input}
         />
 
         <Button
-          title={'Sign Up'}
+          title="Sign Up"
           style={styles.input}
           onPress={this.onSignUp.bind(this)}
         />
@@ -54,13 +54,13 @@ class SignUp extends Component {
 
 const mapState = state => {
   return {
-    user: state.user,
+    user: state.user
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    signUpUser: user => dispatch(signUpUser(user)),
+    signUpUser: user => dispatch(signUpUser(user))
   };
 };
 
@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#ecf0f1'
   },
   input: {
     width: 200,
@@ -79,6 +79,6 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
-    marginBottom: 10,
-  },
+    marginBottom: 10
+  }
 });

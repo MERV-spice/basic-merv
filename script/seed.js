@@ -23,11 +23,11 @@ const makePics = () => {
   const pics = []; 
   for (let i = 0; i < 30; i++) {
     pics.push({
-      NumTimesUsed: faker.random.number(),
-      Likes: faker.random.number(),
-      Dislikes: faker.random.number(), 
-      AccessPic: 'https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-      Location: [faker.random.number(), faker.random.number()]
+      numTimesUsed: faker.random.number(),
+      likes: faker.random.number(),
+      dislikes: faker.random.number(), 
+      accessPic: 'https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+      //location: [faker.random.number(), faker.random.number()]
     })
   }
   return pics

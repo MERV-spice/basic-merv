@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const ngrokUrl = 'b74dc0e5';
 
 // create a new app context called api route that
@@ -7,5 +8,8 @@ const ngrokUrl = 'b74dc0e5';
 //production. 
 
 //entire prefix of the apiURLs comes from a string
+=======
+const ngrokUrl = 'f2d45eea';
+>>>>>>> e8e78997e3bdb9b8e1c17bb31b409634e0bb10a5
 
-export default ngrokUrl;
+export default `http://${ngrokUrl}.ngrok.io`;

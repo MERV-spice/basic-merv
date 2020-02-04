@@ -5,13 +5,13 @@ import user from './user';
 import games from './games';
 
 const reducer = combineReducers({
-    user: user,
-    games: games,
+	user: user,
+	games: games
 });
 
 const middleware = applyMiddleware(
   thunkMiddleware,
-  createLogger({ collapsed: true })
+//  createLogger({ collapsed: true })
 );
 
 const store = createStore(reducer, middleware);
