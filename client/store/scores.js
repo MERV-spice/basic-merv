@@ -5,15 +5,13 @@ const initialState = [];
 
 const SET_SCORES = 'SET_SCORES';
 
-const setScores = scores => ({ type: SET_SCORES, scores });
+const setScores = scores => ({type: SET_SCORES, scores});
 
 export const fetchScores = gameId => {
   return async dispatch => {
     console.log('gameid----------------', gameId);
     try {
-      const res = await axios.get(
-        `https://${ngrokUrl}.ngrok.io/api/score/${gameId}`
-      );
+      const res = await axios.get(`${ngrokUrl}/api/score/${gameId}`);
       console.log('IN THUNK', res);
       dispatch(setScores(res.data));
     } catch (err) {
