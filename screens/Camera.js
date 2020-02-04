@@ -6,6 +6,9 @@ import {Camera} from 'expo-camera';
 import {View, TouchableOpacity, Image, Text, Button} from 'react-native';
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import axios from 'axios';
+
+import compare from '../server/clarifai/compare';
+
 import findCoordinates from './Gps';
 import url from '../client/ngrok';
 
@@ -22,7 +25,6 @@ export default class CameraComp extends Component {
       photo: {},
       id: 0
     };
-    this.upload = this.upload.bind(this);
     this.snapPhoto = this.snapPhoto.bind(this);
     this.position = {};
   }
@@ -40,20 +42,25 @@ export default class CameraComp extends Component {
   async snapPhoto() {
     if (this.camera) {
       const options = {
-        quality: 1,
+        quality: 0.25,
         base64: true,
         fixOrientation: true,
         exif: true
       };
       const photo = await this.camera.takePictureAsync(options);
-      let coords;
-      //await findCoordinates(position => console.log(position));
-      //console.log(Object.keys(photo), coords);
-    }
-  }
+      await findCoordinates(position => (this.position = position));
 
-  async upload(picBase64) {
-    formData.append('file', 'data:image/png;base64,' + data);
+      const comparison = await compare(photo.base64);
+      const id = 'sky';
+      let comp;
+      for (let i = 0; i < comparison.hits.length; i++) {
+        if (comparison.hits[i].input.id === id) {
+          comp = comparison.hits[i].score;
+          break;
+        }
+      }
+      console.log(comp);
+    }
   }
 
   render() {

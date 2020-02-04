@@ -12,7 +12,7 @@ const compare = async matchUrl => {
   try {
     const ret = await clarifaiApp.inputs.search({
       input: {
-        url: matchUrl
+        base64: matchUrl
       }
     });
     return ret;
