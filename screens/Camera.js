@@ -38,7 +38,7 @@ export default class CameraComp extends Component {
     findCoordinates((position) => this.setState({position}));
     // console.log('found coordinates', ); 
   }
-
+	//no need for state in this function?
   async snapPhoto() {
     if (this.camera) {
       const options = {

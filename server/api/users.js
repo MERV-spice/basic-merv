@@ -42,6 +42,31 @@ router.post('/location', async (req, res, next) => {
   }
 });
 
+//route to increase current clue by 1;
+router.put('/clue', async (req, res, next) => {
+	try {
+		const user = await User.findByPk(req.body.userId)
+		await user.update({ currentClue: currentClue++ })
+		res.status(201).send('current clue updated')
+	}
+	catch (err) {
+		next(err)
+	}
+})
+//route to reset current clue to zero, should be called when a user switches games
+router.put('/reset', async (req, res, next) => {
+	try {
+		const user = await User.findByPk(req.body.userId)
+		await user.update({ currentClue: 0 })
+		res.status(201).send('current clue reset to zero')
+	}
+	catch (err) {
+		next(err)
+	}
+})
+
+
+
 router.put('/joingame', async (req, res, next) => {
     try {
 	console.log(req.body);

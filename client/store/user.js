@@ -5,10 +5,13 @@ import { resetGame } from './games';
 const SIGN_UP = 'SIGN_UP';
 const GET_USER = 'GET_USER';
 const SET_GAME = 'SET_GAME';
+const CLUE_PLUS = 'CLUE_PLUS'
 
 const signUp = user => ({ type: SIGN_UP, user });
 const getUser = user => ({ type: GET_USER, user });
 const setGame = game => ({ type: SET_GAME, game });
+const cluePlus = user => ({ type: CLUE_PLUS, user });
+
 export const signUpUser = user => {
   return async dispatch => {
     try {
@@ -22,6 +25,20 @@ export const signUpUser = user => {
     }
   };
 };
+
+export const currentCluePlus = user => {
+	return async dispatch => {
+		try {
+			const {data} = await axios.post(
+				`https://${ngrokUrl}.ngrok.io/api/users/clue`,
+			)
+			dispatch(cluePlus(data))
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+}
 
 export const auth = (email, password) => async dispatch => {
   let res;

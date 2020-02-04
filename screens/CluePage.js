@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, Image, ShadowPropTypesIOS } from 'react
 import { useState } from 'react'
 import { connect } from 'react-redux'
 import { fetchGames } from '../client/store/games';
+import { currentCluePlus } from '../client/store/user';
 
 
  
@@ -13,7 +14,7 @@ const CluePage = (props) => {
 
 	const [score, setScore] = useState(0)
 
-	// console.log(props.user.game)
+	console.log(props)
 	const [selected, setSelected] = useState(0)
 	const id = 'sky'
 	const pressHandler = () => {
@@ -21,17 +22,14 @@ const CluePage = (props) => {
 		props.navigation.navigate('Camera', {
 			setScore, id
 		})
-		setHint(0)
 	}
 	const thenFun= () => {
 		setScore(0);
 		setSelected(selected + 1)
-		console.log('in if', selected)
+		setHint(0)
 	}
 	const [hint, setHint] = useState(0)
-	console.log(score > .7)
 	score > .70 ? thenFun() : console.log('in else');
-	console.log('selected:', selected)
 	return (
     <View style={styles.container}>
 			<Text style={styles.currClueTitle}>Clue: </Text>
@@ -78,4 +76,8 @@ const mapState = state => ({
 	user: state.user,
 });
 
-export default connect(mapState)(CluePage)
+const mapDispatch = {
+	currentCluePlus
+}
+
+export default connect(mapState, mapDispatch)(CluePage)
