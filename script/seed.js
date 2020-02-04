@@ -7,7 +7,7 @@ const {
   Clue,
   Picture,
   CluePicture,
-  Score,
+  Score
 } = require('../server/db/models');
 const faker = require('faker/locale/en_US');
 
@@ -20,7 +20,7 @@ const makeClue = () => {
       time: faker.date.recent(),
       lat: faker.random.number(),
       text: faker.company.catchPhraseDescriptor(),
-      hint: faker.company.catchPhraseDescriptor(),
+      hint: faker.company.catchPhraseDescriptor()
     });
   }
   return clues;
@@ -30,12 +30,12 @@ const makePics = () => {
   const pics = [];
   for (let i = 0; i < 30; i++) {
     pics.push({
-      NumTimesUsed: faker.random.number(),
-      Likes: faker.random.number(),
-      Dislikes: faker.random.number(),
-      AccessPic:
-        'https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-      Location: [faker.random.number(), faker.random.number()],
+      numTimesUsed: faker.random.number(),
+      likes: faker.random.number(),
+      dislikes: faker.random.number(),
+      accessPic:
+        'https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+      //location: [faker.random.number(), faker.random.number()]
     });
   }
   return pics;
@@ -46,7 +46,7 @@ const makeGames = () => {
   for (let i = 0; i < 10; i++) {
     games.push({
       name: `game ${i}`,
-      time: new Date(),
+      time: new Date()
     });
   }
   return games;
@@ -58,7 +58,7 @@ const makeUsers = () => {
     users.push({
       email: `user${i}@email.com`,
       password: '123',
-      username: i,
+      username: i
     });
   }
   return users;
@@ -70,14 +70,14 @@ const makeScores = () => {
     scores.push({
       userId: Math.ceil(Math.random() * 10),
       gameId: Math.ceil(Math.random() * 10),
-      score: Math.floor(Math.random() * 100),
+      score: Math.floor(Math.random() * 100)
     });
   }
   return scores;
 };
 
 async function seed() {
-  await db.sync({ force: true });
+  await db.sync({force: true});
 
   const clues = await Clue.bulkCreate(makeClue());
   const pics = await Picture.bulkCreate(makePics());
