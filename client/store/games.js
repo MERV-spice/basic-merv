@@ -25,10 +25,7 @@ export const fetchGames = () => {
 export const addGameThunk = game => {
   return async dispatch => {
     try {
-      const {data} = await axios.post(
-        `https://${ngrokUrl}.ngrok.io/api/games`,
-        game
-      );
+      const {data} = await axios.post(`${url}/api/games`, game);
       return dispatch(addGame(data));
     } catch (err) {
       console.log(err);

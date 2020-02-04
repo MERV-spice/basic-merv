@@ -90,7 +90,7 @@ class MakeGame extends React.Component {
   // }
 
   goToCamera() {
-    Actions.makeClueCamera(img => this.setState({clueImg: img}));
+    Actions.makeClueCamera({fn: img => this.setState({clueImg: img})});
   }
 
   render() {
@@ -109,6 +109,7 @@ class MakeGame extends React.Component {
         {/* preexisting clues for this game */}
         {this.state.gameClues.length > 0 ? (
           <FlatList
+            keyExtractor={item => item.clueNum.toString()}
             data={this.state.gameClues}
             renderItem={clue => {
               clue = clue.item;
@@ -172,20 +173,19 @@ class MakeGame extends React.Component {
               />
               <Button title="Add Clue" onPress={this.addClue.bind(this)} />
             </React.Fragment>
-          ) : (
-            // if you are using a clue from the database
-            <React.Fragment>
-              <Text style={styles.newGameSubHeader}>
-                Clue {this.state.clueNum}:{' '}
-              </Text>
-              <Text style={styles.newGameText}>Clue Text: </Text>
-              <Text style={styles.newGameText}>Image: </Text>
-              <Button title="Select an Image" />
-              {/* popup with database images for selected clue, on select update state 
-                  with image id info*/}
-              <Button title="Add Clue" onPress={this.addClue.bind(this)} />
-            </React.Fragment>
-          )}
+          ) : // // if you are using a clue from the database
+          // <React.Fragment>
+          //   <Text style={styles.newGameSubHeader}>
+          //     Clue {this.state.clueNum}:{' '}
+          //   </Text>
+          //   <Text style={styles.newGameText}>Clue Text: </Text>
+          //   <Text style={styles.newGameText}>Image: </Text>
+          //   <Button title="Select an Image" />
+          //   {/* popup with database images for selected clue, on select update state
+          //       with image id info*/}
+          //   <Button title="Add Clue" onPress={this.addClue.bind(this)} />
+          // </React.Fragment>
+          null}
         </React.Fragment>
 
         {/* <Text style={styles.newGameText}>Start of Game: </Text>

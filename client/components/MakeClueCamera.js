@@ -4,10 +4,10 @@ import React, {Component} from 'react';
 import * as Permissions from 'expo-permissions';
 import {Camera} from 'expo-camera';
 import {View, TouchableOpacity, Image, Text} from 'react-native';
-import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 import axios from 'axios';
 import findCoordinates from './Gps';
-import ngrokUrl from '../ngrok';
+import url from '../ngrok';
 
 //make a gallery
 //how do you get the image from a snapshot
@@ -17,44 +17,31 @@ export default class CameraComp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasCameraPermission: null,
-      type: Camera.Constants.Type.back,
-      photo: {},
-      id: 0,
-      position: {}
+      type: Camera.Constants.Type.back
     };
+    this.position = {};
     this.upload = this.upload.bind(this);
     this.snapPhoto = this.snapPhoto.bind(this);
   }
 
   async componentDidMount() {
-    const {status} = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({hasCameraPermission: status === 'granted'});
-    findCoordinates(position => this.setState({position}));
+    await Permissions.askAsync(Permissions.CAMERA);
+    findCoordinates(position => (this.position = position));
   }
 
   async snapPhoto() {
     if (this.camera) {
       const options = {
-        quality: 1,
+        quality: 0.25,
         base64: true,
         fixOrientation: true,
         exif: true
       };
-      const newId = this.state.id++;
-      //const photo = photo.uri
-      await this.camera.takePictureAsync(options).then(photo => {
-        photo.exif.Orientation = 1;
-        this.setState({
-          photo: photo,
-          id: newId
-        });
-      });
-      this.upload(this.state.photo.base64); //photo.uri
-      await findCoordinates(position => this.setState({position}));
+      const photo = await this.camera.takePictureAsync(options);
+      photo.exif.Orientation = 1;
+      this.upload(photo.base64);
+      // await findCoordinates(position => this.setState({position}));
     }
-    // let photo = this.state.photo.uri;
-    // let id = this.state.id;
   }
 
   async upload(picBase64) {
@@ -71,19 +58,15 @@ export default class CameraComp extends Component {
     //pull URI, construct & submit obj)
     try {
       const res = await axios.post(serverUrl, formData);
-      const startIdx = res.request._response.indexOf(':') + 2;
-      const endIdx = res.request._response.indexOf(',') - 1;
-      const publicId = res.request._response.slice(startIdx, endIdx);
+      console.log('thanks', JSON.parse(res.request._response).public_id);
+      const publicId = JSON.parse(res.request._response).public_id;
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
-      const {data} = await axios.post(
-        `https://${ngrokUrl}.ngrok.io/api/images`,
-        {
-          url: imageUrl,
-          position: this.state.position,
-          compare: false
-        }
-      );
-      this.props.data(data);
+      const {data} = await axios.post(`${url}/api/images`, {
+        url: imageUrl,
+        position: this.state.position,
+        compare: false
+      });
+      this.props.fn(data);
     } catch (err) {
       console.error(err);
     }
@@ -139,14 +122,6 @@ export default class CameraComp extends Component {
             </TouchableOpacity>
           </View>
         </Camera>
-        {this.state.photo.base64 ? (
-          <Image
-            style={{width: 50, height: 50}}
-            source={{uri: `data:image/png;base64,${this.state.photo.base64}`}}
-          />
-        ) : (
-          <Text>You were wrong.</Text>
-        )}
       </View>
     );
   }
