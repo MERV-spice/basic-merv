@@ -7,7 +7,11 @@ import {View, TouchableOpacity, Image, Text, Button} from 'react-native';
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import axios from 'axios';
 import findCoordinates from './Gps';
-import ngrokUrl from '../client/ngrok';
+import url from '../client/ngrok';
+
+//make a gallery
+//how do you get the image from a snapshot
+// https://stackoverflow.com/questions/42521679/how-can-i-upload-a-photo-with-expo
 
 export default class CameraComp extends Component {
   constructor(props) {
@@ -16,11 +20,11 @@ export default class CameraComp extends Component {
       hasCameraPermission: null,
       type: Camera.Constants.Type.back,
       photo: {},
-      id: 0,
-      position: {}
+      id: 0
     };
     this.upload = this.upload.bind(this);
     this.snapPhoto = this.snapPhoto.bind(this);
+    this.position = {};
   }
 
   pressHandler = () => {
@@ -30,8 +34,7 @@ export default class CameraComp extends Component {
   async componentDidMount() {
     const {status} = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({hasCameraPermission: status === 'granted'});
-    findCoordinates(position => this.setState({position}));
-    // console.log('found coordinates', );
+    findCoordinates(position => (this.position = position));
   }
 
   async snapPhoto() {
@@ -51,14 +54,6 @@ export default class CameraComp extends Component {
 
   async upload(picBase64) {
     formData.append('file', 'data:image/png;base64,' + data);
-    try {
-      await axios.post(`https://${ngrokUrl}.ngrok.io/api/images`, {
-        url: imageUrl,
-        position: this.state.position
-      });
-    } catch (err) {
-      console.error(err);
-    }
   }
 
   render() {

@@ -1,17 +1,17 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {createLogger} from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import user from './user';
 import games from './games';
 
 const reducer = combineReducers({
-    user: user,
-    games: games,
+  user: user,
+  games: games
 });
 
 const middleware = applyMiddleware(
-  thunkMiddleware,
-//  createLogger({ collapsed: true })
+  thunkMiddleware
+  //  createLogger({ collapsed: true })
 );
 
 const store = createStore(reducer, middleware);
