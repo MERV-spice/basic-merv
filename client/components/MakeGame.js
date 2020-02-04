@@ -38,13 +38,13 @@ class MakeGame extends React.Component {
     this.setState({userId: /* how will we be storing userId? */ null});
   }
 
-  newClueText() {
-    this.setState({createClue: true});
-  }
+//   newClueText() {
+//     this.setState({createClue: true});
+//   }
 
-  selectFromClues() {
-    this.setState({createClue: false});
-  }
+//   selectFromClues() {
+//     this.setState({createClue: false});
+//   }
 
   addClue() {
     let newGameClues = this.state.gameClues.concat([
@@ -55,13 +55,12 @@ class MakeGame extends React.Component {
         clueAccessPic: this.state.clueImg.accessPic
       }
     ]);
-    this.setState({gameClues: newGameClues});
     this.setState({
+      gameClues: newGameClues, 
       clueNum: this.state.clueNum + 1,
       clueImg: {},
       clueText: '',
-      createClue: false
-    });
+      createClue: false});
   }
 
   addGame() {
@@ -137,11 +136,11 @@ class MakeGame extends React.Component {
         <React.Fragment>
           <Button
             title="Pick a Clue"
-            onPress={this.selectFromClues.bind(this)}
+            onPress={() => this.setState({createClue: false})}
           />
           <Button
             title="Create a New Clue"
-            onPress={this.newClueText.bind(this)}
+            onPress={() => this.setState({createClue: true})}
           />
           {this.state.createClue === null ? (
             <React.Fragment />
