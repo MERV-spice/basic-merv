@@ -27,7 +27,7 @@ class GameOver extends Component {
         {this.renderScores()}
         <Text>Time elapsed: null</Text>
         <Text>Number of Items Found: null</Text>
-        <Button title={'Play Again?'} style={styles.input} />
+        <Button title="Play Again?" style={styles.input} />
       </View>
     );
   }
@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#ecf0f1'
   },
   input: {
     width: 200,
@@ -61,6 +61,6 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
-    marginBottom: 10,
-  },
+    marginBottom: 10
+  }
 });

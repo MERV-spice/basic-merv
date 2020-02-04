@@ -8,10 +8,10 @@ const Game = require('./game');
 const Score = require('./score');
 
 Game.belongsToMany(Clue, {
-  through: 'GameClue',
+  through: 'GameClue'
 });
 Clue.belongsToMany(Game, {
-  through: 'GameClue',
+  through: 'GameClue'
 });
 
 User.belongsTo(Game);
@@ -31,10 +31,10 @@ Game.hasMany(Score);
 // });
 
 Picture.belongsToMany(Clue, {
-  through: CluePicture,
+  through: CluePicture
 });
 Clue.belongsToMany(Picture, {
-  through: CluePicture,
+  through: CluePicture
 });
 
 // Picture.belongsTo(User);
@@ -48,5 +48,5 @@ module.exports = {
   //Team,
   Game,
   Clue,
-  Score,
+  Score
 };

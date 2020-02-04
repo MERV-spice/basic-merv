@@ -8,8 +8,8 @@ class AuthForm extends Component {
     super(props);
 
     this.state = {
-      email: '',
-      password: ''
+      email: 'user0@email.com',
+      password: '123'
     };
   }
 
@@ -55,7 +55,10 @@ const mapDispatch = dispatch => {
     auth: (email, password) => dispatch(auth(email, password))
   };
 };
-export default (Login = connect(mapState, mapDispatch)(AuthForm));
+export default Login = connect(
+  mapState,
+  mapDispatch
+)(AuthForm);
 
 export const styles = StyleSheet.create({
   container: {
