@@ -31,7 +31,8 @@ router.post('/', async (req, res, next) => {
     const newClues = await Clue.bulkCreate(
       req.body.clues.map(clue => {
         return {text: clue.clueText};
-      })
+      }),
+      options.individualHooks === true
     );
     //bulkCreate by default does not run any hooks
     //bC takes second argument, to run the hooks for each model after

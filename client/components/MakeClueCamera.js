@@ -31,7 +31,6 @@ export default class CameraComp extends Component {
     const {status} = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({hasCameraPermission: status === 'granted'});
     findCoordinates(position => this.setState({position}));
-    // console.log(this.props);
   }
 
   async snapPhoto() {
@@ -42,25 +41,23 @@ export default class CameraComp extends Component {
         fixOrientation: true,
         exif: true
       };
+      const newId = this.state.id++;
       //const photo = photo.uri
       await this.camera.takePictureAsync(options).then(photo => {
         photo.exif.Orientation = 1;
         this.setState({
           photo: photo,
-          id: ++this.state.id
+          id: newId
         });
       });
       this.upload(this.state.photo.base64); //photo.uri
       await findCoordinates(position => this.setState({position}));
-      // console.log('position in location function', this.state.position);
-      // console.log(this.state.position);
     }
     // let photo = this.state.photo.uri;
     // let id = this.state.id;
   }
 
   async upload(picBase64) {
-    // console.log('upload state position', this.state.position);
     const serverUrl = 'https://api.cloudinary.com/v1_1/basic-merv/image/upload';
     const data = picBase64;
     let formData = new FormData();
@@ -86,7 +83,6 @@ export default class CameraComp extends Component {
           compare: false
         }
       );
-      console.log('data', data);
       this.props.data(data);
     } catch (err) {
       console.error(err);

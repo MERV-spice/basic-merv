@@ -3,7 +3,6 @@ const User = require('./user');
 const Picture = require('./picture');
 const CluePicture = require('./cluePicture');
 const Clue = require('./clue');
-const Location = require('./location');
 const Game = require('./game');
 
 Game.belongsToMany(Clue, {
@@ -34,7 +33,6 @@ Clue.belongsToMany(Picture, {
 // User.hasMany(Picture);
 
 module.exports = {
-  Location,
   Picture,
   User,
   CluePicture,

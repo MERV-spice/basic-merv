@@ -38,13 +38,13 @@ class MakeGame extends React.Component {
     this.setState({userId: /* how will we be storing userId? */ null});
   }
 
-//   newClueText() {
-//     this.setState({createClue: true});
-//   }
+  //   newClueText() {
+  //     this.setState({createClue: true});
+  //   }
 
-//   selectFromClues() {
-//     this.setState({createClue: false});
-//   }
+  //   selectFromClues() {
+  //     this.setState({createClue: false});
+  //   }
 
   addClue() {
     let newGameClues = this.state.gameClues.concat([
@@ -56,11 +56,12 @@ class MakeGame extends React.Component {
       }
     ]);
     this.setState({
-      gameClues: newGameClues, 
+      gameClues: newGameClues,
       clueNum: this.state.clueNum + 1,
       clueImg: {},
       clueText: '',
-      createClue: false});
+      createClue: false
+    });
   }
 
   addGame() {
@@ -73,14 +74,17 @@ class MakeGame extends React.Component {
   }
 
   // showDatePicker() {
+  //don't do it this way
   //   this.setState({setDatePickerVisibility: true});
   // }
 
   // hideDatePicker() {
+  //don't do it this way
   //   this.setState({setDatePickerVisibility: false});
   // }
 
   // handleConfirm(/*date*/) {
+  //don't do it this way
   //   // console.log('date: ', date);
   //   this.hideDatePicker();
   // }
@@ -90,7 +94,6 @@ class MakeGame extends React.Component {
   }
 
   render() {
-    console.log('this state clue img', this.state.clueImg);
     return (
       <View style={styles.container}>
         <Text style={styles.newGameHeader}>New Game </Text>
@@ -240,10 +243,7 @@ const mapDispatch = {
   addGameThunk
 };
 
-export default connect(
-  null,
-  mapDispatch
-)(MakeGame);
+export default connect(null, mapDispatch)(MakeGame);
 
 const styles = StyleSheet.create({
   container: {
