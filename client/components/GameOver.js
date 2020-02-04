@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
-import { Text, Button, View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
-import { fetchScores } from '../store/scores';
+import React, {Component} from 'react';
+import {Text, Button, View, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import {fetchScores} from '../store/scores';
 
 class GameOver extends Component {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    this.props.fetchScores(4);
+  async componentDidMount() {
+    await this.props.fetchScores(2);
   }
 
   renderScores() {
@@ -20,14 +17,19 @@ class GameOver extends Component {
   }
 
   render() {
+    const [userScore] = this.props.scores.filter(
+      scoreObj => scoreObj.userId === /*this.props.user.id*/ 1
+    );
     return (
       <View style={styles.container}>
         <Text>Good Job {this.props.user.username}!!!</Text>
         <Text>Leaderboard:</Text>
         {this.renderScores()}
-        <Text>Time elapsed: null</Text>
-        <Text>Number of Items Found: null</Text>
-        <Button title={'Play Again?'} style={styles.input} />
+        <Text>Your Score: {userScore ? userScore.score : null}</Text>
+        <Text>
+          Number of Items Found: {userScore ? userScore.itemsFound : null}
+        </Text>
+        <Button title="Play Again?" style={styles.input} />
       </View>
     );
   }
@@ -36,13 +38,13 @@ class GameOver extends Component {
 const mapState = state => {
   return {
     scores: state.scores,
-    user: state.user,
+    user: state.user
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    fetchScores: gameId => dispatch(fetchScores(gameId)),
+    fetchScores: gameId => dispatch(fetchScores(gameId))
   };
 };
 
@@ -53,7 +55,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#ecf0f1'
   },
   input: {
     width: 200,
@@ -61,6 +63,6 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
-    marginBottom: 10,
-  },
+    marginBottom: 10
+  }
 });

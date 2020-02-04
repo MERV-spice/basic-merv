@@ -9,10 +9,8 @@ const setScores = scores => ({type: SET_SCORES, scores});
 
 export const fetchScores = gameId => {
   return async dispatch => {
-    console.log('gameid----------------', gameId);
     try {
       const res = await axios.get(`${ngrokUrl}/api/score/${gameId}`);
-      console.log('IN THUNK', res);
       dispatch(setScores(res.data));
     } catch (err) {
       console.log(err);
