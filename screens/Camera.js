@@ -59,7 +59,6 @@ export default class CameraComp extends Component {
           break;
         }
       }
-      console.log(comp);
     }
   }
 

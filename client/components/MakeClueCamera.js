@@ -7,15 +7,15 @@ import {View, TouchableOpacity, Image, Text} from 'react-native';
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import axios from 'axios';
 import findCoordinates from './Gps';
-import url from '../ngrok';
+import ngrokUrl from '../ngrok';
 
 //make a gallery
 //how do you get the image from a snapshot
 // https://stackoverflow.com/questions/42521679/how-can-i-upload-a-photo-with-expo
 
 export default class CameraComp extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       hasCameraPermission: null,
       type: Camera.Constants.Type.back,
@@ -31,7 +31,7 @@ export default class CameraComp extends Component {
     const {status} = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({hasCameraPermission: status === 'granted'});
     findCoordinates(position => this.setState({position}));
-    // console.log('found coordinates', );
+    // console.log(this.props);
   }
 
   async snapPhoto() {
@@ -42,6 +42,7 @@ export default class CameraComp extends Component {
         fixOrientation: true,
         exif: true
       };
+      //const photo = photo.uri
       await this.camera.takePictureAsync(options).then(photo => {
         photo.exif.Orientation = 1;
         this.setState({
@@ -49,8 +50,10 @@ export default class CameraComp extends Component {
           id: ++this.state.id
         });
       });
-      this.upload(this.state.photo.base64);
+      this.upload(this.state.photo.base64); //photo.uri
       await findCoordinates(position => this.setState({position}));
+      // console.log('position in location function', this.state.position);
+      // console.log(this.state.position);
     }
     // let photo = this.state.photo.uri;
     // let id = this.state.id;
@@ -64,17 +67,27 @@ export default class CameraComp extends Component {
     formData.append('file', 'data:image/png;base64,' + data);
     formData.append('upload_preset', 'jb7k5twx');
     // console.log('upload recording to ' + serverUrl);
+    //building a network request that has the raw data
+    //smaller file size to start with (photo.uri)
+    //changing upload strategy is a last resort
+    //instead of the formData, create an analogous object (get photo,
+    //pull URI, construct & submit obj)
     try {
       const res = await axios.post(serverUrl, formData);
       const startIdx = res.request._response.indexOf(':') + 2;
       const endIdx = res.request._response.indexOf(',') - 1;
       const publicId = res.request._response.slice(startIdx, endIdx);
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
-      // console.log('state?', this.state)
-      await axios.post(`${url}/api/images`, {
-        url: imageUrl,
-        position: this.state.position
-      });
+      const {data} = await axios.post(
+        `https://${ngrokUrl}.ngrok.io/api/images`,
+        {
+          url: imageUrl,
+          position: this.state.position,
+          compare: false
+        }
+      );
+      console.log('data', data);
+      this.props.data(data);
     } catch (err) {
       console.error(err);
     }
@@ -97,30 +110,29 @@ export default class CameraComp extends Component {
               flexDirection: 'row'
             }}
           >
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{
                 flex: 0.3,
                 alignSelf: 'flex-end',
-                alignItems: 'center'
+                alignItems: 'center',
               }}
               onPress={() => {
                 this.setState({
                   type:
                     this.state.type === Camera.Constants.Type.back
                       ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back
+                      : Camera.Constants.Type.back,
                 });
-                this.upload(this.state.photo.base64);
               }}
             >
               <Ionicons color="white" size={64} name="ios-reverse-camera" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={this.snapPhoto.bind(this)}
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',
-                marginLeft: 60
+                marginLeft: 100
               }}
             >
               <MaterialCommunityIcons

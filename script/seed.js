@@ -75,9 +75,7 @@ async function seed() {
 
   console.log(`seeded ${clues.length} clues`);
   console.log(
-    `seeded ${
-      pics.length
-    } pictures-- static url, these are all the same picture`
+    `seeded ${pics.length} pictures-- static url, these are all the same picture`
   );
   console.log(`seeded ${games.length} games`);
   console.log(`seeded ${users.length} users`);
