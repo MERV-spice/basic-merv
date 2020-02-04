@@ -17,7 +17,7 @@ class GameOver extends Component {
         <Text>3...</Text>
         <Text>Time elapsed: null</Text>
         <Text>Number of Items Found: null</Text>
-        <Button title={'Play Again?'} style={styles.input} />
+        <Button title="Play Again?" style={styles.input} />
       </View>
     );
   }
