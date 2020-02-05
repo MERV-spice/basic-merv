@@ -2,14 +2,14 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import Camera from '../screens/Camera';
-import CluePage from '../screens/CluePage';
-import GamesPage from '../screens/GamesPage';
-import GameOver from '../screens/GameOver';
 import {createStackNavigator} from 'react-navigation-stack';
+import CluePage from '../screens/CluePage';
+import GameOver from '../screens/GameOver';
+import Scene from '../screens/Scene';
 
 const screens = {
   GamesPage: {
-    screen: GamesPage,
+    screen: Scene,
     navigationOptions: {
       tabBarLabel: 'GamesPage'
     }
