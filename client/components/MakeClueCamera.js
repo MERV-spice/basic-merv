@@ -1,4 +1,4 @@
-// // https://snack.expo.io/@charliecruzan/camerja  <--- Resource for camera info and largely where we sourced our code from
+// // https://snack.expo.io/@charliecruzan/camerja  <--- Resource for camera
 
 import React, {Component} from 'react';
 import * as Permissions from 'expo-permissions';
@@ -9,8 +9,7 @@ import axios from 'axios';
 import {findCoordinates} from '../helperFunctions';
 import url from '../ngrok';
 
-//make a gallery
-//how do you get the image from a snapshot
+//accessing image from a snapshot (/gallery)
 // https://stackoverflow.com/questions/42521679/how-can-i-upload-a-photo-with-expo
 
 export default class CameraComp extends Component {
@@ -49,11 +48,6 @@ export default class CameraComp extends Component {
     let formData = new FormData();
     formData.append('file', 'data:image/png;base64,' + data);
     formData.append('upload_preset', 'jb7k5twx');
-    //building a network request that has the raw data
-    //smaller file size to start with (photo.uri)
-    //changing upload strategy is a last resort
-    //instead of the formData, create an analogous object (get photo,
-    //pull URI, construct & submit obj)
     try {
       const res = await axios.post(serverUrl, formData);
       const publicId = JSON.parse(res.request._response).public_id;
@@ -86,6 +80,7 @@ export default class CameraComp extends Component {
               flexDirection: 'row'
             }}
           >
+            {/* If we decide to make a reverse camera button on make clue camera */}
             {/* <TouchableOpacity
               style={{
                 flex: 0.3,
