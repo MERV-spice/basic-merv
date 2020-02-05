@@ -22,6 +22,7 @@ const CluePage = props => {
   const id = 'sky';
 
   const pressHandler = () => {
+    console.log('nav');
     props.navigation.navigate('Camera', {
       setScore,
       id

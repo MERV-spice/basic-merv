@@ -20,7 +20,7 @@ export default class CameraComp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: Camera.Constants.Type.back,
+      type: Camera.Constants.Type.back
     };
     this.snapPhoto = this.snapPhoto.bind(this);
     this.position = {};
@@ -35,7 +35,7 @@ export default class CameraComp extends Component {
     findCoordinates(position => (this.position = position));
   }
 
-async snapPhoto() {
+  async snapPhoto() {
     if (this.camera) {
       const options = {
         quality: 0.25,
@@ -50,13 +50,16 @@ async snapPhoto() {
 
       const comparison = await compare(photo.base64);
       let comp;
+      console.log(this.props.navigation);
       for (let i = 0; i < comparison.hits.length; i++) {
-        if (comparison.hits[i].input.id === this.props.navigation.state.params.id) {
+        if (
+          comparison.hits[i].input.id === this.props.navigation.state.params.id
+        ) {
           comp = comparison.hits[i].score;
           break;
         }
       }
-      this.props.navigation.state.params.setScore(comp)
+      this.props.navigation.state.params.setScore(comp);
     }
   }
 
@@ -109,14 +112,6 @@ async snapPhoto() {
             </TouchableOpacity>
           </View>
         </Camera>
-        {this.state.photo.base64 ? (
-          <Image
-            style={{width: 50, height: 50}}
-            source={{uri: `data:image/png;base64,${this.state.photo.base64}`}}
-          />
-        ) : (
-          <Text>You were wrong.</Text>
-        )}
       </View>
     );
   }
