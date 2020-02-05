@@ -30,24 +30,34 @@ const CluePage = props => {
   const thenFun = () => {
     setScore(0);
     props.currentCluePlus(props.user);
+    console.log('in thenfun');
     setHint(0);
   };
+
   if (score > 0.7) thenFun();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.currClueTitle}>Clue: </Text>
-      <Image
-        style={{width: 200, height: 200}}
-        source={{uri: clues[currentClue].pictures[0].accessPic}}
-      />
-      <Text style={styles.currClueText}>Clue :{clues[currentClue].text}</Text>
-      {!hint ? (
-        <Button title="Show Hint" onPress={() => setHint(1)} />
+      {currentClue < clues.length ? (
+        <React.Fragment>
+          <Text style={styles.currClueTitle}>Clue: </Text>
+          <Image
+            style={{width: 200, height: 200}}
+            source={{uri: clues[currentClue].pictures[0].accessPic}}
+          />
+          <Text style={styles.currClueText}>
+            Clue :{clues[currentClue].text}
+          </Text>
+          {!hint ? (
+            <Button title="Show Hint" onPress={() => setHint(1)} />
+          ) : (
+            <Text>Hint: {clues[currentClue].hint}</Text>
+          )}
+          <Button title="I found it!" onPress={pressHandler} />
+        </React.Fragment>
       ) : (
-        <Text>Hint: {clues[currentClue].hint}</Text>
+        <React.Fragment>{props.navigation.navigate('GameOver')}</React.Fragment>
       )}
-      <Button title="I found it!" onPress={pressHandler} />
     </View>
   );
 };

@@ -27,7 +27,7 @@ export default class CameraComp extends Component {
   }
 
   pressHandler = () => {
-    this.props.navigation.navigate('CluePage');
+    this.props.navigation.navigate('GameOver');
   };
 
   async componentDidMount() {
@@ -58,7 +58,6 @@ export default class CameraComp extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Button title="go to clue" onPress={this.pressHandler} />
         <Camera
           style={{flex: 1}}
           ref={ref => (this.camera = ref)}
