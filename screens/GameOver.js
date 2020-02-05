@@ -8,6 +8,7 @@ class GameOver extends Component {
     super(props);
     this.pressHandler = this.pressHandler.bind(this);
   }
+  //if you press new game, thunks the clue reset to reset your clueCount to zero and takes you to the GamePage
   pressHandler() {
     this.props.currentClueReset(this.props.user);
     this.props.navigation.navigate('GamesPage');
@@ -17,9 +18,10 @@ class GameOver extends Component {
     console.log('in game over render ', this.props.user.id);
     return (
       <View style={styles.container}>
-        <Text>Good Job {user.name}!!!</Text>
+        <Text>Good Job: {user.email}!!!</Text>
         <Text>Leaderboard:</Text>
-        <Text>1...</Text>
+        <Text>1...</Text>{' '}
+        {/*props.user.game.highestscore.idk.how.this.will.work*/}
         <Text>2...</Text>
         <Text>3...</Text>
         <Text>Time elapsed: null</Text>

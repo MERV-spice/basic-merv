@@ -65,7 +65,6 @@ export default class CameraComp extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Button title="go to gameOver" onPress={this.pressHandler} />
         <Camera
           style={{flex: 1}}
           ref={ref => (this.camera = ref)}
@@ -111,14 +110,6 @@ export default class CameraComp extends Component {
             </TouchableOpacity>
           </View>
         </Camera>
-        {this.state.photo.base64 ? (
-          <Image
-            style={{width: 50, height: 50}}
-            source={{uri: `data:image/png;base64,${this.state.photo.base64}`}}
-          />
-        ) : (
-          <Text>You were wrong.</Text>
-        )}
       </View>
     );
   }
