@@ -18,13 +18,12 @@ const CluePage = props => {
 
   const [score, setScore] = useState(0);
   const [hint, setHint] = useState(0);
-
-  const id = 'sky';
-
+  console.log(clues[currentClue].pictures[0].id);
   const pressHandler = () => {
+    console.log('nav');
     props.navigation.navigate('Camera', {
       setScore,
-      id
+      id: clues[currentClue].pictures[0].id
     });
   };
 

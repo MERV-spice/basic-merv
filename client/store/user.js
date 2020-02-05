@@ -1,6 +1,6 @@
 import axios from 'axios';
 import url from '../ngrok';
-import {resetGame} from './games';
+import {fetchGames} from './games';
 
 const SIGN_UP = 'SIGN_UP';
 const GET_USER = 'GET_USER';
@@ -78,7 +78,7 @@ export const joinGame = (gameId, userId) => async dispatch => {
       userId
     });
     dispatch(setGame(data));
-    dispatch(resetGame(data));
+    dispatch(fetchGames());
   } catch (err) {
     console.error(err);
   }
