@@ -1,3 +1,3 @@
-const ngrokUrl = '94ba5961';
+const ngrokUrl = '7458dc57';
 
 export default `https://${ngrokUrl}.ngrok.io`;
