@@ -1,6 +1,17 @@
 const router = require('express').Router();
-const {Clue} = require('../db/models');
+const {Clue, Picture} = require('../db/models');
 module.exports = router;
+
+router.get('/', async (req, res, next) => {
+  try {
+    let clues = await Clue.findAll({
+      include: [Picture]
+    });
+    res.json(clues);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post('/', async (req, res, next) => {
   try {
