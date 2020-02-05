@@ -14,7 +14,7 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel
 } from 'react-native-simple-radio-button';
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {Actions} from 'react-native-router-flux';
 import {addGameThunk} from '../store/games';
 import {fetchClues} from '../store/clues';
@@ -34,6 +34,18 @@ class MakeGame extends React.Component {
       clueText: '',
       clueHint: '',
       createClue: null,
+      monthText: null,
+      dayText: null,
+      yearText: null,
+      hourText: null,
+      minuteText: null,
+      meridiem: null,
+      endMonthText: null,
+      endDayText: null,
+      endYearText: null,
+      endHourText: null,
+      endMinuteText: null,
+      endMeridiem: null,
       startGame: null,
       endGame: null,
       private: false,
@@ -117,18 +129,54 @@ class MakeGame extends React.Component {
     }
   }
 
+  setTimeParams(
+    year,
+    month,
+    day,
+    hour,
+    minute,
+    meridiem,
+    endYear,
+    endMonth,
+    endDay,
+    endHour,
+    endMinute,
+    endMeridiem
+  ) {
+    let startDate;
+    let endDate;
+    if (meridiem.toLowerCase() === 'a') {
+      startDate = new Date(year, month, day, hour, minute, 0, 0);
+    } else if (meridiem.toLowerCase() === 'p') {
+      startDate = new Date(year, month, day, hour + 12, minute, 0, 0);
+    }
+    if (meridiem.toLowerCase() === 'a') {
+      endDate = new Date(endYear, endMonth, endDay, endHour, endMinute, 0, 0);
+    } else if (meridiem.toLowerCase() === 'p') {
+      endDate = new Date(
+        endYear,
+        endMonth,
+        endDay,
+        endHour + 12,
+        endMinute,
+        0,
+        0
+      );
+    }
+    this.setState({startDate, endDate});
+  }
   // showDatePicker() {
-  //don't do it this way
+  // // don't do it this way
   //   this.setState({setDatePickerVisibility: true});
   // }
 
   // hideDatePicker() {
-  //don't do it this way
+  // // don't do it this way
   //   this.setState({setDatePickerVisibility: false});
   // }
 
   // handleConfirm(/*date*/) {
-  //don't do it this way
+  // // don't do it this way
   //   // console.log('date: ', date);
   //   this.hideDatePicker();
   // }
@@ -258,38 +306,157 @@ class MakeGame extends React.Component {
             ) : // // if you are using a clue from the database all changes on overlay
             null}
           </React.Fragment>
+          <Text style={styles.newGameText}>Game Start: </Text>
+          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+            <Text style={styles.newGameText}>Date: </Text>
+            <TextInput
+              style={{
+                height: 30,
+                width: 35,
+                borderColor: 'gray',
+                borderWidth: 1
+              }}
+              value={this.state.monthText}
+              onChangeText={monthText => this.setState({monthText})}
+            />
+            <Text style={styles.newGameText}> / </Text>
+            <TextInput
+              style={{
+                height: 30,
+                width: 35,
+                borderColor: 'gray',
+                borderWidth: 1
+              }}
+              value={this.state.dayText}
+              onChangeText={dayText => this.setState({dayText})}
+            />
+            <Text style={styles.newGameText}> / </Text>
+            <TextInput
+              style={{
+                height: 30,
+                width: 60,
+                borderColor: 'gray',
+                borderWidth: 1
+              }}
+              value={this.state.yearText}
+              onChangeText={yearText => this.setState({yearText})}
+            />
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+            <Text style={styles.newGameText}>Time: </Text>
+            <View style={{flexDirection: 'row'}}>
+              <TextInput
+                style={{
+                  height: 30,
+                  width: 35,
+                  borderColor: 'gray',
+                  borderWidth: 1
+                }}
+                value={this.state.hourText}
+                onChangeText={hourText => this.setState({hourText})}
+              />
+              <Text style={styles.newGameText}> : </Text>
+              <TextInput
+                style={{
+                  height: 30,
+                  width: 35,
+                  borderColor: 'gray',
+                  borderWidth: 1
+                }}
+                value={this.state.minuteText}
+                onChangeText={minuteText => this.setState({minuteText})}
+              />
+              <Text style={styles.newGameText}> </Text>
+              <TextInput
+                style={{
+                  height: 30,
+                  width: 20,
+                  borderColor: 'gray',
+                  borderWidth: 1
+                }}
+                value={this.state.meridiem}
+                onChangeText={meridiem => this.setState({meridiem})}
+              />
+              <Text style={styles.newGameText}>M</Text>
+            </View>
+          </View>
 
-          {/* <Text style={styles.newGameText}>Start of Game: </Text>
-              <Button title="Show Date Picker" onPress={this.showDatePicker.bind(this)} />
-                <DateTimePickerModal
-                  isVisible={this.state.isDatePickerVisible}
-                  mode="date"
-                  onConfirm={this.handleConfirm.bind(this)}
-                  onCancel={this.hideDatePicker.bind(this)}
-                />
-                  <DateTimePickerModal
-                  isVisible={this.state.isDatePickerVisible}
-                  mode="time"
-                  onConfirm={this.handleConfirm.bind(this)}
-                  onCancel={this.hideDatePicker.bind(this)}
-                />
-              <Text style={styles.newGameText}>End of Game: </Text> */}
-          {/* How to make an input that specifically represents hours/days/weeks as units of 
-              time. Will this be two dropdowns, one to say number and one to say units? */}
-          {/* <DateTimePickerModal
-                  isVisible={this.state.isDatePickerVisible}
-                  mode="date"
-                  onConfirm={this.handleConfirm.bind(this)}
-                  onCancel={this.hideDatePicker.bind(this)}
-                />
-                  <DateTimePickerModal
-                  isVisible={this.state.isDatePickerVisible}
-                  mode="time"
-                  onConfirm={this.handleConfirm.bind(this)}
-                  onCancel={this.hideDatePicker.bind(this)}
-                /> */}
+          <Text style={styles.newGameText}>Game End: </Text>
+          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+            <Text style={styles.newGameText}>Date: </Text>
+            <TextInput
+              style={{
+                height: 30,
+                width: 35,
+                borderColor: 'gray',
+                borderWidth: 1
+              }}
+              value={this.state.endMonthText}
+              onChangeText={endMonthText => this.setState({endMonthText})}
+            />
+            <Text style={styles.newGameText}> / </Text>
+            <TextInput
+              style={{
+                height: 30,
+                width: 35,
+                borderColor: 'gray',
+                borderWidth: 1
+              }}
+              value={this.state.endDayText}
+              onChangeText={endDayText => this.setState({endDayText})}
+            />
+            <Text style={styles.newGameText}> / </Text>
+            <TextInput
+              style={{
+                height: 30,
+                width: 60,
+                borderColor: 'gray',
+                borderWidth: 1
+              }}
+              value={this.state.endYearText}
+              onChangeText={endYearText => this.setState({endYearText})}
+            />
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+            <Text style={styles.newGameText}>Time: </Text>
+            <View style={{flexDirection: 'row'}}>
+              <TextInput
+                style={{
+                  height: 30,
+                  width: 35,
+                  borderColor: 'gray',
+                  borderWidth: 1
+                }}
+                value={this.state.endHourText}
+                onChangeText={endHourText => this.setState({endHourText})}
+              />
+              <Text style={styles.newGameText}> : </Text>
+              <TextInput
+                style={{
+                  height: 30,
+                  width: 35,
+                  borderColor: 'gray',
+                  borderWidth: 1
+                }}
+                value={this.state.endMinuteText}
+                onChangeText={endMinuteText => this.setState({endMinuteText})}
+              />
+              <Text style={styles.newGameText}> </Text>
+              <TextInput
+                style={{
+                  height: 30,
+                  width: 20,
+                  borderColor: 'gray',
+                  borderWidth: 1
+                }}
+                value={this.state.endMeridiem}
+                onChangeText={endMeridiem => this.setState({endMeridiem})}
+              />
+              <Text style={styles.newGameText}>M</Text>
+            </View>
+          </View>
           {/* https://github.com/mmazzarolo/react-native-modal-datetime-picker 
-                <---- link to github for troubleshooting date/time picker */}
+                <---- link to github for date/time picker, if we have time */}
           {/* https://github.com/moschan/react-native-simple-radio-button <--- info about radio 
                 buttons github */}
           <Text style={styles.newGameText}>This game will be: </Text>
