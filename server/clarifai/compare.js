@@ -22,8 +22,6 @@ const input = async (url, id) => {
   }
 };
 
-input(cloud, 'cloud');
-
 const compare = async (base64, id) => {
   try {
     const ret = await clarifaiApp.inputs.search({
