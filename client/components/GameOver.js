@@ -6,6 +6,8 @@ import {fetchScores} from '../store/scores';
 class GameOver extends Component {
   async componentDidMount() {
     await this.props.fetchScores(2);
+    console.log(new Date());
+    console.log(this.props.scores[0].game.time);
   }
 
   renderScores() {
