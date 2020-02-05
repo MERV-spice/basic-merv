@@ -7,8 +7,8 @@ export default function App() {
   return (
     <React.Fragment>
       <Provider store={store}>
-        {/* <GameOver /> */}
-        <Route />
+        <GameOver />
+        {/* <Route /> */}
       </Provider>
     </React.Fragment>
   );
