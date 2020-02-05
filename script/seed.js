@@ -70,7 +70,8 @@ const makeScores = () => {
     scores.push({
       userId: Math.ceil(Math.random() * 10),
       gameId: Math.ceil(Math.random() * 10),
-      score: Math.floor(Math.random() * 100)
+      score: Math.floor(Math.random() * 100),
+      itemsFound: Math.floor(Math.random() * 10)
     });
   }
   return scores;

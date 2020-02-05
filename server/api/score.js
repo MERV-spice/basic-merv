@@ -1,19 +1,18 @@
 const router = require('express').Router();
-const {Score, User} = require('../db/models');
+const {Score, User, Game} = require('../db/models');
 module.exports = router;
 
 router.get('/:gameId', async (req, res, next) => {
-  console.log('IN ROUTE', req.params);
   try {
     const scores = await Score.findAll({
-      include: [{model: User}],
+      include: [{model: User}, {model: Game}],
       where: {
         gameId: req.params.gameId
       },
-      order: [['score', 'DESC']],
-      limit: 5
+      order: [['score', 'DESC']]
+      // limit: 5
     });
-    console.log('RES.JSON', scores.map(score => score.dataValues));
+    console.log(scores);
     res.json(scores);
   } catch (err) {
     next(err);
