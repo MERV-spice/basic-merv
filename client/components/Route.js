@@ -1,5 +1,5 @@
 import React from 'react';
-import Navigator from '../../routes/tab';
+import Navigator from '../routes/tab';
 import Login from './Login';
 import {connect} from 'react-redux';
 

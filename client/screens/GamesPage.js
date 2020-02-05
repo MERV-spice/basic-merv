@@ -2,8 +2,8 @@ import React from 'react';
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import {ListItem, Overlay, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {fetchGames} from '../client/store/games';
-import {joinGame} from '../client/store/user';
+import {fetchGames} from '../store/games';
+import {joinGame} from '../store/user';
 import {Actions} from 'react-native-router-flux';
 
 const GamesPage = ({setGames, games, joinGame, userId}) => {
