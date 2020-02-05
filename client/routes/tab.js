@@ -11,6 +11,7 @@ const screens = {
   GamesPage: {
     screen: Scene,
     navigationOptions: {
+      headerShown: false,
       tabBarLabel: 'GamesPage'
     }
   },
@@ -25,11 +26,14 @@ const screens = {
 const tab = createBottomTabNavigator(screens, {
   tabBarOptions: {
     visible: false
+  },
+  navigationOptions: {
+    headerShown: false
   }
 });
 
 const appCon = createStackNavigator({
-  tabs: tab,
+  Home: tab,
   Camera: {
     screen: Camera,
     navigationOptions: {
