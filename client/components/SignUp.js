@@ -64,10 +64,7 @@ const mapDispatch = dispatch => {
   };
 };
 
-export default connect(
-  mapState,
-  mapDispatch
-)(SignUp);
+export default connect(mapState, mapDispatch)(SignUp);
 
 export const styles = StyleSheet.create({
   container: {

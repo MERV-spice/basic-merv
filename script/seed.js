@@ -70,7 +70,8 @@ const makeScores = () => {
     scores.push({
       userId: Math.ceil(Math.random() * 10),
       gameId: Math.ceil(Math.random() * 10),
-      score: Math.floor(Math.random() * 100)
+      score: Math.floor(Math.random() * 100),
+      itemsFound: Math.floor(Math.random() * 10)
     });
   }
   return scores;
@@ -104,7 +105,9 @@ async function seed() {
 
   console.log(`seeded ${clues.length} clues`);
   console.log(
-    `seeded ${pics.length} pictures-- static url, these are all the same picture`
+    `seeded ${
+      pics.length
+    } pictures-- static url, these are all the same picture`
   );
   console.log(`seeded ${games.length} games`);
   console.log(`seeded ${users.length} users`);
