@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import {ListItem, Overlay, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {fetchGames} from '../client/store/games';
-import {joinGame} from '../client/store/user';
+import {fetchGames} from '../store/games';
+import {joinGame} from '../store/user';
+import {Actions} from 'react-native-router-flux';
 
 const GamesPage = ({setGames, games, joinGame, userId}) => {
   React.useEffect(() => {
@@ -17,6 +18,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
 
   return (
     <View style={styles.container}>
+      <Button onPress={() => Actions.makeGame()} title="Make Game" />
       <Text style={styles.currGamesTitle}>Current Games</Text>
       <FlatList
         data={games}
@@ -118,7 +120,4 @@ const mapDispatch = dispatch => ({
   joinGame: (gameId, userId) => dispatch(joinGame(gameId, userId))
 });
 
-export default connect(
-  mapState,
-  mapDispatch
-)(GamesPage);
+export default connect(mapState, mapDispatch)(GamesPage);

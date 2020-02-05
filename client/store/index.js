@@ -4,11 +4,13 @@ import thunkMiddleware from 'redux-thunk';
 import user from './user';
 import games from './games';
 import clues from './clues';
+import scores from './scores';
 
 const reducer = combineReducers({
   user: user,
   games: games,
-  clues: clues
+  clues: clues,
+  scores: scores
 });
 
 const middleware = applyMiddleware(

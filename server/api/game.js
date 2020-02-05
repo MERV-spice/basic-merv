@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const {Game, Clue, User, Picture} = require('../db/models');
+const {input} = require('../clarifai/compare');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -30,12 +31,16 @@ router.post('/', async (req, res, next) => {
     await Promise.all(
       req.body.clues.map(async clue => {
         const newClue = await Clue.create({text: clue.clueText});
-        await newClue.addPicture(await Picture.findByPk(clue.clueImgId));
+        const picture = await Picture.findByPk(clue.clueImgId);
+        await input(picture.accessPic, picture.id.toString());
+        await newClue.addPicture(picture);
         return newClue.addGame(newGame);
       })
     );
 
-    const game = await Game.findByPk(newGame.id);
+    const game = await Game.findByPk(newGame.id, {
+      include: [User, {model: Clue, include: [Picture]}]
+    });
     res.json(game);
   } catch (err) {
     next(err);

@@ -6,7 +6,7 @@ import {Camera} from 'expo-camera';
 import {View, TouchableOpacity, Image, Text} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import axios from 'axios';
-import findCoordinates from './Gps';
+import {findCoordinates} from '../helperFunctions';
 import url from '../ngrok';
 
 //accessing image from a snapshot (/gallery)
@@ -39,7 +39,6 @@ export default class CameraComp extends Component {
       const photo = await this.camera.takePictureAsync(options);
       photo.exif.Orientation = 1;
       this.upload(photo.base64);
-      // await findCoordinates(position => this.setState({position}));
     }
   }
 

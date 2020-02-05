@@ -4,6 +4,7 @@ const Picture = require('./picture');
 const CluePicture = require('./cluePicture');
 const Clue = require('./clue');
 const Game = require('./game');
+const Score = require('./score');
 
 Game.belongsToMany(Clue, {
   through: 'GameClue'
@@ -14,6 +15,12 @@ Clue.belongsToMany(Game, {
 
 User.belongsTo(Game);
 Game.hasMany(User);
+
+Score.belongsTo(User);
+User.hasMany(Score);
+
+Score.belongsTo(Game);
+Game.hasMany(Score);
 
 // User.belongsToMany(Team, {
 //   through: 'UserTeam'
@@ -38,5 +45,6 @@ module.exports = {
   CluePicture,
   //Team,
   Game,
-  Clue
+  Clue,
+  Score
 };
