@@ -8,17 +8,36 @@ const testerStat =
 const test = 'https://i.ibb.co/17Nm9qv/IMG-20200130-114332812.jpg';
 const test2 = 'https://i.ibb.co/FKJJ8QJ/IMG-20200204-105614754.jpg';
 
-const compare = async matchUrl => {
+const input = async (url, id) => {
   try {
-    const ret = await clarifaiApp.inputs.search({
-      input: {
-        base64: matchUrl
-      }
+    console.log('in');
+    await clarifaiApp.inputs.create({
+      url: url,
+      id: id
     });
-    return ret;
+    console.log('out');
   } catch (err) {
     console.error(err);
   }
 };
 
-module.exports = compare;
+const compare = async (base64, id) => {
+  try {
+    const ret = await clarifaiApp.inputs.search({
+      input: {
+        base64
+      }
+    });
+    console.log(ret.hits);
+
+    for (let i = 0; i < ret.hits.length; i++) {
+      if (ret.hits[i].input.id === id) {
+        return ret.hits[i].score;
+      }
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+module.exports = {compare, input};

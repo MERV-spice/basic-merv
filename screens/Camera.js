@@ -7,7 +7,7 @@ import {View, TouchableOpacity, Image, Text, Button} from 'react-native';
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import axios from 'axios';
 
-import compare from '../server/clarifai/compare';
+import {compare} from '../server/clarifai/compare';
 
 import findCoordinates from './Gps';
 import url from '../client/ngrok';
@@ -37,6 +37,7 @@ export default class CameraComp extends Component {
 
   async snapPhoto() {
     if (this.camera) {
+      const {id, setScore} = this.props.navigation.state.params;
       const options = {
         quality: 0.25,
         base64: true,
@@ -47,19 +48,10 @@ export default class CameraComp extends Component {
       const photo = await this.camera.takePictureAsync(options);
       photo.exif.Orientation = 1;
       await findCoordinates(position => (this.position = position));
-
-      const comparison = await compare(photo.base64);
-      let comp;
-      console.log(this.props.navigation);
-      for (let i = 0; i < comparison.hits.length; i++) {
-        if (
-          comparison.hits[i].input.id === this.props.navigation.state.params.id
-        ) {
-          comp = comparison.hits[i].score;
-          break;
-        }
-      }
-      this.props.navigation.state.params.setScore(comp);
+      console.log(compare);
+      const comparison = await compare(photo.base64, id);
+      console.log('comp', comparison);
+      setScore(comparison);
     }
   }
 
