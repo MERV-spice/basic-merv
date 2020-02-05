@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import {useState} from 'react';
 import {connect} from 'react-redux';
-import {currentCluePlus} from '../client/store/user';
-import {fetchGames} from '../client/store/games';
+import {currentCluePlus} from '../store/user';
+import {fetchGames} from '../store/games';
 
 const CluePage = props => {
   const clues = props.user.game.clues;

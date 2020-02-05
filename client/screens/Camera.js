@@ -7,10 +7,10 @@ import {View, TouchableOpacity, Image, Text, Button} from 'react-native';
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import axios from 'axios';
 
-import {compare} from '../server/clarifai/compare';
+import {compare} from '../../server/clarifai/compare';
 
-import findCoordinates from './Gps';
-import url from '../client/ngrok';
+import {findCoordinates} from '../helperFunctions';
+import url from '../ngrok';
 
 //make a gallery
 //how do you get the image from a snapshot

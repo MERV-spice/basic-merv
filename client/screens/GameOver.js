@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, Button, View, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
-import {currentClueReset} from '../client/store/user';
+import {currentClueReset} from '../store/user';
 
 class GameOver extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class GameOver extends Component {
       <View style={styles.container}>
         <Text>Good Job: {user.email}!!!</Text>
         <Text>Leaderboard:</Text>
-        <Text>1...</Text>{' '}
+        <Text>1...</Text>
         {/*props.user.game.highestscore.idk.how.this.will.work*/}
         <Text>2...</Text>
         <Text>3...</Text>
