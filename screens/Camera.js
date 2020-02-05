@@ -32,6 +32,7 @@ export default class CameraComp extends Component {
 
   async componentDidMount() {
     const {status} = await Permissions.askAsync(Permissions.CAMERA);
+    console.log('in camera comp');
     this.setState({hasCameraPermission: status === 'granted'});
     findCoordinates(position => this.setState({position}));
     // console.log('found coordinates', );

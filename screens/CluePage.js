@@ -38,7 +38,7 @@ const CluePage = props => {
     console.log(clues.length, 'in cluepage');
     props.navigation.navigate('GameOver');
   }
-  score > 0.7 ? thenFun() : console.log('in else');
+  score > 0.7 ? thenFun() : console.log('score less than .7');
   return (
     <View style={styles.container}>
       {currentClue < clues.length ? (

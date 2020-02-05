@@ -6,22 +6,26 @@ import {currentClueReset} from '../client/store/user';
 class GameOver extends Component {
   constructor(props) {
     super(props);
+    this.pressHandler = this.pressHandler.bind(this);
   }
   pressHandler() {
-    currentClueReset(props.user);
+    this.props.currentClueReset(this.props.user);
+    this.props.navigation.navigate('GamesPage');
   }
   render() {
+    const user = this.props.user;
+    console.log('in game over render ', this.props.user.id);
     return (
       <View style={styles.container}>
-        <Text>Good Job null!!!</Text>
+        <Text>Good Job {user.name}!!!</Text>
         <Text>Leaderboard:</Text>
         <Text>1...</Text>
         <Text>2...</Text>
         <Text>3...</Text>
         <Text>Time elapsed: null</Text>
-        <Text>Number of Items Found: null</Text>
+        <Text>Number of Items Found: {user.currentClue}</Text>
         <Button
-          title="Play Again?"
+          title="New Game??"
           style={styles.input}
           onPress={this.pressHandler}
         />
