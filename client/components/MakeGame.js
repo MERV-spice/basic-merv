@@ -301,7 +301,7 @@ class MakeGame extends React.Component {
             initial={false}
             onPress={value => this.setPrivacy(value)}
           />
-          {this.state.keyCode ? (
+          {this.state.private ? (
             <Text>Passcode: {this.state.keyCode}</Text>
           ) : null}
           <Button title="Make Game" onPress={this.addGame.bind(this)} />
