@@ -5,21 +5,24 @@ const sky =
 const testerStat =
   'https://cdn.britannica.com/82/183382-050-D832EC3A/Detail-head-crown-Statue-of-Liberty-New.jpg';
 
+const cloud =
+  'https://res.cloudinary.com/basic-merv/image/upload/v1580414724/coi17lsutlnvq8dbwdll.jpg';
+
 const test = 'https://i.ibb.co/17Nm9qv/IMG-20200130-114332812.jpg';
 const test2 = 'https://i.ibb.co/FKJJ8QJ/IMG-20200204-105614754.jpg';
 
 const input = async (url, id) => {
   try {
-    console.log('in');
     await clarifaiApp.inputs.create({
-      url: url,
-      id: id
+      url,
+      id
     });
-    console.log('out');
   } catch (err) {
     console.error(err);
   }
 };
+
+input(cloud, 'cloud');
 
 const compare = async (base64, id) => {
   try {
@@ -28,10 +31,9 @@ const compare = async (base64, id) => {
         base64
       }
     });
-    console.log(ret.hits);
 
     for (let i = 0; i < ret.hits.length; i++) {
-      if (ret.hits[i].input.id === id) {
+      if (ret.hits[i].input.id === id.toString()) {
         return ret.hits[i].score;
       }
     }

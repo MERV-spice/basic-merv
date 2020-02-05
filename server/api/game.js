@@ -32,12 +32,11 @@ router.post('/', async (req, res, next) => {
       req.body.clues.map(async clue => {
         const newClue = await Clue.create({text: clue.clueText});
         const picture = await Picture.findByPk(clue.clueImgId);
-        await input(picture.accessPic, picture.id);
+        await input(picture.accessPic, picture.id.toString());
         await newClue.addPicture(picture);
         return newClue.addGame(newGame);
       })
     );
-    console.log('afttt');
 
     const game = await Game.findByPk(newGame.id, {
       include: [User, {model: Clue, include: [Picture]}]
