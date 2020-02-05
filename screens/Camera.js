@@ -48,9 +48,7 @@ export default class CameraComp extends Component {
       const photo = await this.camera.takePictureAsync(options);
       photo.exif.Orientation = 1;
       await findCoordinates(position => (this.position = position));
-      console.log(compare);
       const comparison = await compare(photo.base64, id);
-      console.log('comp', comparison);
       setScore(comparison);
     }
   }
