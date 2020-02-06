@@ -10,9 +10,12 @@ import {
 import {useState} from 'react';
 import {connect} from 'react-redux';
 import {currentCluePlus} from '../store/user';
-import {fetchGames} from '../store/games';
+import {getSingleGameThunk} from '../store/games';
 
 const CluePage = props => {
+  React.useEffect(() => {
+    props.getSingleGameThunk(props.user.game.id);
+  }, []);
   const clues = props.user.game.clues;
   const currentClue = props.user.currentClue;
 
@@ -29,7 +32,6 @@ const CluePage = props => {
   const thenFun = () => {
     setScore(0);
     props.currentCluePlus(props.user);
-    console.log('in thenfun');
     setHint(0);
   };
 
@@ -37,6 +39,8 @@ const CluePage = props => {
 
   return (
     <View style={styles.container}>
+      <Text>Game Starts At: {props.user.game.startTime}</Text>
+      <Text>Game Ends At: {props.user.game.endTime}</Text>
       {currentClue < clues.length ? (
         <React.Fragment>
           <Text style={styles.currClueTitle}>Clue: </Text>
@@ -87,7 +91,8 @@ const mapState = state => ({
 });
 
 const mapDispatch = {
-  currentCluePlus
+  currentCluePlus,
+  getSingleGameThunk
 };
 
 export default connect(mapState, mapDispatch)(CluePage);

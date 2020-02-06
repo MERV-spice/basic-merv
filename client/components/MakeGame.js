@@ -37,6 +37,8 @@ class MakeGame extends React.Component {
       isDarkModeEnabled: false,
       start: '',
       end: '',
+      startDB: null,
+      endDB: null,
       pickingStart: false,
       pickingEnd: false
     };
@@ -96,7 +98,10 @@ class MakeGame extends React.Component {
     let newGame = {
       name: this.state.gameName,
       clues: this.state.gameClues,
-      makerId: this.state.userId
+      makerId: this.state.userId,
+      startTime: this.state.startDB,
+      endTime: this.state.endDB,
+      passcode: this.state.keyCode
     };
     this.props.addGameThunk(newGame);
   }
@@ -124,10 +129,13 @@ class MakeGame extends React.Component {
   //confirming start and end dates
   handleConfirm(date) {
     date = date.toLocaleString();
-    console.log(date);
     if (this.state.pickingStart) {
+      this.setState({startDB: date});
+      date = date.toLocaleString();
       this.setState({start: date});
     } else if (this.state.pickingEnd) {
+      this.setState({endDB: date});
+      date = date.toLocaleString();
       this.setState({end: date});
     }
     this.setState({
@@ -182,11 +190,9 @@ class MakeGame extends React.Component {
           <Text style={styles.newGameSubHeader}>Clues: </Text>
           {/* preexisting clues for this game */}
           {this.state.gameClues.length > 0 ? (
-            <FlatList
-              keyExtractor={item => item.clueNum.toString()}
-              data={this.state.gameClues}
-              renderItem={clue => {
-                clue = clue.item;
+            <React.Fragment>
+              {this.state.gameClues.map(clue => {
+                // item => item.clueNum.toString()
                 return (
                   <React.Fragment key={clue.clueNum}>
                     <Text style={styles.newGameSubHeader}>
@@ -205,8 +211,8 @@ class MakeGame extends React.Component {
                     </Text>
                   </React.Fragment>
                 );
-              }}
-            />
+              })}
+            </React.Fragment>
           ) : (
             <React.Fragment>
               <Text style={styles.newGameText}>
@@ -293,6 +299,7 @@ class MakeGame extends React.Component {
               }
             />
           </React.Fragment>
+          {/* Set game as public or private */}
           {/* https://github.com/moschan/react-native-simple-radio-button <--- info about radio 
                 buttons github */}
           <Text style={styles.newGameText}>This game will be: </Text>
