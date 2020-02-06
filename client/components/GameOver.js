@@ -39,7 +39,7 @@ class GameOver extends Component {
     }
 
     if (this.props.scores.length) {
-      let ms = new Date() - new Date(this.props.scores[0].game.time);
+      // let ms = new Date() - new Date(this.props.scores[0].game.playerEndTime);
       time = dhm(ms);
     }
     const [userScore] = this.props.scores.filter(
@@ -55,7 +55,11 @@ class GameOver extends Component {
           Number of Items Found: {userScore ? userScore.itemsFound : null}
         </Text>
         <Text>Time elapsed: {time}</Text>
-        <Button title="Play Again?" style={styles.input} />
+        <Button
+          title="Play Again?"
+          style={styles.input}
+          onPress={() => this.props.navigation.navigate('GamesPage')}
+        />
       </View>
     );
   }

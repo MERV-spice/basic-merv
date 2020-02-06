@@ -37,12 +37,13 @@ class MakeGame extends React.Component {
       isDarkModeEnabled: false,
       start: '',
       end: '',
-      pickingStart: false,
-      pickingEnd: false
+      startDB: null,
+      endDB: null,
     };
     this.addDBClue = this.addDBClue.bind(this);
     this.setPrivacy = this.setPrivacy.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
+    this.pickingStart = true;
   }
 
   componentDidMount() {
@@ -96,8 +97,12 @@ class MakeGame extends React.Component {
     let newGame = {
       name: this.state.gameName,
       clues: this.state.gameClues,
-      makerId: this.state.userId
+      makerId: this.state.userId,
+      startTime: this.state.startDB,
+      endTime: this.state.endDB,
+      passcode: this.state.keyCode
     };
+    this.props.navigation.navigate('GamesPage');
     this.props.addGameThunk(newGame);
   }
 
@@ -124,21 +129,24 @@ class MakeGame extends React.Component {
   //confirming start and end dates
   handleConfirm(date) {
     date = date.toLocaleString();
-    console.log(date);
-    if (this.state.pickingStart) {
+    if (this.pickingStart) {
+      this.setState({startDB: date});
+      date = date.toLocaleString();
       this.setState({start: date});
-    } else if (this.state.pickingEnd) {
+    } else {
+      this.setState({endDB: date});
+      date = date.toLocaleString();
       this.setState({end: date});
     }
     this.setState({
       isDatePickerVisible: false,
-      pickingEnd: false,
-      pickingStart: false
     });
   }
 
   goToCamera() {
-    Actions.makeClueCamera({fn: img => this.setState({clueImg: img})});
+    this.props.navigation.navigate('MakeClueCamera', {
+      fn: img => this.setState({clueImg: img})
+    });
   }
 
   render() {
@@ -182,11 +190,9 @@ class MakeGame extends React.Component {
           <Text style={styles.newGameSubHeader}>Clues: </Text>
           {/* preexisting clues for this game */}
           {this.state.gameClues.length > 0 ? (
-            <FlatList
-              keyExtractor={item => item.clueNum.toString()}
-              data={this.state.gameClues}
-              renderItem={clue => {
-                clue = clue.item;
+            <React.Fragment>
+              {this.state.gameClues.map(clue => {
+                // item => item.clueNum.toString()
                 return (
                   <React.Fragment key={clue.clueNum}>
                     <Text style={styles.newGameSubHeader}>
@@ -205,8 +211,8 @@ class MakeGame extends React.Component {
                     </Text>
                   </React.Fragment>
                 );
-              }}
-            />
+              })}
+            </React.Fragment>
           ) : (
             <React.Fragment>
               <Text style={styles.newGameText}>
@@ -267,16 +273,18 @@ class MakeGame extends React.Component {
           <React.Fragment>
             <Button
               title="Pick Start"
-              onPress={() =>
-                this.setState({isDatePickerVisible: true, pickingStart: true})
-              }
+              onPress={() => {
+                this.setState({isDatePickerVisible: true})
+                this.pickingStart = true;
+}}
             />
             <Text>{this.state.start}</Text>
             <Button
               title="Pick End"
-              onPress={() =>
-                this.setState({isDatePickerVisible: true, pickingEnd: true})
-              }
+              onPress={() => {
+                this.setState({isDatePickerVisible: true});
+this.pickingStart = false;
+}}
             />
             <Text>{this.state.end}</Text>
             <DateTimePickerModal
@@ -287,12 +295,11 @@ class MakeGame extends React.Component {
               onCancel={() =>
                 this.setState({
                   isDatePickerVisible: false,
-                  pickingStart: false,
-                  pickingEnd: false
                 })
               }
             />
           </React.Fragment>
+          {/* Set game as public or private */}
           {/* https://github.com/moschan/react-native-simple-radio-button <--- info about radio 
                 buttons github */}
           <Text style={styles.newGameText}>This game will be: </Text>

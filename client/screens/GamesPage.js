@@ -26,15 +26,17 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
     Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
     }).then(setFontLoaded(true));
-  });
-
-  React.useEffect(() => {
-    const setter = async () => {
-      await setGames();
-    };
+    const setter = async () => await fetchGames();
     setter();
   }, []);
 
+    const joinGamePressHandler = (gameId, uId) => {
+    joinGame(gameId, uId);
+    navigation.navigate('CluePage');
+    setGameLookedAt(-1);
+  };
+  const pressHandler = async () => await setGames();
+  
   return (
     <ImageBackground source={parchment} style={styles.container}>
       {fontLoaded ? (
@@ -193,8 +195,8 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  setGames: () => dispatch(fetchGames()),
-  joinGame: (gameId, userId) => dispatch(joinGame(gameId, userId))
+  joinGame: (gameId, userId) => dispatch(joinGame(gameId, userId)),
+  fetchGames: () => dispatch(fetchGames())
 });
 
 export default connect(mapState, mapDispatch)(GamesPage);
