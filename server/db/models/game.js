@@ -2,7 +2,11 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const Game = db.define('game', {
-  time: {
+  startTime: {
+    type: Sequelize.DATE,
+    allowNull: true
+  },
+  endTime: {
     type: Sequelize.DATE,
     allowNull: true
   },

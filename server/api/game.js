@@ -19,6 +19,7 @@ router.get('/:gameId', async (req, res, next) => {
     const game = await Game.findByPk(parseInt(req.params.gameId, 10), {
       include: [{model: Clue, include: [Picture]}, User]
     });
+    console.log(res);
     res.json(game);
   } catch (err) {
     next(err);
@@ -27,7 +28,12 @@ router.get('/:gameId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const newGame = await Game.create({name: req.body.name});
+    const newGame = await Game.create({
+      name: req.body.name,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
+      passcode: req.body.passcode
+    });
     await Promise.all(
       req.body.clues.map(async clue => {
         const newClue = await Clue.create({text: clue.clueText});
