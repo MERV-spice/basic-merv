@@ -128,7 +128,7 @@ class MakeGame extends React.Component {
   //confirming start and end dates
   handleConfirm(date) {
     date = date.toLocaleString();
-    if (this.state.pickingStart) {
+    if (this.pickingStart) {
       this.setState({startDB: date});
       date = date.toLocaleString();
       this.setState({start: date});
@@ -272,7 +272,7 @@ class MakeGame extends React.Component {
               title="Pick Start"
               onPress={() => {
                 this.setState({isDatePickerVisible: true})
-                this.startPicker = true;
+                this.pickingStart = true;
 }}
             />
             <Text>{this.state.start}</Text>
@@ -280,7 +280,7 @@ class MakeGame extends React.Component {
               title="Pick End"
               onPress={() => {
                 this.setState({isDatePickerVisible: true});
-this.startPicker = false;
+this.pickingStart = false;
 }}
             />
             <Text>{this.state.end}</Text>
