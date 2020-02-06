@@ -6,12 +6,11 @@ import {fetchGames} from '../store/games';
 import {joinGame} from '../store/user';
 import {Actions} from 'react-native-router-flux';
 
-const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
-  //
+const GamesPage = ({fetchGames, games, joinGame, userId}) => {
+  const [gameLookedAt, setGameLookedAt] = React.useState('');
+
   React.useEffect(() => {
-    const setter = async () => {
-      await setGames();
-    };
+    const setter = async () => await fetchGames();
     setter();
   }, []);
 
@@ -131,8 +130,8 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  setGames: () => dispatch(fetchGames()),
-  joinGame: (gameId, userId) => dispatch(joinGame(gameId, userId))
+  joinGame: (gameId, userId) => dispatch(joinGame(gameId, userId)),
+  fetchGames: () => dispatch(fetchGames())
 });
 
 export default connect(mapState, mapDispatch)(GamesPage);
