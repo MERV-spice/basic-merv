@@ -26,10 +26,6 @@ export default class CameraComp extends Component {
     this.position = {};
   }
 
-  pressHandler = () => {
-    this.props.navigation.navigate('CluePage');
-    this.snapPhoto.bind(this);
-  };
 
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA);
@@ -88,7 +84,7 @@ export default class CameraComp extends Component {
               <Ionicons color="white" size={64} name="ios-reverse-camera" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={this.pressHandler}
+              onPress={this.snapPhoto.bind(this)}
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',

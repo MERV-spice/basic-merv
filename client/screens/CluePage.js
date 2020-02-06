@@ -29,7 +29,7 @@ const CluePage = props => {
   const thenFun = () => {
     setScore(0);
     props.currentCluePlus(props.user);
-    console.log('in thenfun');
+    //console.log('in thenfun');
     setHint(0);
   };
 
