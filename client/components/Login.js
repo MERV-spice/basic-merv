@@ -12,7 +12,8 @@ import {
 import {Ionicons} from '@expo/vector-icons';
 import {connect} from 'react-redux';
 import {auth} from '../store';
-import paper from '../../assets/paper.jpg';
+import * as Font from 'expo-font';
+import parchment from '../../assets/parchment.jpg';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -21,11 +22,18 @@ class AuthForm extends Component {
     super(props);
 
     this.state = {
+      fontLoaded: false,
       showPass: true,
       press: false,
       email: 'user0@email.com',
       password: '123'
     };
+  }
+  async componentDidMount() {
+    await Font.loadAsync({
+      'VastShadow-Regular': require('../../assets/fonts/VastShadow-Regular.ttf')
+    });
+    this.setState({fontLoaded: true});
   }
 
   showPass = () => {
@@ -42,13 +50,15 @@ class AuthForm extends Component {
   }
   render() {
     return (
-      <ImageBackground source={paper} style={styles.container}>
+      <ImageBackground source={parchment} style={styles.container}>
         <View style={styles.logoContainer}>
           <Image
-            source={require('../../assets/logo.png')}
+            source={require('../../assets/redx.png')}
             style={styles.logo}
           />
-          <Text style={styles.logoText}>Merv Life</Text>
+          {this.state.fontLoaded ? (
+            <Text style={styles.logoText}>Ahoy!!!</Text>
+          ) : null}
         </View>
 
         <View style={styles.inputContainer}>
@@ -86,12 +96,10 @@ class AuthForm extends Component {
             onPress={this.showPass.bind(this)}
           >
             <Ionicons
-              name={this.state.press == false ? 'md-eye' : 'md-eye-off'}
+              name={this.state.press === false ? 'md-eye' : 'md-eye-off'}
               size={26}
             />
           </TouchableOpacity>
-
-          {/* <Button title="Log In" onPress={this.onLogin.bind(this)} /> */}
         </View>
         <TouchableOpacity
           style={styles.btnLogin}
@@ -120,7 +128,7 @@ export default (Login = connect(mapState, mapDispatch)(AuthForm));
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: null,
+    width: WIDTH,
     height: null,
     alignItems: 'center',
     justifyContent: 'center'
@@ -134,10 +142,12 @@ export const styles = StyleSheet.create({
     height: 120
   },
   logoText: {
-    fontSize: 20,
+    fontFamily: 'VastShadow-Regular',
+    fontSize: 35,
+    color: 'black',
     fontWeight: '500',
     marginTop: 10,
-    opacity: 0.5
+    opacity: 0.9
   },
   input: {
     width: WIDTH - 55,
@@ -161,10 +171,9 @@ export const styles = StyleSheet.create({
     width: WIDTH - 55,
     height: 45,
     borderRadius: 25,
-    backgroundColor: '#191516',
+    backgroundColor: '#E20014',
     justifyContent: 'center',
-    marginTop: 20,
-    color: '#DBF9F4'
+    marginTop: 20
   },
   btnEye: {
     position: 'absolute',

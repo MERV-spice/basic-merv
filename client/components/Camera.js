@@ -6,7 +6,7 @@ import {Camera} from 'expo-camera';
 import {View, TouchableOpacity, Image, Text} from 'react-native';
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import axios from 'axios';
-import findCoordinates from './Gps';
+import {findCoordinates} from '../helperFunctions';
 import url from '../ngrok';
 
 //make a gallery
@@ -31,7 +31,6 @@ export default class CameraComp extends Component {
     const {status} = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({hasCameraPermission: status === 'granted'});
     findCoordinates(position => this.setState({position}));
-    // console.log('found coordinates', );
   }
 
   async snapPhoto() {
@@ -62,14 +61,12 @@ export default class CameraComp extends Component {
     let formData = new FormData();
     formData.append('file', 'data:image/png;base64,' + data);
     formData.append('upload_preset', 'jb7k5twx');
-    // console.log('upload recording to ' + serverUrl);
     try {
       const res = await axios.post(serverUrl, formData);
       const startIdx = res.request._response.indexOf(':') + 2;
       const endIdx = res.request._response.indexOf(',') - 1;
       const publicId = res.request._response.slice(startIdx, endIdx);
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
-      // console.log('state?', this.state)
       await axios.post(`${url}/api/images`, {
         url: imageUrl,
         position: this.state.position

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Router, Scene} from 'react-native-router-flux';
-import {MakeClueCamera, MakeGame} from '../client/components';
+import {MakeClueCamera, MakeGame} from '../components';
 import GamesPage from './GamesPage';
 
 const Games = ({}) => {

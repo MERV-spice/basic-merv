@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Text, Button, View, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import {fetchScores} from '../store/scores';
-
 let time;
 
 class GameOver extends Component {

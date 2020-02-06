@@ -6,7 +6,7 @@ import {Camera} from 'expo-camera';
 import {View, TouchableOpacity, Image, Text} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import axios from 'axios';
-import findCoordinates from './Gps';
+import {findCoordinates} from '../helperFunctions';
 import url from '../ngrok';
 
 //make a gallery
@@ -40,7 +40,6 @@ export default class CameraComp extends Component {
       const photo = await this.camera.takePictureAsync(options);
       photo.exif.Orientation = 1;
       this.upload(photo.base64);
-      // await findCoordinates(position => this.setState({position}));
     }
   }
 
@@ -50,7 +49,6 @@ export default class CameraComp extends Component {
     let formData = new FormData();
     formData.append('file', 'data:image/png;base64,' + data);
     formData.append('upload_preset', 'jb7k5twx');
-    // console.log('upload recording to ' + serverUrl);
     //building a network request that has the raw data
     //smaller file size to start with (photo.uri)
     //changing upload strategy is a last resort
@@ -58,7 +56,6 @@ export default class CameraComp extends Component {
     //pull URI, construct & submit obj)
     try {
       const res = await axios.post(serverUrl, formData);
-      console.log('thanks', JSON.parse(res.request._response).public_id);
       const publicId = JSON.parse(res.request._response).public_id;
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
       const {data} = await axios.post(`${url}/api/images`, {

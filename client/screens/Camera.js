@@ -7,10 +7,10 @@ import {View, TouchableOpacity, Image, Text, Button} from 'react-native';
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import axios from 'axios';
 
-import compare from '../server/clarifai/compare';
+import {compare} from '../../server/clarifai/compare';
 
-import findCoordinates from './Gps';
-import url from '../client/ngrok';
+import {findCoordinates} from '../helperFunctions';
+import url from '../ngrok';
 
 //make a gallery
 //how do you get the image from a snapshot
@@ -27,7 +27,7 @@ export default class CameraComp extends Component {
   }
 
   pressHandler = () => {
-    this.props.navigation.navigate('CluePage');
+    this.props.navigation.navigate('GameOver');
   };
 
   async componentDidMount() {
@@ -37,6 +37,7 @@ export default class CameraComp extends Component {
 
   async snapPhoto() {
     if (this.camera) {
+      const {id, setScore} = this.props.navigation.state.params;
       const options = {
         quality: 0.25,
         base64: true,
@@ -47,25 +48,14 @@ export default class CameraComp extends Component {
       const photo = await this.camera.takePictureAsync(options);
       photo.exif.Orientation = 1;
       await findCoordinates(position => (this.position = position));
-
-      const comparison = await compare(photo.base64);
-      let comp;
-      for (let i = 0; i < comparison.hits.length; i++) {
-        if (
-          comparison.hits[i].input.id === this.props.navigation.state.params.id
-        ) {
-          comp = comparison.hits[i].score;
-          break;
-        }
-      }
-      this.props.navigation.state.params.setScore(comp);
+      const comparison = await compare(photo.base64, id);
+      setScore(comparison);
     }
   }
 
   render() {
     return (
       <View style={{flex: 1}}>
-        <Button title="go to clue" onPress={this.pressHandler} />
         <Camera
           style={{flex: 1}}
           ref={ref => (this.camera = ref)}
@@ -111,14 +101,6 @@ export default class CameraComp extends Component {
             </TouchableOpacity>
           </View>
         </Camera>
-        {this.state.photo.base64 ? (
-          <Image
-            style={{width: 50, height: 50}}
-            source={{uri: `data:image/png;base64,${this.state.photo.base64}`}}
-          />
-        ) : (
-          <Text>You were wrong.</Text>
-        )}
       </View>
     );
   }
