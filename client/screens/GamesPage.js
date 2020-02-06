@@ -25,7 +25,10 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Button onPress={() => Actions.makeGame()} title="Make Game" />
+      <Button
+        onPress={() => navigation.navigate('MakeGame')}
+        title="Make Game"
+      />
       <Text style={styles.currGamesTitle}>Current Games</Text>
       <Button onPress={pressHandler} title="Refresh Booty" />
       <FlatList

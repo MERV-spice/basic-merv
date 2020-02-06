@@ -5,11 +5,12 @@ import Camera from '../screens/Camera';
 import {createStackNavigator} from 'react-navigation-stack';
 import CluePage from '../screens/CluePage';
 import GameOver from '../screens/GameOver';
-import Scene from '../screens/Scene';
+import GamesPage from '../screens/GamesPage';
+import {MakeClueCamera, MakeGame} from '../components';
 
 const screens = {
   GamesPage: {
-    screen: Scene,
+    screen: GamesPage,
     navigationOptions: {
       headerShown: false,
       tabBarLabel: 'GamesPage'
@@ -44,6 +45,18 @@ const appCon = createStackNavigator({
     screen: GameOver,
     navigationOptions: {
       tabBarLabel: 'GameOver'
+    }
+  },
+  MakeGame: {
+    screen: MakeGame,
+    navigationOptions: {
+      tabBarLabel: 'MakeGame'
+    }
+  },
+  MakeClueCamera: {
+    screen: MakeClueCamera,
+    navigationOptions: {
+      tabBarLabel: 'MakeClueCamera'
     }
   }
 });
