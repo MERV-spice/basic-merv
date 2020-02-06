@@ -9,18 +9,13 @@ import {
   FlatList,
   ScrollView
 } from 'react-native';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel
-} from 'react-native-simple-radio-button';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import RadioForm from 'react-native-simple-radio-button';
 import {Actions} from 'react-native-router-flux';
 import {addGameThunk} from '../store/games';
 import {fetchClues} from '../store/clues';
 import {connect} from 'react-redux';
 import {Overlay} from 'react-native-elements';
-const faker = require('faker/locale/en_US');
+import DateTimePicker from './dateTimePicker';
 
 class MakeGame extends React.Component {
   constructor(props) {
@@ -34,25 +29,25 @@ class MakeGame extends React.Component {
       clueText: '',
       clueHint: '',
       createClue: null,
-      monthText: null,
-      dayText: null,
-      yearText: null,
-      hourText: null,
-      minuteText: null,
-      meridiem: null,
-      endMonthText: null,
-      endDayText: null,
-      endYearText: null,
-      endHourText: null,
-      endMinuteText: null,
-      endMeridiem: null,
-      startGame: null,
-      endGame: null,
       private: false,
       keyCode: null,
-      isDatePickerVisible: false,
-      setDatePickerVisibility: false,
       showOverlay: false
+      // monthText: null,
+      // dayText: null,
+      // yearText: null,
+      // hourText: null,
+      // minuteText: null,
+      // meridiem: null,
+      // endMonthText: null,
+      // endDayText: null,
+      // endYearText: null,
+      // endHourText: null,
+      // endMinuteText: null,
+      // endMeridiem: null,
+      // startGame: null,
+      // endGame: null,
+      // isDatePickerVisible: false,
+      // setDatePickerVisibility: false
     };
     this.addDBClue = this.addDBClue.bind(this);
     this.setPrivacy = this.setPrivacy.bind(this);
@@ -129,56 +124,41 @@ class MakeGame extends React.Component {
     }
   }
 
-  setTimeParams(
-    year,
-    month,
-    day,
-    hour,
-    minute,
-    meridiem,
-    endYear,
-    endMonth,
-    endDay,
-    endHour,
-    endMinute,
-    endMeridiem
-  ) {
-    let startDate;
-    let endDate;
-    if (meridiem.toLowerCase() === 'a') {
-      startDate = new Date(year, month, day, hour, minute, 0, 0);
-    } else if (meridiem.toLowerCase() === 'p') {
-      startDate = new Date(year, month, day, hour + 12, minute, 0, 0);
-    }
-    if (meridiem.toLowerCase() === 'a') {
-      endDate = new Date(endYear, endMonth, endDay, endHour, endMinute, 0, 0);
-    } else if (meridiem.toLowerCase() === 'p') {
-      endDate = new Date(
-        endYear,
-        endMonth,
-        endDay,
-        endHour + 12,
-        endMinute,
-        0,
-        0
-      );
-    }
-    this.setState({startDate, endDate});
-  }
-  // showDatePicker() {
-  // // don't do it this way
-  //   this.setState({setDatePickerVisibility: true});
-  // }
-
-  // hideDatePicker() {
-  // // don't do it this way
-  //   this.setState({setDatePickerVisibility: false});
-  // }
-
-  // handleConfirm(/*date*/) {
-  // // don't do it this way
-  //   // console.log('date: ', date);
-  //   this.hideDatePicker();
+  // setTimeParams(
+  //   year,
+  //   month,
+  //   day,
+  //   hour,
+  //   minute,
+  //   meridiem,
+  //   endYear,
+  //   endMonth,
+  //   endDay,
+  //   endHour,
+  //   endMinute,
+  //   endMeridiem
+  // ) {
+  //   let startDate;
+  //   let endDate;
+  //   if (meridiem.toLowerCase() === 'a') {
+  //     startDate = new Date(year, month, day, hour, minute, 0, 0);
+  //   } else if (meridiem.toLowerCase() === 'p') {
+  //     startDate = new Date(year, month, day, hour + 12, minute, 0, 0);
+  //   }
+  //   if (meridiem.toLowerCase() === 'a') {
+  //     endDate = new Date(endYear, endMonth, endDay, endHour, endMinute, 0, 0);
+  //   } else if (meridiem.toLowerCase() === 'p') {
+  //     endDate = new Date(
+  //       endYear,
+  //       endMonth,
+  //       endDay,
+  //       endHour + 12,
+  //       endMinute,
+  //       0,
+  //       0
+  //     );
+  //   }
+  //   this.setState({startDate, endDate});
   // }
 
   goToCamera() {
@@ -306,7 +286,8 @@ class MakeGame extends React.Component {
             ) : // // if you are using a clue from the database all changes on overlay
             null}
           </React.Fragment>
-          <Text style={styles.newGameText}>Game Start: </Text>
+          <DateTimePicker />
+          {/* <Text style={styles.newGameText}>Game Start: </Text>
           <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
             <Text style={styles.newGameText}>Date: </Text>
             <TextInput
@@ -379,9 +360,9 @@ class MakeGame extends React.Component {
               />
               <Text style={styles.newGameText}>M</Text>
             </View>
-          </View>
+          </View> */}
 
-          <Text style={styles.newGameText}>Game End: </Text>
+          {/* <Text style={styles.newGameText}>Game End: </Text>
           <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
             <Text style={styles.newGameText}>Date: </Text>
             <TextInput
@@ -454,7 +435,7 @@ class MakeGame extends React.Component {
               />
               <Text style={styles.newGameText}>M</Text>
             </View>
-          </View>
+          </View> */}
           {/* https://github.com/mmazzarolo/react-native-modal-datetime-picker 
                 <---- link to github for date/time picker, if we have time */}
           {/* https://github.com/moschan/react-native-simple-radio-button <--- info about radio 
