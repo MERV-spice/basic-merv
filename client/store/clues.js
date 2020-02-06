@@ -1,34 +1,35 @@
 import axios from 'axios';
+import url from '../ngrok';
 
 const initialState = [];
 
 //action type
-const ADD_CLUE = 'ADD_CLUE';
+const GET_CLUES = 'GET_CLUES';
 
 //action creator
-const addClue = newClue => {
+const getClues = clues => {
   return {
-    type: ADD_CLUE,
-    newClue
+    type: GET_CLUES,
+    clues
   };
 };
 
 //reducer
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ADD_CLUE:
-      return action.newClue;
+    case GET_CLUES:
+      return action.clues;
     default:
       return state;
   }
 };
 
 //thunk
-export const newClueThunk = newClueObj => {
+export const fetchClues = () => {
   return async dispatch => {
     try {
-      const {data} = await axios.post('/api/clues', newClueObj);
-      return dispatch(addClue(data));
+      const {data} = await axios.get(`${url}/api/clues`);
+      dispatch(getClues(data));
     } catch (err) {
       console.log(err);
     }
