@@ -17,6 +17,7 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
   const joinGamePressHandler = (gameId, uId) => {
     joinGame(gameId, uId);
     navigation.navigate('CluePage');
+    setGameLookedAt(-1);
   };
   const pressHandler = async () => {
     await setGames();
