@@ -182,7 +182,9 @@ class MakeGame extends React.Component {
   // }
 
   goToCamera() {
-    Actions.makeClueCamera({fn: img => this.setState({clueImg: img})});
+    this.props.navigation.navigate('MakeClueCamera', {
+      fn: img => this.setState({clueImg: img})
+    });
   }
 
   render() {

@@ -6,7 +6,7 @@ import {fetchGames} from '../store/games';
 import {joinGame} from '../store/user';
 import {Actions} from 'react-native-router-flux';
 
-const GamesPage = ({setGames, games, joinGame, userId}) => {
+const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
   React.useEffect(() => {
     const setter = async () => {
       await setGames();
@@ -14,12 +14,24 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
     setter();
   }, []);
 
+  const joinGamePressHandler = (gameId, uId) => {
+    joinGame(gameId, uId);
+    navigation.navigate('CluePage');
+    setGameLookedAt(-1);
+  };
+  const pressHandler = async () => {
+    await setGames();
+  };
   const [gameLookedAt, setGameLookedAt] = React.useState('');
 
   return (
     <View style={styles.container}>
-      <Button onPress={() => Actions.makeGame()} title="Make Game" />
+      <Button
+        onPress={() => navigation.navigate('MakeGame')}
+        title="Make Game"
+      />
       <Text style={styles.currGamesTitle}>Current Games</Text>
+      <Button onPress={pressHandler} title="Refresh Booty" />
       <FlatList
         data={games}
         renderItem={game => {
@@ -46,7 +58,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
                     title="Join Game"
                     raised={true}
                     containerStyle={styles.joinGameButton}
-                    onPress={() => joinGame(game.id, userId)}
+                    onPress={() => joinGamePressHandler(game.id, userId)}
                   />
                 </React.Fragment>
               </Overlay>
