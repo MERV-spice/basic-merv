@@ -36,10 +36,7 @@ const CluePage = props => {
   };
 
   if (score > 0.7) thenFun();
-  
-  if (currentClue < clues.length) {
-    props.navigation.navigate('GameOver');
-  } 
+  if (currentClue >= clues.length) props.navigation.navigate('GameOver');
 
   return (
     <View style={styles.container}>
@@ -50,9 +47,7 @@ const CluePage = props => {
         style={{width: 200, height: 200}}
         source={{uri: clues[currentClue].pictures[0].accessPic}}
       />
-      <Text style={styles.currClueText}>
-       Clue :{clues[currentClue].text}
-      </Text>
+      <Text style={styles.currClueText}>Clue :{clues[currentClue].text}</Text>
       {!hint ? (
         <Button title="Show Hint" onPress={() => setHint(1)} />
       ) : (
