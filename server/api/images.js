@@ -15,7 +15,7 @@ router.post('/', async (req, res, next) => {
       accessPic: req.body.url
       // location: point
     });
-    console.log(picture);
+    // console.log(picture);
     res.status(202).json(picture);
   } catch (err) {
     next(err);

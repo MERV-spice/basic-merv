@@ -102,6 +102,7 @@ class MakeGame extends React.Component {
       endTime: this.state.endDB,
       passcode: this.state.keyCode
     };
+    this.props.navigation.navigate('GamesPage');
     this.props.addGameThunk(newGame);
   }
 
@@ -143,7 +144,9 @@ class MakeGame extends React.Component {
   }
 
   goToCamera() {
-    Actions.makeClueCamera({fn: img => this.setState({clueImg: img})});
+    this.props.navigation.navigate('MakeClueCamera', {
+      fn: img => this.setState({clueImg: img})
+    });
   }
 
   render() {
