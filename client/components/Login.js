@@ -31,7 +31,7 @@ class AuthForm extends Component {
   }
   async componentDidMount() {
     await Font.loadAsync({
-      'VastShadow-Regular': require('../../assets/fonts/VastShadow-Regular.ttf')
+      'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
     });
     this.setState({fontLoaded: true});
   }
@@ -142,8 +142,8 @@ export const styles = StyleSheet.create({
     height: 120
   },
   logoText: {
-    fontFamily: 'VastShadow-Regular',
-    fontSize: 35,
+    fontFamily: 'Kranky-Regular',
+    fontSize: 40,
     color: 'black',
     fontWeight: '500',
     marginTop: 10,
@@ -171,6 +171,8 @@ export const styles = StyleSheet.create({
     width: WIDTH - 55,
     height: 45,
     borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
     backgroundColor: '#E20014',
     justifyContent: 'center',
     marginTop: 20
@@ -181,8 +183,9 @@ export const styles = StyleSheet.create({
     right: 14
   },
   text: {
+    fontFamily: 'Kranky-Regular',
     color: '#DBF9F4',
-    fontSize: 16,
+    fontSize: 22,
     textAlign: 'center'
   }
 });

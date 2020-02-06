@@ -23,7 +23,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
 
   React.useEffect(() => {
     Font.loadAsync({
-      'VastShadow-Regular': require('../../assets/fonts/VastShadow-Regular.ttf')
+      'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
     }).then(setFontLoaded(true));
   });
 
@@ -53,26 +53,24 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
               >
                 <React.Fragment>
                   <React.Fragment>
-                    <Text style={styles.currGamesTitle}>{game.name}</Text>
-                    <Text style={styles.gameInfo}>
+                    <Text style={styles.currGamesListText}>{game.name}</Text>
+                    <Text style={styles.text}>
                       Players: {game.users.length}
                     </Text>
-                    <Text style={styles.gameInfo}>
-                      Clues: {game.clues.length}
-                    </Text>
+                    <Text style={styles.text}>Clues: {game.clues.length}</Text>
                   </React.Fragment>
-                  <Button
-                    title="Join Game"
-                    raised={true}
-                    containerStyle={styles.joinGameButton}
+                  <TouchableOpacity
+                    style={styles.btnJoinGame}
                     onPress={() => joinGame(game.id, userId)}
-                  />
+                  >
+                    <Text style={styles.text}>Join Game</Text>
+                  </TouchableOpacity>
                 </React.Fragment>
               </Overlay>
 
               <ListItem
                 key={game.id}
-                titleStyle={styles.currGamesTitle}
+                titleStyle={styles.currGamesListText}
                 title={game.name}
                 onPress={() => setGameLookedAt(game.id)}
                 containerStyle={styles.listItemContainer}
@@ -88,7 +86,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
         style={styles.btnMakeGame}
         onPress={() => Actions.makeGame()}
       >
-        <Text style={styles.text}>Make Game</Text>
+        <Text style={styles.text}>Create A Game</Text>
       </TouchableOpacity>
     </ImageBackground>
   );
@@ -102,11 +100,19 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   currGamesTitle: {
-    fontFamily: 'VastShadow-Regular',
-    fontSize: 35,
+    fontFamily: 'Kranky-Regular',
+    fontSize: 50,
     color: 'black',
     fontWeight: '500',
     marginTop: 10,
+    opacity: 0.9,
+    textAlign: 'center'
+  },
+  currGamesListText: {
+    fontFamily: 'Kranky-Regular',
+    fontSize: 35,
+    color: 'black',
+    fontWeight: '500',
     opacity: 0.9,
     textAlign: 'center'
   },
@@ -122,7 +128,7 @@ const styles = StyleSheet.create({
   joinGameButton: {
     display: 'flex',
     marginTop: 'auto',
-    backgroundColor: 'red'
+    backgroundColor: 'black'
   },
   listItemContainer: {
     width: WIDTH - 55,
@@ -143,9 +149,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20
   },
+  btnJoinGame: {
+    width: WIDTH - 100,
+    height: 45,
+    borderRadius: 25,
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginTop: 20
+  },
   text: {
-    color: '#DBF9F4',
-    fontSize: 16,
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 22,
     textAlign: 'center'
   }
 });

@@ -9,18 +9,14 @@ import {
   FlatList,
   ScrollView
 } from 'react-native';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel
-} from 'react-native-simple-radio-button';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import RadioForm from 'react-native-simple-radio-button';
 import {Actions} from 'react-native-router-flux';
 import {addGameThunk} from '../store/games';
 import {fetchClues} from '../store/clues';
 import {connect} from 'react-redux';
 import {Overlay} from 'react-native-elements';
-const faker = require('faker/locale/en_US');
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {Appearance} from 'react-native-appearance';
 
 class MakeGame extends React.Component {
   constructor(props) {
@@ -34,33 +30,29 @@ class MakeGame extends React.Component {
       clueText: '',
       clueHint: '',
       createClue: null,
-      monthText: null,
-      dayText: null,
-      yearText: null,
-      hourText: null,
-      minuteText: null,
-      meridiem: null,
-      endMonthText: null,
-      endDayText: null,
-      endYearText: null,
-      endHourText: null,
-      endMinuteText: null,
-      endMeridiem: null,
-      startGame: null,
-      endGame: null,
       private: false,
       keyCode: null,
+      showOverlay: false,
       isDatePickerVisible: false,
-      setDatePickerVisibility: false,
-      showOverlay: false
+      isDarkModeEnabled: false,
+      start: '',
+      end: '',
+      pickingStart: false,
+      pickingEnd: false
     };
     this.addDBClue = this.addDBClue.bind(this);
     this.setPrivacy = this.setPrivacy.bind(this);
+    this.handleConfirm = this.handleConfirm.bind(this);
   }
 
   componentDidMount() {
     this.setState({userId: this.props.user});
     this.props.fetchClues();
+
+    //enabling date/time picker for dark mode on ios
+    let colorScheme = Appearance.getColorScheme();
+    let isDarkModeEnabled = colorScheme === 'dark';
+    this.setState({isDarkModeEnabled});
   }
 
   addClue() {
@@ -129,57 +121,21 @@ class MakeGame extends React.Component {
     }
   }
 
-  setTimeParams(
-    year,
-    month,
-    day,
-    hour,
-    minute,
-    meridiem,
-    endYear,
-    endMonth,
-    endDay,
-    endHour,
-    endMinute,
-    endMeridiem
-  ) {
-    let startDate;
-    let endDate;
-    if (meridiem.toLowerCase() === 'a') {
-      startDate = new Date(year, month, day, hour, minute, 0, 0);
-    } else if (meridiem.toLowerCase() === 'p') {
-      startDate = new Date(year, month, day, hour + 12, minute, 0, 0);
+  //confirming start and end dates
+  handleConfirm(date) {
+    date = date.toLocaleString();
+    console.log(date);
+    if (this.state.pickingStart) {
+      this.setState({start: date});
+    } else if (this.state.pickingEnd) {
+      this.setState({end: date});
     }
-    if (meridiem.toLowerCase() === 'a') {
-      endDate = new Date(endYear, endMonth, endDay, endHour, endMinute, 0, 0);
-    } else if (meridiem.toLowerCase() === 'p') {
-      endDate = new Date(
-        endYear,
-        endMonth,
-        endDay,
-        endHour + 12,
-        endMinute,
-        0,
-        0
-      );
-    }
-    this.setState({startDate, endDate});
+    this.setState({
+      isDatePickerVisible: false,
+      pickingEnd: false,
+      pickingStart: false
+    });
   }
-  // showDatePicker() {
-  // // don't do it this way
-  //   this.setState({setDatePickerVisibility: true});
-  // }
-
-  // hideDatePicker() {
-  // // don't do it this way
-  //   this.setState({setDatePickerVisibility: false});
-  // }
-
-  // handleConfirm(/*date*/) {
-  // // don't do it this way
-  //   // console.log('date: ', date);
-  //   this.hideDatePicker();
-  // }
 
   goToCamera() {
     Actions.makeClueCamera({fn: img => this.setState({clueImg: img})});
@@ -231,7 +187,6 @@ class MakeGame extends React.Component {
               data={this.state.gameClues}
               renderItem={clue => {
                 clue = clue.item;
-                console.log(clue);
                 return (
                   <React.Fragment key={clue.clueNum}>
                     <Text style={styles.newGameSubHeader}>
@@ -306,157 +261,38 @@ class MakeGame extends React.Component {
             ) : // // if you are using a clue from the database all changes on overlay
             null}
           </React.Fragment>
-          <Text style={styles.newGameText}>Game Start: </Text>
-          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-            <Text style={styles.newGameText}>Date: </Text>
-            <TextInput
-              style={{
-                height: 30,
-                width: 35,
-                borderColor: 'gray',
-                borderWidth: 1
-              }}
-              value={this.state.monthText}
-              onChangeText={monthText => this.setState({monthText})}
-            />
-            <Text style={styles.newGameText}> / </Text>
-            <TextInput
-              style={{
-                height: 30,
-                width: 35,
-                borderColor: 'gray',
-                borderWidth: 1
-              }}
-              value={this.state.dayText}
-              onChangeText={dayText => this.setState({dayText})}
-            />
-            <Text style={styles.newGameText}> / </Text>
-            <TextInput
-              style={{
-                height: 30,
-                width: 60,
-                borderColor: 'gray',
-                borderWidth: 1
-              }}
-              value={this.state.yearText}
-              onChangeText={yearText => this.setState({yearText})}
-            />
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-            <Text style={styles.newGameText}>Time: </Text>
-            <View style={{flexDirection: 'row'}}>
-              <TextInput
-                style={{
-                  height: 30,
-                  width: 35,
-                  borderColor: 'gray',
-                  borderWidth: 1
-                }}
-                value={this.state.hourText}
-                onChangeText={hourText => this.setState({hourText})}
-              />
-              <Text style={styles.newGameText}> : </Text>
-              <TextInput
-                style={{
-                  height: 30,
-                  width: 35,
-                  borderColor: 'gray',
-                  borderWidth: 1
-                }}
-                value={this.state.minuteText}
-                onChangeText={minuteText => this.setState({minuteText})}
-              />
-              <Text style={styles.newGameText}> </Text>
-              <TextInput
-                style={{
-                  height: 30,
-                  width: 20,
-                  borderColor: 'gray',
-                  borderWidth: 1
-                }}
-                value={this.state.meridiem}
-                onChangeText={meridiem => this.setState({meridiem})}
-              />
-              <Text style={styles.newGameText}>M</Text>
-            </View>
-          </View>
-
-          <Text style={styles.newGameText}>Game End: </Text>
-          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-            <Text style={styles.newGameText}>Date: </Text>
-            <TextInput
-              style={{
-                height: 30,
-                width: 35,
-                borderColor: 'gray',
-                borderWidth: 1
-              }}
-              value={this.state.endMonthText}
-              onChangeText={endMonthText => this.setState({endMonthText})}
-            />
-            <Text style={styles.newGameText}> / </Text>
-            <TextInput
-              style={{
-                height: 30,
-                width: 35,
-                borderColor: 'gray',
-                borderWidth: 1
-              }}
-              value={this.state.endDayText}
-              onChangeText={endDayText => this.setState({endDayText})}
-            />
-            <Text style={styles.newGameText}> / </Text>
-            <TextInput
-              style={{
-                height: 30,
-                width: 60,
-                borderColor: 'gray',
-                borderWidth: 1
-              }}
-              value={this.state.endYearText}
-              onChangeText={endYearText => this.setState({endYearText})}
-            />
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-            <Text style={styles.newGameText}>Time: </Text>
-            <View style={{flexDirection: 'row'}}>
-              <TextInput
-                style={{
-                  height: 30,
-                  width: 35,
-                  borderColor: 'gray',
-                  borderWidth: 1
-                }}
-                value={this.state.endHourText}
-                onChangeText={endHourText => this.setState({endHourText})}
-              />
-              <Text style={styles.newGameText}> : </Text>
-              <TextInput
-                style={{
-                  height: 30,
-                  width: 35,
-                  borderColor: 'gray',
-                  borderWidth: 1
-                }}
-                value={this.state.endMinuteText}
-                onChangeText={endMinuteText => this.setState({endMinuteText})}
-              />
-              <Text style={styles.newGameText}> </Text>
-              <TextInput
-                style={{
-                  height: 30,
-                  width: 20,
-                  borderColor: 'gray',
-                  borderWidth: 1
-                }}
-                value={this.state.endMeridiem}
-                onChangeText={endMeridiem => this.setState({endMeridiem})}
-              />
-              <Text style={styles.newGameText}>M</Text>
-            </View>
-          </View>
+          {/* Picking date and time */}
           {/* https://github.com/mmazzarolo/react-native-modal-datetime-picker 
-                <---- link to github for date/time picker, if we have time */}
+          <---- link to github for date/time picker for support/troubleshooting */}
+          <React.Fragment>
+            <Button
+              title="Pick Start"
+              onPress={() =>
+                this.setState({isDatePickerVisible: true, pickingStart: true})
+              }
+            />
+            <Text>{this.state.start}</Text>
+            <Button
+              title="Pick End"
+              onPress={() =>
+                this.setState({isDatePickerVisible: true, pickingEnd: true})
+              }
+            />
+            <Text>{this.state.end}</Text>
+            <DateTimePickerModal
+              isVisible={this.state.isDatePickerVisible}
+              mode="datetime"
+              onConfirm={this.handleConfirm}
+              isDarkModeEnabled={this.state.isDarkModeEnabled}
+              onCancel={() =>
+                this.setState({
+                  isDatePickerVisible: false,
+                  pickingStart: false,
+                  pickingEnd: false
+                })
+              }
+            />
+          </React.Fragment>
           {/* https://github.com/moschan/react-native-simple-radio-button <--- info about radio 
                 buttons github */}
           <Text style={styles.newGameText}>This game will be: </Text>
