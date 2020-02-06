@@ -13,7 +13,6 @@ const test2 = 'https://i.ibb.co/FKJJ8QJ/IMG-20200204-105614754.jpg';
 
 const input = async (url, id) => {
   try {
-    console.log('in clarfi', url);
     await clarifaiApp.inputs.create({
       url,
       id
