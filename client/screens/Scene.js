@@ -7,12 +7,7 @@ const Games = ({}) => {
   return (
     <Router>
       <Scene key="root">
-        <Scene
-          key="gamesPage"
-          component={GamesPage}
-          title="GamesPage"
-          hideNavBar
-        />
+        <Scene key="gamesPage" component={GamesPage} title="GamesPage" />
         <Scene key="makeGame" component={MakeGame} title="MakeGame" />
         <Scene
           key="makeClueCamera"
