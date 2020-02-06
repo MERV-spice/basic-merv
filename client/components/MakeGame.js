@@ -107,6 +107,7 @@ class MakeGame extends React.Component {
       makerId: this.state.userId
     };
     this.props.addGameThunk(newGame);
+    this.props.navigation.navigate('GamesPage');
   }
 
   setPrivacy(value) {
