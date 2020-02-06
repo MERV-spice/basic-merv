@@ -61,6 +61,7 @@
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-appearance": "^0.3.2",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.5.6",
     "react-native-modal-datetime-picker": "^8.1.1",
@@ -78,7 +79,8 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "sequelize": "^5.21.3"
+    "sequelize": "^5.21.3",
+    "expo-font": "~8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
