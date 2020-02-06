@@ -1,10 +1,21 @@
 import React from 'react';
-import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground
+} from 'react-native';
 import {ListItem, Overlay, Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {fetchGames} from '../store/games';
 import {joinGame} from '../store/user';
 import {Actions} from 'react-native-router-flux';
+import parchment from '../../assets/parchment.jpg';
+
+const {width: WIDTH} = Dimensions.get('window');
 
 const GamesPage = ({setGames, games, joinGame, userId}) => {
   React.useEffect(() => {
@@ -17,8 +28,13 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
   const [gameLookedAt, setGameLookedAt] = React.useState('');
 
   return (
-    <View style={styles.container}>
-      <Button onPress={() => Actions.makeGame()} title="Make Game" />
+    <ImageBackground source={parchment} style={styles.container}>
+      <TouchableOpacity
+        style={styles.btnMakeGame}
+        onPress={() => Actions.makeGame()}
+      >
+        <Text style={styles.text}>Make Game</Text>
+      </TouchableOpacity>
       <Text style={styles.currGamesTitle}>Current Games</Text>
       <FlatList
         data={games}
@@ -65,7 +81,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
         listEmptyComponent={<Text>No current games</Text>}
         extraData={games}
       />
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -107,6 +123,19 @@ const styles = StyleSheet.create({
   },
   flatList: {
     backgroundColor: 'pink'
+  },
+  btnMakeGame: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginTop: 20
+  },
+  text: {
+    color: '#DBF9F4',
+    fontSize: 16,
+    textAlign: 'center'
   }
 });
 
