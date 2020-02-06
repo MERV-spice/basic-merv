@@ -17,6 +17,7 @@ import RadioForm, {
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {Actions} from 'react-native-router-flux';
 import {addGameThunk} from '../store/games';
+import {fetchClues} from '../store/clues';
 import {connect} from 'react-redux';
 import {Overlay} from 'react-native-elements';
 const faker = require('faker/locale/en_US');
@@ -59,6 +60,7 @@ class MakeGame extends React.Component {
 
   componentDidMount() {
     this.setState({userId: this.props.user});
+    this.props.fetchClues();
   }
 
   addClue() {
@@ -482,7 +484,8 @@ const mapState = state => ({
 });
 
 const mapDispatch = {
-  addGameThunk
+  addGameThunk,
+  fetchClues
 };
 
 export default connect(mapState, mapDispatch)(MakeGame);
