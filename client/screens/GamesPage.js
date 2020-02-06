@@ -5,9 +5,10 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
-  ImageBackground
+  ImageBackground,
+  View
 } from 'react-native';
-import {ListItem, Overlay, Button} from 'react-native-elements';
+import {ListItem, Overlay} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {fetchGames} from '../store/games';
 import {joinGame} from '../store/user';
@@ -37,57 +38,63 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
   return (
     <ImageBackground source={parchment} style={styles.container}>
       {fontLoaded ? (
-        <Text style={styles.currGamesTitle}>Current Games</Text>
-      ) : null}
-      <FlatList
-        data={games}
-        renderItem={game => {
-          game = game.item;
-          return (
-            <React.Fragment key={game.id}>
-              <Overlay
-                isVisible={game.id === gameLookedAt}
-                onBackdropPress={() => setGameLookedAt(-1)}
-                height={200}
-                overlayStyle={styles.overlayContainer}
-              >
-                <React.Fragment>
-                  <React.Fragment>
-                    <Text style={styles.currGamesListText}>{game.name}</Text>
-                    <Text style={styles.text}>
-                      Players: {game.users.length}
-                    </Text>
-                    <Text style={styles.text}>Clues: {game.clues.length}</Text>
-                  </React.Fragment>
-                  <TouchableOpacity
-                    style={styles.btnJoinGame}
-                    onPress={() => joinGame(game.id, userId)}
+        <View>
+          <Text style={styles.currGamesTitle}>Current Games</Text>
+          <FlatList
+            data={games}
+            renderItem={game => {
+              game = game.item;
+              return (
+                <React.Fragment key={game.id}>
+                  <Overlay
+                    isVisible={game.id === gameLookedAt}
+                    onBackdropPress={() => setGameLookedAt(-1)}
+                    height={200}
+                    overlayStyle={styles.overlayContainer}
                   >
-                    <Text style={styles.text}>Join Game</Text>
-                  </TouchableOpacity>
-                </React.Fragment>
-              </Overlay>
+                    <React.Fragment>
+                      <React.Fragment>
+                        <Text style={styles.currGamesListText}>
+                          {game.name}
+                        </Text>
+                        <Text style={styles.text}>
+                          Players: {game.users.length}
+                        </Text>
+                        <Text style={styles.text}>
+                          Clues: {game.clues.length}
+                        </Text>
+                      </React.Fragment>
+                      <TouchableOpacity
+                        style={styles.btnJoinGame}
+                        onPress={() => joinGame(game.id, userId)}
+                      >
+                        <Text style={styles.text}>Join Game</Text>
+                      </TouchableOpacity>
+                    </React.Fragment>
+                  </Overlay>
 
-              <ListItem
-                key={game.id}
-                titleStyle={styles.currGamesListText}
-                title={game.name}
-                onPress={() => setGameLookedAt(game.id)}
-                containerStyle={styles.listItemContainer}
-              />
-            </React.Fragment>
-          );
-        }}
-        keyExtractor={item => item.id.toString()}
-        listEmptyComponent={<Text>No current games</Text>}
-        extraData={games}
-      />
-      <TouchableOpacity
-        style={styles.btnMakeGame}
-        onPress={() => Actions.makeGame()}
-      >
-        <Text style={styles.text}>Create A Game</Text>
-      </TouchableOpacity>
+                  <ListItem
+                    key={game.id}
+                    titleStyle={styles.currGamesListText}
+                    title={game.name}
+                    onPress={() => setGameLookedAt(game.id)}
+                    containerStyle={styles.listItemContainer}
+                  />
+                </React.Fragment>
+              );
+            }}
+            keyExtractor={item => item.id.toString()}
+            listEmptyComponent={<Text>No current games</Text>}
+            extraData={games}
+          />
+          <TouchableOpacity
+            style={styles.btnMakeGame}
+            onPress={() => Actions.makeGame()}
+          >
+            <Text style={styles.text}>Create A Game</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
     </ImageBackground>
   );
 };
@@ -102,6 +109,9 @@ const styles = StyleSheet.create({
   currGamesTitle: {
     fontFamily: 'Kranky-Regular',
     fontSize: 50,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
     color: 'black',
     fontWeight: '500',
     marginTop: 10,
@@ -111,6 +121,9 @@ const styles = StyleSheet.create({
   currGamesListText: {
     fontFamily: 'Kranky-Regular',
     fontSize: 35,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
     color: 'black',
     fontWeight: '500',
     opacity: 0.9,
@@ -133,6 +146,8 @@ const styles = StyleSheet.create({
   listItemContainer: {
     width: WIDTH - 55,
     height: 80,
+    borderWidth: 1,
+    borderColor: 'black',
     borderRadius: 25,
     backgroundColor: '#E20014',
     justifyContent: 'center',
@@ -144,6 +159,8 @@ const styles = StyleSheet.create({
   btnMakeGame: {
     width: WIDTH - 55,
     height: 45,
+    borderWidth: 1,
+    borderColor: 'black',
     borderRadius: 25,
     backgroundColor: '#E20014',
     justifyContent: 'center',
@@ -152,6 +169,8 @@ const styles = StyleSheet.create({
   btnJoinGame: {
     width: WIDTH - 100,
     height: 45,
+    borderWidth: 1,
+    borderColor: 'black',
     borderRadius: 25,
     backgroundColor: '#E20014',
     justifyContent: 'center',
@@ -161,7 +180,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Kranky-Regular',
     color: 'black',
     fontSize: 22,
-    textAlign: 'center'
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
   }
 });
 

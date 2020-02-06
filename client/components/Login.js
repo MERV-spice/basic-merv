@@ -51,62 +51,64 @@ class AuthForm extends Component {
   render() {
     return (
       <ImageBackground source={parchment} style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            source={require('../../assets/redx.png')}
-            style={styles.logo}
-          />
-          {this.state.fontLoaded ? (
-            <Text style={styles.logoText}>Ahoy!!!</Text>
-          ) : null}
-        </View>
+        {this.state.fontLoaded ? (
+          <View>
+            <View style={styles.logoContainer}>
+              <Image
+                source={require('../../assets/redx.png')}
+                style={styles.logo}
+              />
+              <Text style={styles.logoText}>Ahoy!!!</Text>
+            </View>
 
-        <View style={styles.inputContainer}>
-          <Ionicons
-            name="md-at"
-            size={28}
-            color="#0A122A"
-            style={styles.inputIcon}
-          />
-          <TextInput
-            style={styles.input}
-            value={this.state.email}
-            onChangeText={email => this.setState({email})}
-            placeholder="Email"
-            underlineColorAndroid="transparent"
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Ionicons
-            name="ios-lock"
-            size={28}
-            color="#0A122A"
-            style={styles.inputIcon}
-          />
-          <TextInput
-            style={styles.input}
-            value={this.state.password}
-            onChangeText={password => this.setState({password})}
-            placeholder="Password"
-            secureTextEntry={this.state.showPass}
-            underlineColorAndroid="transparent"
-          />
-          <TouchableOpacity
-            style={styles.btnEye}
-            onPress={this.showPass.bind(this)}
-          >
-            <Ionicons
-              name={this.state.press === false ? 'md-eye' : 'md-eye-off'}
-              size={26}
-            />
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={styles.btnLogin}
-          onPress={this.onLogin.bind(this)}
-        >
-          <Text style={styles.text}>Login</Text>
-        </TouchableOpacity>
+            <View style={styles.inputContainer}>
+              <Ionicons
+                name="md-at"
+                size={28}
+                color="#0A122A"
+                style={styles.inputIcon}
+              />
+              <TextInput
+                style={styles.input}
+                value={this.state.email}
+                onChangeText={email => this.setState({email})}
+                placeholder="Email"
+                underlineColorAndroid="transparent"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Ionicons
+                name="ios-lock"
+                size={28}
+                color="#0A122A"
+                style={styles.inputIcon}
+              />
+              <TextInput
+                style={styles.input}
+                value={this.state.password}
+                onChangeText={password => this.setState({password})}
+                placeholder="Password"
+                secureTextEntry={this.state.showPass}
+                underlineColorAndroid="transparent"
+              />
+              <TouchableOpacity
+                style={styles.btnEye}
+                onPress={this.showPass.bind(this)}
+              >
+                <Ionicons
+                  name={this.state.press === false ? 'md-eye' : 'md-eye-off'}
+                  size={26}
+                />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              style={styles.btnLogin}
+              onPress={this.onLogin.bind(this)}
+            >
+              <Text style={styles.text}>Login</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
       </ImageBackground>
     );
   }
@@ -147,7 +149,9 @@ export const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '500',
     marginTop: 10,
-    opacity: 0.9
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
   },
   input: {
     width: WIDTH - 55,
@@ -184,8 +188,11 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'Kranky-Regular',
-    color: '#DBF9F4',
+    color: 'black',
     fontSize: 22,
-    textAlign: 'center'
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
   }
 });
