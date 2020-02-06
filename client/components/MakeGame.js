@@ -39,12 +39,11 @@ class MakeGame extends React.Component {
       end: '',
       startDB: null,
       endDB: null,
-      pickingStart: false,
-      pickingEnd: false
     };
     this.addDBClue = this.addDBClue.bind(this);
     this.setPrivacy = this.setPrivacy.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
+    this.pickingStart = true;
   }
 
   componentDidMount() {
@@ -133,15 +132,13 @@ class MakeGame extends React.Component {
       this.setState({startDB: date});
       date = date.toLocaleString();
       this.setState({start: date});
-    } else if (this.state.pickingEnd) {
+    } else {
       this.setState({endDB: date});
       date = date.toLocaleString();
       this.setState({end: date});
     }
     this.setState({
       isDatePickerVisible: false,
-      pickingEnd: false,
-      pickingStart: false
     });
   }
 
@@ -273,16 +270,18 @@ class MakeGame extends React.Component {
           <React.Fragment>
             <Button
               title="Pick Start"
-              onPress={() =>
-                this.setState({isDatePickerVisible: true, pickingStart: true})
-              }
+              onPress={() => {
+                this.setState({isDatePickerVisible: true})
+                this.startPicker = true;
+}}
             />
             <Text>{this.state.start}</Text>
             <Button
               title="Pick End"
-              onPress={() =>
-                this.setState({isDatePickerVisible: true, pickingEnd: true})
-              }
+              onPress={() => {
+                this.setState({isDatePickerVisible: true});
+this.startPicker = false;
+}}
             />
             <Text>{this.state.end}</Text>
             <DateTimePickerModal
@@ -293,8 +292,6 @@ class MakeGame extends React.Component {
               onCancel={() =>
                 this.setState({
                   isDatePickerVisible: false,
-                  pickingStart: false,
-                  pickingEnd: false
                 })
               }
             />
