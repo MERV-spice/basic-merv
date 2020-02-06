@@ -55,7 +55,11 @@ class GameOver extends Component {
           Number of Items Found: {userScore ? userScore.itemsFound : null}
         </Text>
         <Text>Time elapsed: {time}</Text>
-        <Button title="Play Again?" style={styles.input} />
+        <Button
+          title="Play Again?"
+          style={styles.input}
+          onPress={() => this.props.navigation.navigate('GamesPage')}
+        />
       </View>
     );
   }
