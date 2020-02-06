@@ -58,7 +58,7 @@ export default class CameraComp extends Component {
         position: this.state.position,
         compare: false
       });
-      this.props.navigation.state.params.fn(data);
+      this.props.navigation.state.params.fn(data); //
     } catch (err) {
       console.error(err);
     }
