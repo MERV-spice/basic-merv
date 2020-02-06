@@ -16,6 +16,7 @@ import {fetchClues} from '../store/clues';
 import {connect} from 'react-redux';
 import {Overlay} from 'react-native-elements';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {Appearance} from 'react-native-appearance';
 
 class MakeGame extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class MakeGame extends React.Component {
       keyCode: null,
       showOverlay: false,
       isDatePickerVisible: false,
+      isDarkModeEnabled: false,
       start: '',
       end: '',
       pickingStart: false,
@@ -46,6 +48,11 @@ class MakeGame extends React.Component {
   componentDidMount() {
     this.setState({userId: this.props.user});
     this.props.fetchClues();
+
+    //enabling date/time picker for dark mode on ios
+    let colorScheme = Appearance.getColorScheme();
+    let isDarkModeEnabled = colorScheme === 'dark';
+    this.setState({isDarkModeEnabled});
   }
 
   addClue() {
@@ -114,8 +121,8 @@ class MakeGame extends React.Component {
     }
   }
 
+  //confirming start and end dates
   handleConfirm(date) {
-    // console.log('date: ', date)
     date = date.toLocaleString();
     console.log(date);
     if (this.state.pickingStart) {
@@ -276,6 +283,7 @@ class MakeGame extends React.Component {
               isVisible={this.state.isDatePickerVisible}
               mode="datetime"
               onConfirm={this.handleConfirm}
+              isDarkModeEnabled={this.state.isDarkModeEnabled}
               onCancel={() =>
                 this.setState({
                   isDatePickerVisible: false,
