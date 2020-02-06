@@ -64,9 +64,10 @@ export default class CameraComp extends Component {
     }
   }
   pressHandler = () => {
-    this.snapPhoto();
-    this.props.navigation.navigate('MakeGame');
-  };
+    //
+    this.snapPhoto(); //
+    this.props.navigation.navigate('MakeGame'); //
+  }; //
   render() {
     return (
       <View style={{flex: 1}}>
@@ -103,7 +104,7 @@ export default class CameraComp extends Component {
               <Ionicons color="white" size={64} name="ios-reverse-camera" />
             </TouchableOpacity> */}
             <TouchableOpacity
-              onPress={this.pressHandler.bind(this)}
+              onPress={this.pressHandler.bind(this)} //
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',

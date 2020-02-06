@@ -5,14 +5,14 @@ import Camera from '../screens/Camera';
 import {createStackNavigator} from 'react-navigation-stack';
 import CluePage from '../screens/CluePage';
 import GameOver from '../screens/GameOver';
-import GamesPage from '../screens/GamesPage';
-import {MakeClueCamera, MakeGame} from '../components';
+import GamesPage from '../screens/GamesPage'; //
+import {MakeClueCamera, MakeGame} from '../components'; //
 
 const screens = {
   GamesPage: {
-    screen: GamesPage,
+    screen: GamesPage, //
     navigationOptions: {
-      headerShown: false,
+      headerShown: false, //
       tabBarLabel: 'GamesPage'
     }
   },
@@ -27,14 +27,15 @@ const screens = {
 const tab = createBottomTabNavigator(screens, {
   tabBarOptions: {
     visible: false
-  },
+  }, //
   navigationOptions: {
-    headerShown: false
+    //
+    headerShown: false //
   }
 });
 
 const appCon = createStackNavigator({
-  Home: tab,
+  Home: tab, //
   Camera: {
     screen: Camera,
     navigationOptions: {
@@ -46,18 +47,22 @@ const appCon = createStackNavigator({
     navigationOptions: {
       tabBarLabel: 'GameOver'
     }
-  },
+  }, //
   MakeGame: {
-    screen: MakeGame,
+    //
+    screen: MakeGame, //
     navigationOptions: {
-      tabBarLabel: 'MakeGame'
-    }
-  },
+      //
+      tabBarLabel: 'MakeGame' //
+    } //
+  }, //
   MakeClueCamera: {
-    screen: MakeClueCamera,
+    //
+    screen: MakeClueCamera, //
     navigationOptions: {
-      tabBarLabel: 'MakeClueCamera'
-    }
+      //
+      tabBarLabel: 'MakeClueCamera' //
+    } //
   }
 });
 
