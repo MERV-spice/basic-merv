@@ -6,7 +6,7 @@ import {fetchGames} from '../store/games';
 import {joinGame} from '../store/user';
 import {Actions} from 'react-native-router-flux';
 
-const GamesPage = ({fetchGames, games, joinGame, userId}) => {
+const GamesPage = ({fetchGames, games, joinGame, userId, navigation}) => {
   const [gameLookedAt, setGameLookedAt] = React.useState('');
 
   React.useEffect(() => {
@@ -24,7 +24,6 @@ const GamesPage = ({fetchGames, games, joinGame, userId}) => {
     //
     await setGames(); //
   }; //
-  const [gameLookedAt, setGameLookedAt] = React.useState('');
 
   return (
     <View style={styles.container}>
