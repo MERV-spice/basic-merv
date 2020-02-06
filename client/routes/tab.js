@@ -4,7 +4,7 @@ import {createAppContainer} from 'react-navigation';
 import Camera from '../screens/Camera';
 import {createStackNavigator} from 'react-navigation-stack';
 import CluePage from '../screens/CluePage';
-import GameOver from '../screens/GameOver';
+import GameOver from '../components/GameOver';
 import GamesPage from '../screens/GamesPage'; //
 import {MakeClueCamera, MakeGame} from '../components'; //
 
