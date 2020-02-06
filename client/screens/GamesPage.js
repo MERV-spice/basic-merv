@@ -2,7 +2,6 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  View,
   FlatList,
   TouchableOpacity,
   Dimensions,
@@ -14,10 +13,20 @@ import {fetchGames} from '../store/games';
 import {joinGame} from '../store/user';
 import {Actions} from 'react-native-router-flux';
 import parchment from '../../assets/parchment.jpg';
+import * as Font from 'expo-font';
 
 const {width: WIDTH} = Dimensions.get('window');
 
 const GamesPage = ({setGames, games, joinGame, userId}) => {
+  const [fontLoaded, setFontLoaded] = React.useState(false);
+  const [gameLookedAt, setGameLookedAt] = React.useState('');
+
+  React.useEffect(() => {
+    Font.loadAsync({
+      'VastShadow-Regular': require('../../assets/fonts/VastShadow-Regular.ttf')
+    }).then(setFontLoaded(true));
+  });
+
   React.useEffect(() => {
     const setter = async () => {
       await setGames();
@@ -25,17 +34,11 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
     setter();
   }, []);
 
-  const [gameLookedAt, setGameLookedAt] = React.useState('');
-
   return (
     <ImageBackground source={parchment} style={styles.container}>
-      <TouchableOpacity
-        style={styles.btnMakeGame}
-        onPress={() => Actions.makeGame()}
-      >
-        <Text style={styles.text}>Make Game</Text>
-      </TouchableOpacity>
-      <Text style={styles.currGamesTitle}>Current Games</Text>
+      {fontLoaded ? (
+        <Text style={styles.currGamesTitle}>Current Games</Text>
+      ) : null}
       <FlatList
         data={games}
         renderItem={game => {
@@ -81,6 +84,12 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
         listEmptyComponent={<Text>No current games</Text>}
         extraData={games}
       />
+      <TouchableOpacity
+        style={styles.btnMakeGame}
+        onPress={() => Actions.makeGame()}
+      >
+        <Text style={styles.text}>Make Game</Text>
+      </TouchableOpacity>
     </ImageBackground>
   );
 };
@@ -93,9 +102,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   currGamesTitle: {
+    fontFamily: 'VastShadow-Regular',
+    fontSize: 35,
     color: 'black',
-    fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: '500',
+    marginTop: 10,
+    opacity: 0.9,
     textAlign: 'center'
   },
   overlayContainer: {
@@ -113,13 +125,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'red'
   },
   listItemContainer: {
-    height: 80, //45,
-    width: 250,
-    borderRadius: 4,
-    borderWidth: 0.5,
-    borderColor: 'black',
-    marginBottom: 2,
-    backgroundColor: 'lightgray'
+    width: WIDTH - 55,
+    height: 80,
+    borderRadius: 25,
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginTop: 20
   },
   flatList: {
     backgroundColor: 'pink'
