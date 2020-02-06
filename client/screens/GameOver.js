@@ -19,7 +19,7 @@ class GameOver extends Component {
     return (
       <View style={styles.container}>
         <Text>Good Job: {user.email}!!!</Text>
-        <Text>Leaderboard :</Text>
+        <Text>Leaderboard:</Text>
         <Text>1...</Text>
         {/*props.user.game.highestscore.idk.how.this.will.work*/}
         <Text>2...</Text>
@@ -63,8 +63,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-    fontSize: 10
+    backgroundColor: '#ecf0f1'
   },
   input: {
     width: 200,
