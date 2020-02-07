@@ -39,8 +39,12 @@ const CluePage = props => {
 
   return (
     <View style={styles.container}>
-      <Text>Game Starts At: {props.user.game.startTime}</Text>
-      <Text>Game Ends At: {props.user.game.endTime}</Text>
+      {props.user.game.startTime && props.user.game.endTime ? (
+        <React.Fragment>
+          <Text>Game Starts At: {props.user.game.startTime}</Text>
+          <Text>Game Ends At: {props.user.game.endTime}</Text>
+        </React.Fragment>
+      ) : null}
       {currentClue < clues.length ? (
         <React.Fragment>
           <Text style={styles.currClueTitle}>Clue: </Text>
