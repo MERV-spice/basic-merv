@@ -13,7 +13,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import RadioForm from 'react-native-simple-radio-button';
-import {Actions} from 'react-native-router-flux';
+// import {Actions} from 'react-native-router-flux';
 import {addGameThunk} from '../store/games';
 import {fetchClues} from '../store/clues';
 import {connect} from 'react-redux';
@@ -47,11 +47,14 @@ class MakeGame extends React.Component {
       end: '',
       pickingStart: false,
       pickingEnd: false,
-      fontLoaded: false
+      fontLoaded: false,
+      startDB: null,
+      endDB: null
     };
     this.addDBClue = this.addDBClue.bind(this);
     this.setPrivacy = this.setPrivacy.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
+    this.pickingStart = true;
   }
 
   async componentDidMount() {
@@ -109,8 +112,12 @@ class MakeGame extends React.Component {
     let newGame = {
       name: this.state.gameName,
       clues: this.state.gameClues,
-      makerId: this.state.userId
+      makerId: this.state.userId,
+      startTime: this.state.startDB,
+      endTime: this.state.endDB,
+      passcode: this.state.keyCode
     };
+    this.props.navigation.navigate('GamesPage');
     this.props.addGameThunk(newGame);
   }
 
@@ -137,21 +144,24 @@ class MakeGame extends React.Component {
   //confirming start and end dates
   handleConfirm(date) {
     date = date.toLocaleString();
-    console.log(date);
-    if (this.state.pickingStart) {
+    if (this.pickingStart) {
+      this.setState({startDB: date});
+      date = date.toLocaleString();
       this.setState({start: date});
-    } else if (this.state.pickingEnd) {
+    } else {
+      this.setState({endDB: date});
+      date = date.toLocaleString();
       this.setState({end: date});
     }
     this.setState({
-      isDatePickerVisible: false,
-      pickingEnd: false,
-      pickingStart: false
+      isDatePickerVisible: false
     });
   }
 
   goToCamera() {
-    Actions.makeClueCamera({fn: img => this.setState({clueImg: img})});
+    this.props.navigation.navigate('MakeClueCamera', {
+      fn: img => this.setState({clueImg: img})
+    });
   }
 
   render() {
@@ -337,7 +347,36 @@ class MakeGame extends React.Component {
             {/* Picking date and time */}
             {/* https://github.com/mmazzarolo/react-native-modal-datetime-picker
           <---- link to github for date/time picker for support/troubleshooting */}
-
+            <React.Fragment>
+              <Button
+                title="Pick Start"
+                onPress={() => {
+                  this.setState({isDatePickerVisible: true});
+                  this.pickingStart = true;
+                }}
+              />
+              <Text>{this.state.start}</Text>
+              <Button
+                title="Pick End"
+                onPress={() => {
+                  this.setState({isDatePickerVisible: true});
+                  this.pickingStart = false;
+                }}
+              />
+              <Text>{this.state.end}</Text>
+              <DateTimePickerModal
+                isVisible={this.state.isDatePickerVisible}
+                mode="datetime"
+                onConfirm={this.handleConfirm}
+                isDarkModeEnabled={this.state.isDarkModeEnabled}
+                onCancel={() =>
+                  this.setState({
+                    isDatePickerVisible: false
+                  })
+                }
+              />
+            </React.Fragment>
+            {/* Set game as public or private */}
             {/* https://github.com/moschan/react-native-simple-radio-button <--- info about radio
                 buttons github */}
             <Text style={styles.newGameText}>This game will be: </Text>

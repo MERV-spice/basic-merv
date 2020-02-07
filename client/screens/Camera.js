@@ -26,10 +26,6 @@ export default class CameraComp extends Component {
     this.position = {};
   }
 
-  pressHandler = () => {
-    this.props.navigation.navigate('GameOver');
-  };
-
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA);
     findCoordinates(position => (this.position = position));
@@ -44,6 +40,7 @@ export default class CameraComp extends Component {
         fixOrientation: true,
         exif: true
       };
+      this.props.navigation.navigate('CluePage'); //
 
       const photo = await this.camera.takePictureAsync(options);
       photo.exif.Orientation = 1;
@@ -86,7 +83,7 @@ export default class CameraComp extends Component {
               <Ionicons color="white" size={64} name="ios-reverse-camera" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={this.snapPhoto.bind(this)}
+              onPress={this.snapPhoto.bind(this)} //
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',
