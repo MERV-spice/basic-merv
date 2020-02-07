@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {fetchGames} from '../store/games';
 import {fetchClues} from '../store/clues';
 import {AppLoading} from 'expo';
+import User from './User';
 
 const Route = ({user, fetchGames, fetchClues}) => {
   const [isReady, setIsReady] = React.useState(false);
@@ -30,7 +31,8 @@ const Route = ({user, fetchGames, fetchClues}) => {
     <React.Fragment>
       {user.id ? (
         <React.Fragment>
-          <Navigator />
+          <User />
+          {/* <Navigator /> */}
         </React.Fragment>
       ) : (
         <Login />

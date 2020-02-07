@@ -164,6 +164,7 @@ class MakeGame extends React.Component {
     });
   }
 
+  // eslint-disable-next-line complexity
   render() {
     if (!this.props.clues) return <Text>Loading...</Text>;
     return (
