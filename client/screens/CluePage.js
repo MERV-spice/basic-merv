@@ -44,7 +44,7 @@ const CluePage = props => {
       {props.user.game.startTime && props.user.game.endTime ? (
         // https://www.npmjs.com/package/react-native-countdown-component for info about timer component
         <CountDown
-          until={new Date() - props.user.game.endTime}
+          until={(new Date(props.user.game.endTime) - new Date()) / 1000}
           onFinish={() => props.navigation.navigate('GameOver')}
           size={20}
           digitStyle={{

@@ -371,6 +371,11 @@ class MakeGame extends React.Component {
             <TouchableOpacity
               style={styles.btn}
               onPress={this.addGame.bind(this)}
+              disabled={
+                !this.state.userId ||
+                !this.state.gameName ||
+                !this.state.gameClues.length
+              }
             >
               <Text style={styles.text}>create game</Text>
             </TouchableOpacity>
