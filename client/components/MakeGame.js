@@ -71,6 +71,7 @@ class MakeGame extends React.Component {
   }
 
   addClue() {
+    console.log('adding image');
     let newGameClues = this.state.gameClues.concat([
       {
         clueNum: this.state.clueNum,
@@ -80,6 +81,7 @@ class MakeGame extends React.Component {
         clueHint: this.state.clueHint
       }
     ]);
+    // console.log('clueText', this.state.clueText, 'clueImg', this.state.clueImg)
     this.setState({
       gameClues: newGameClues,
       clueNum: this.state.clueNum + 1,
@@ -163,6 +165,7 @@ class MakeGame extends React.Component {
     });
   }
 
+  // eslint-disable-next-line complexity
   render() {
     if (!this.props.clues) return <Text>Loading...</Text>;
     return (
@@ -187,7 +190,13 @@ class MakeGame extends React.Component {
                       </View>
                       <View style={styles.addClueBtnContainer}>
                         <TouchableOpacity
-                          onPress={() => this.addDBClue(item)}
+                          onPress={() => {
+                            this.addDBClue(item);
+                            this.setState({clueText: item.text});
+                            this.setState({
+                              clueImg: item.pictures[0].accessPic
+                            });
+                          }}
                           style={styles.overlayBtn}
                         >
                           <Text style={styles.text}>add clue</Text>
@@ -347,6 +356,7 @@ class MakeGame extends React.Component {
                     <TouchableOpacity
                       style={styles.btn}
                       onPress={this.addClue.bind(this)}
+                      disabled={!this.state.clueText || !this.state.clueImg}
                     >
                       <Text style={styles.text}>add clue</Text>
                     </TouchableOpacity>
@@ -375,7 +385,9 @@ class MakeGame extends React.Component {
               disabled={
                 !this.state.userId ||
                 !this.state.gameName ||
-                !this.state.gameClues.length
+                !this.state.gameClues.length ||
+                !this.state.startTime ||
+                !this.state.endTime
               }
             >
               <Text style={styles.text}>create game</Text>
