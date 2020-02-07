@@ -21,6 +21,7 @@ export default class CameraComp extends Component {
     this.position = {};
     this.upload = this.upload.bind(this);
     this.snapPhoto = this.snapPhoto.bind(this);
+    this.pressHandler = this.pressHandler.bind(this);
   }
 
   async componentDidMount() {
@@ -57,12 +58,16 @@ export default class CameraComp extends Component {
         position: this.state.position,
         compare: false
       });
-      this.props.fn(data);
+      this.props.navigation.state.params.fn(data); //
     } catch (err) {
       console.error(err);
     }
   }
-
+  pressHandler = () => {
+    //
+    this.snapPhoto(); //
+    this.props.navigation.navigate('MakeGame'); //
+  }; //
   render() {
     return (
       <View style={{flex: 1}}>
@@ -99,7 +104,7 @@ export default class CameraComp extends Component {
               <Ionicons color="white" size={64} name="ios-reverse-camera" />
             </TouchableOpacity> */}
             <TouchableOpacity
-              onPress={this.snapPhoto.bind(this)}
+              onPress={this.pressHandler.bind(this)} //
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',
