@@ -15,6 +15,7 @@ import {connect} from 'react-redux';
 import {auth} from '../store';
 import * as Font from 'expo-font';
 import parchment from '../../assets/parchment.jpg';
+import {NavigationEvents} from 'react-navigation';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -107,6 +108,12 @@ class AuthForm extends Component {
                 onPress={this.onLogin.bind(this)}
               >
                 <Text style={styles.text}>Login</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.btnLogin}
+                // onPress={() => this.props.navigation.navigate('SignUp')}
+              >
+                <Text style={styles.text}>Sign Up</Text>
               </TouchableOpacity>
             </View>
           ) : null}

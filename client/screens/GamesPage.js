@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 50
+    marginBottom: 50,
+    marginTop: 50
   },
   logo: {
     width: 75,
