@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   TextInput,
   Image,
   FlatList,
@@ -13,7 +12,6 @@ import {
   TouchableOpacity
 } from 'react-native';
 import RadioForm from 'react-native-simple-radio-button';
-// import {Actions} from 'react-native-router-flux';
 import {addGameThunk} from '../store/games';
 import {fetchClues} from '../store/clues';
 import {connect} from 'react-redux';
@@ -72,6 +70,7 @@ class MakeGame extends React.Component {
   }
 
   addClue() {
+    console.log('adding image');
     let newGameClues = this.state.gameClues.concat([
       {
         clueNum: this.state.clueNum,
@@ -81,6 +80,7 @@ class MakeGame extends React.Component {
         clueHint: this.state.clueHint
       }
     ]);
+    // console.log('clueText', this.state.clueText, 'clueImg', this.state.clueImg)
     this.setState({
       gameClues: newGameClues,
       clueNum: this.state.clueNum + 1,
@@ -181,16 +181,26 @@ class MakeGame extends React.Component {
                   return (
                     <View style={styles.overlayItem}>
                       <Text style={styles.text}>{item.text}</Text>
-                      <Image
-                        source={{uri: item.pictures[0].accessPic}}
-                        style={{width: 50, height: 50}}
-                      />
-                      <TouchableOpacity
-                        onPress={() => this.addDBClue(item)}
-                        style={styles.btn}
-                      >
-                        <Text style={styles.text}>Add Clue</Text>
-                      </TouchableOpacity>
+                      <View style={styles.imgContainer}>
+                        <Image
+                          source={{uri: item.pictures[0].accessPic}}
+                          style={{width: 50, height: 50}}
+                        />
+                      </View>
+                      <View style={styles.addClueBtnContainer}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.addDBClue(item);
+                            this.setState({clueText: item.text});
+                            this.setState({
+                              clueImg: item.pictures[0].accessPic
+                            });
+                          }}
+                          style={styles.overlayBtn}
+                        >
+                          <Text style={styles.text}>add clue</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   );
                 }}
@@ -222,22 +232,28 @@ class MakeGame extends React.Component {
             <React.Fragment>
               <TouchableOpacity
                 style={styles.timeBtn}
-                onPress={() =>
-                  this.setState({isDatePickerVisible: true, pickingStart: true})
-                }
+                onPress={() => {
+                  this.setState({isDatePickerVisible: true});
+                  this.pickingStart = true;
+                }}
               >
                 <Text style={styles.text}>pick a start time</Text>
               </TouchableOpacity>
-              <Text style={styles.text}>{this.state.start}</Text>
+              <View style={styles.timeContainer}>
+                <Text style={styles.text}>{this.state.start}</Text>
+              </View>
               <TouchableOpacity
                 style={styles.timeBtn}
-                onPress={() =>
-                  this.setState({isDatePickerVisible: true, pickingEnd: true})
-                }
+                onPress={() => {
+                  this.setState({isDatePickerVisible: true});
+                  this.pickingStart = false;
+                }}
               >
                 <Text style={styles.text}>pick an end time</Text>
               </TouchableOpacity>
-              <Text style={styles.text}>{this.state.end}</Text>
+              <View style={styles.timeContainer}>
+                <Text style={styles.text}>{this.state.end}</Text>
+              </View>
               <DateTimePickerModal
                 isVisible={this.state.isDatePickerVisible}
                 mode="datetime"
@@ -335,51 +351,19 @@ class MakeGame extends React.Component {
                   >
                     <Text style={styles.text}>take a picture</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.overlayBtn}
-                    onPress={this.addClue.bind(this)}
-                  >
-                    <Text style={styles.text}>add clue</Text>
-                  </TouchableOpacity>
+                  <View>
+                    <TouchableOpacity
+                      style={styles.btn}
+                      onPress={this.addClue.bind(this)}
+                      disabled={!this.state.clueText || !this.state.clueImg}
+                    >
+                      <Text style={styles.text}>add clue</Text>
+                    </TouchableOpacity>
+                  </View>
                 </React.Fragment>
               ) : // // if you are using a clue from the database all changes on overlay
               null}
             </React.Fragment>
-            {/* Picking date and time */}
-            {/* https://github.com/mmazzarolo/react-native-modal-datetime-picker
-          <---- link to github for date/time picker for support/troubleshooting */}
-            <React.Fragment>
-              <Button
-                title="Pick Start"
-                onPress={() => {
-                  this.setState({isDatePickerVisible: true});
-                  this.pickingStart = true;
-                }}
-              />
-              <Text>{this.state.start}</Text>
-              <Button
-                title="Pick End"
-                onPress={() => {
-                  this.setState({isDatePickerVisible: true});
-                  this.pickingStart = false;
-                }}
-              />
-              <Text>{this.state.end}</Text>
-              <DateTimePickerModal
-                isVisible={this.state.isDatePickerVisible}
-                mode="datetime"
-                onConfirm={this.handleConfirm}
-                isDarkModeEnabled={this.state.isDarkModeEnabled}
-                onCancel={() =>
-                  this.setState({
-                    isDatePickerVisible: false
-                  })
-                }
-              />
-            </React.Fragment>
-            {/* Set game as public or private */}
-            {/* https://github.com/moschan/react-native-simple-radio-button <--- info about radio
-                buttons github */}
             <Text style={styles.newGameText}>This game will be: </Text>
             <RadioForm
               radio_props={[
@@ -400,7 +384,9 @@ class MakeGame extends React.Component {
               disabled={
                 !this.state.userId ||
                 !this.state.gameName ||
-                !this.state.gameClues.length
+                !this.state.gameClues.length ||
+                !this.state.startTime ||
+                !this.state.endTime
               }
             >
               <Text style={styles.text}>create game</Text>
@@ -445,7 +431,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: 'rgba(219,249,244,0.35)',
     fontSize: 16,
-    marginBottom: 10
+    marginBottom: 20
   },
   inputIcon: {
     position: 'absolute',
@@ -485,11 +471,11 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: '#E20014',
     justifyContent: 'center',
-    marginTop: 20
+    marginBottom: 30
   },
   overlayBtn: {
-    width: WIDTH - 80,
-    height: 45,
+    width: WIDTH - 240,
+    height: 30,
     borderRadius: 25,
     borderWidth: 1,
     borderColor: 'black',
@@ -517,5 +503,16 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginTop: 10
+  },
+  timeContainer: {
+    marginTop: 8
+  },
+  addClueBtnContainer: {
+    alignItems: 'center',
+    paddingBottom: 5
+  },
+  imgContainer: {
+    alignItems: 'center',
+    paddingTop: 5
   }
 });
