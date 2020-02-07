@@ -46,8 +46,6 @@ const CluePage = props => {
           <Text>Game Ends At: {props.user.game.endTime}</Text>
         </React.Fragment>
       ) : null}
-      <Text>Game Starts At: {props.user.game.startTime}</Text>
-      <Text>Game Ends At: {props.user.game.endTime}</Text>
       <Text style={styles.currClueTitle}>Clue: </Text>
       <Image
         style={{width: 200, height: 200}}
