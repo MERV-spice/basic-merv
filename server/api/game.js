@@ -36,7 +36,10 @@ router.post('/', async (req, res, next) => {
     });
     await Promise.all(
       req.body.clues.map(async clue => {
-        const newClue = await Clue.create({text: clue.clueText});
+        const newClue = await Clue.create({
+          text: clue.clueText,
+          hint: clue.clueHint
+        });
         const picture = await Picture.findByPk(clue.clueImgId);
         await input(picture.accessPic, picture.id.toString());
         await newClue.addPicture(picture);

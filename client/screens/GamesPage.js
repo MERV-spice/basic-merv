@@ -19,7 +19,7 @@ import * as Font from 'expo-font';
 
 const {width: WIDTH} = Dimensions.get('window');
 
-const GamesPage = ({setGames, games, joinGame, userId}) => {
+const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [gameLookedAt, setGameLookedAt] = React.useState('');
 
@@ -73,7 +73,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
                       </React.Fragment>
                       <TouchableOpacity
                         style={styles.btnJoinGame}
-                        onPress={() => joinGame(game.id, userId)}
+                        onPress={() => joinGamePressHandler(game.id, userId)}
                       >
                         <Text style={styles.text}>Join Game</Text>
                       </TouchableOpacity>
@@ -96,7 +96,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
           />
           <TouchableOpacity
             style={styles.btnMakeGame}
-            onPress={() => Actions.makeGame()}
+            onPress={() => navigation.navigate('MakeGame')}
           >
             <Text style={styles.text}>Create A Game</Text>
           </TouchableOpacity>
