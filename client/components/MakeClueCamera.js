@@ -107,8 +107,7 @@ export default class CameraComp extends Component {
               onPress={this.pressHandler.bind(this)} //
               style={{
                 alignSelf: 'flex-end',
-                alignItems: 'center',
-                marginLeft: 100
+                marginLeft: 175
               }}
             >
               <MaterialCommunityIcons
