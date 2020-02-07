@@ -22,6 +22,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {Appearance} from 'react-native-appearance';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
+import {Ionicons} from '@expo/vector-icons';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -168,15 +169,17 @@ class MakeGame extends React.Component {
                 renderItem={({item}) => {
                   return (
                     <View style={styles.overlayItem}>
-                      <Text>{item.text}</Text>
+                      <Text style={styles.text}>{item.text}</Text>
                       <Image
                         source={{uri: item.pictures[0].accessPic}}
                         style={{width: 50, height: 50}}
                       />
-                      <Button
-                        title="Add Clue"
+                      <TouchableOpacity
                         onPress={() => this.addDBClue(item)}
-                      />
+                        style={styles.btn}
+                      >
+                        <Text style={styles.text}>Add Clue</Text>
+                      </TouchableOpacity>
                     </View>
                   );
                 }}
@@ -190,13 +193,21 @@ class MakeGame extends React.Component {
                 style={styles.logo}
               />
             </View>
-            <TextInput
-              style={styles.input}
-              value={this.state.gameName}
-              onChangeText={gameName => this.setState({gameName})}
-              placeholder="Game Name"
-              underlineColorAndroid="transparent"
-            />
+            <View style={styles.inputContainer}>
+              <Ionicons
+                name="ios-create"
+                size={28}
+                color="#0A122A"
+                style={styles.inputIcon}
+              />
+              <TextInput
+                style={styles.input}
+                value={this.state.gameName}
+                onChangeText={gameName => this.setState({gameName})}
+                placeholder="Game Name"
+                underlineColorAndroid="transparent"
+              />
+            </View>
             <React.Fragment>
               <TouchableOpacity
                 style={styles.timeBtn}
@@ -314,7 +325,7 @@ class MakeGame extends React.Component {
                     <Text style={styles.text}>take a picture</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={styles.btn}
+                    style={styles.overlayBtn}
                     onPress={this.addClue.bind(this)}
                   >
                     <Text style={styles.text}>add clue</Text>
@@ -383,13 +394,18 @@ const styles = StyleSheet.create({
   input: {
     width: WIDTH - 55,
     height: 45,
-    paddingLeft: 25,
+    paddingLeft: 45,
     borderRadius: 25,
     borderWidth: 1,
     borderColor: 'black',
     backgroundColor: 'rgba(219,249,244,0.35)',
     fontSize: 16,
     marginBottom: 10
+  },
+  inputIcon: {
+    position: 'absolute',
+    top: 8,
+    left: 14
   },
   newGameHeader: {
     fontFamily: 'Kranky-Regular',
@@ -426,6 +442,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20
   },
+  overlayBtn: {
+    width: WIDTH - 80,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginTop: 20
+  },
   text: {
     fontFamily: 'Kranky-Regular',
     color: 'black',
@@ -436,12 +462,15 @@ const styles = StyleSheet.create({
     textShadowRadius: 10
   },
   overlayItem: {
-    backgroundColor: 'pink',
-    borderWidth: 10,
-    borderColor: 'green'
+    backgroundColor: '#ebdda0',
+    borderWidth: 1,
+    borderColor: 'black'
   },
   logo: {
-    width: 120,
-    height: 120
+    width: 75,
+    height: 75
+  },
+  inputContainer: {
+    marginTop: 10
   }
 });

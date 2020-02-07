@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     marginBottom: 50
   },
   logo: {
-    width: 120,
-    height: 120
+    width: 75,
+    height: 75
   },
   currGamesTitle: {
     fontFamily: 'Kranky-Regular',
