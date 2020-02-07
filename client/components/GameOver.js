@@ -39,7 +39,7 @@ class GameOver extends Component {
     }
 
     if (this.props.scores.length) {
-      let ms = new Date() - new Date(this.props.scores[0].game.time);
+      // let ms = new Date() - new Date(this.props.scores[0].game.playerEndTime);
       time = dhm(ms);
     }
     const [userScore] = this.props.scores.filter(

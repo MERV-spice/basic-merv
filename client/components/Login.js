@@ -7,7 +7,8 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
+  KeyboardAvoidingView
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {connect} from 'react-redux';
@@ -31,7 +32,7 @@ class AuthForm extends Component {
   }
   async componentDidMount() {
     await Font.loadAsync({
-      'VastShadow-Regular': require('../../assets/fonts/VastShadow-Regular.ttf')
+      'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
     });
     this.setState({fontLoaded: true});
   }
@@ -50,64 +51,67 @@ class AuthForm extends Component {
   }
   render() {
     return (
-      <ImageBackground source={parchment} style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            source={require('../../assets/redx.png')}
-            style={styles.logo}
-          />
+      <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
+        <ImageBackground source={parchment} style={styles.container}>
           {this.state.fontLoaded ? (
-            <Text style={styles.logoText}>Ahoy!!!</Text>
+            <View>
+              <View style={styles.logoContainer}>
+                <Image
+                  source={require('../../assets/redx.png')}
+                  style={styles.logo}
+                />
+                <Text style={styles.logoText}>Ahoy!!!</Text>
+              </View>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="md-at"
+                  size={28}
+                  color="#0A122A"
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  value={this.state.email}
+                  onChangeText={email => this.setState({email})}
+                  placeholder="Email"
+                  underlineColorAndroid="transparent"
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="ios-lock"
+                  size={28}
+                  color="#0A122A"
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  value={this.state.password}
+                  onChangeText={password => this.setState({password})}
+                  placeholder="Password"
+                  secureTextEntry={this.state.showPass}
+                  underlineColorAndroid="transparent"
+                />
+                <TouchableOpacity
+                  style={styles.btnEye}
+                  onPress={this.showPass.bind(this)}
+                >
+                  <Ionicons
+                    name={this.state.press === false ? 'md-eye' : 'md-eye-off'}
+                    size={26}
+                  />
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                style={styles.btnLogin}
+                onPress={this.onLogin.bind(this)}
+              >
+                <Text style={styles.text}>Login</Text>
+              </TouchableOpacity>
+            </View>
           ) : null}
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Ionicons
-            name="md-at"
-            size={28}
-            color="#0A122A"
-            style={styles.inputIcon}
-          />
-          <TextInput
-            style={styles.input}
-            value={this.state.email}
-            onChangeText={email => this.setState({email})}
-            placeholder="Email"
-            underlineColorAndroid="transparent"
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Ionicons
-            name="ios-lock"
-            size={28}
-            color="#0A122A"
-            style={styles.inputIcon}
-          />
-          <TextInput
-            style={styles.input}
-            value={this.state.password}
-            onChangeText={password => this.setState({password})}
-            placeholder="Password"
-            secureTextEntry={this.state.showPass}
-            underlineColorAndroid="transparent"
-          />
-          <TouchableOpacity
-            style={styles.btnEye}
-            onPress={this.showPass.bind(this)}
-          >
-            <Ionicons
-              name={this.state.press === false ? 'md-eye' : 'md-eye-off'}
-              size={26}
-            />
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={styles.btnLogin}
-          onPress={this.onLogin.bind(this)}
-        >
-          <Text style={styles.text}>Login</Text>
-        </TouchableOpacity>
-      </ImageBackground>
+        </ImageBackground>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -123,7 +127,7 @@ const mapDispatch = dispatch => {
     auth: (email, password) => dispatch(auth(email, password))
   };
 };
-export default (Login = connect(mapState, mapDispatch)(AuthForm));
+export default connect(mapState, mapDispatch)(AuthForm);
 
 export const styles = StyleSheet.create({
   container: {
@@ -142,12 +146,14 @@ export const styles = StyleSheet.create({
     height: 120
   },
   logoText: {
-    fontFamily: 'VastShadow-Regular',
-    fontSize: 35,
+    fontFamily: 'Kranky-Regular',
+    fontSize: 40,
     color: 'black',
     fontWeight: '500',
     marginTop: 10,
-    opacity: 0.9
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
   },
   input: {
     width: WIDTH - 55,
@@ -171,6 +177,8 @@ export const styles = StyleSheet.create({
     width: WIDTH - 55,
     height: 45,
     borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
     backgroundColor: '#E20014',
     justifyContent: 'center',
     marginTop: 20
@@ -181,8 +189,12 @@ export const styles = StyleSheet.create({
     right: 14
   },
   text: {
-    color: '#DBF9F4',
-    fontSize: 16,
-    textAlign: 'center'
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 22,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
   }
 });
