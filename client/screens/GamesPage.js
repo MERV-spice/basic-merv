@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   Dimensions,
   ImageBackground,
-  View
+  View,
+  Image
 } from 'react-native';
 import {ListItem, Overlay} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -38,8 +39,12 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
   return (
     <ImageBackground source={parchment} style={styles.container}>
       {fontLoaded ? (
-        <View>
+        <View style={styles.logoContainer}>
           <Text style={styles.currGamesTitle}>Current Games</Text>
+          <Image
+            source={require('../../assets/redx.png')}
+            style={styles.logo}
+          />
           <FlatList
             data={games}
             renderItem={game => {
@@ -50,7 +55,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
                     isVisible={game.id === gameLookedAt}
                     onBackdropPress={() => setGameLookedAt(-1)}
                     height={200}
-                    overlayStyle={styles.overlayContainer}
+                    overlayBackgroundColor="#ebdda0"
                   >
                     <React.Fragment>
                       <React.Fragment>
@@ -106,6 +111,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 50
+  },
+  logo: {
+    width: 120,
+    height: 120
+  },
   currGamesTitle: {
     fontFamily: 'Kranky-Regular',
     fontSize: 50,
@@ -128,12 +141,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     opacity: 0.9,
     textAlign: 'center'
-  },
-  overlayContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center'
   },
   gameInfo: {
     fontSize: 20
