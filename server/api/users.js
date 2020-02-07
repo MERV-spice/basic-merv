@@ -54,7 +54,6 @@ router.post('/clue', async (req, res, next) => {
 //route to reset current clue to zero, should be called when a user switches games
 router.post('/reset', async (req, res, next) => {
   try {
-    console.log('we in daz put route', req.body);
     const user = await User.findByPk(req.body.id);
     await user.update({currentClue: 0});
     res.sendStatus(202);
@@ -65,7 +64,6 @@ router.post('/reset', async (req, res, next) => {
 
 router.put('/joingame', async (req, res, next) => {
   try {
-    console.log(req.body);
     const user = await User.findByPk(req.body.userId);
     //get session id instead of user id from the req.body so that nobody
     //can craft an id to mimic that user

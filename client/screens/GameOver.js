@@ -15,7 +15,6 @@ class GameOver extends Component {
   }
   render() {
     const user = this.props.user;
-    console.log('in game over render ', this.props.user.id);
     return (
       <View style={styles.container}>
         <Text>Good Job: {user.email}!!!</Text>

@@ -19,7 +19,6 @@ router.get('/:gameId', async (req, res, next) => {
     const game = await Game.findByPk(parseInt(req.params.gameId, 10), {
       include: [{model: Clue, include: [Picture]}, User]
     });
-    console.log(res);
     res.json(game);
   } catch (err) {
     next(err);
