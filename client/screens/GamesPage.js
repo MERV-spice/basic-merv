@@ -39,7 +39,6 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
   const pressHandler = async () => await setGames();
 
   const datePrettifier = dateStr => {
-    console.log(dateStr, typeof dateStr);
     if (typeof dateStr === 'string') {
       let year = dateStr.slice(0, 4);
       let month = dateStr.slice(5, 7);
