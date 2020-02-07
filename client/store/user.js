@@ -72,7 +72,6 @@ export const auth = (email, password) => async dispatch => {
 
 export const joinGame = (gameId, userId) => async dispatch => {
   try {
-    console.log(gameId, userId);
     const {data} = await axios.put(`${url}/api/users/joingame`, {
       gameId,
       userId

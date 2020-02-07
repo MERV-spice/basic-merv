@@ -40,8 +40,12 @@ const CluePage = props => {
 
   return (
     <View style={styles.container}>
-      <Text>Game Starts At: {props.user.game.startTime}</Text>
-      <Text>Game Ends At: {props.user.game.endTime}</Text>
+      {props.user.game.startTime && props.user.game.endTime ? (
+        <React.Fragment>
+          <Text>Game Starts At: {props.user.game.startTime}</Text>
+          <Text>Game Ends At: {props.user.game.endTime}</Text>
+        </React.Fragment>
+      ) : null}
       <Text style={styles.currClueTitle}>Clue: </Text>
       <Image
         style={{width: 200, height: 200}}
