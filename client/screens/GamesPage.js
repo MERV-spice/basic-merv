@@ -44,7 +44,6 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
       let month = dateStr.slice(5, 7);
       let day = dateStr.slice(8, 10);
       let time = dateStr.slice(11, 19);
-      console.log(time, month, day, year);
       return (
         <Text>
           {time} on {month}/{day}/{year}
