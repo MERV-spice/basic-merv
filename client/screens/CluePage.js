@@ -54,7 +54,7 @@ const CluePage = props => {
 
   return (
     <ImageBackground source={parchment} style={styles.container}>
-      {props.user.game.startTime && props.user.game.endTime ? (
+      {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
         // https://www.npmjs.com/package/react-native-countdown-component for info about timer component
         <CountDown
           until={(new Date(props.user.game.endTime) - new Date()) / 1000}
@@ -72,22 +72,22 @@ const CluePage = props => {
         />
       ) : null}
       <View style={styles.clueImgContainer}>
-        <Text style={styles.currClueTitle}>Clue: </Text>
+        <Text style={styles.text}>Clue: </Text>
         <Image
           style={{width: 200, height: 200}}
           source={{uri: clues[currentClue].pictures[0].accessPic}}
         />
       </View>
-      <Text style={styles.currClueText}>Clue :{clues[currentClue].text}</Text>
+      <Text style={styles.text}>Clue :{clues[currentClue].text}</Text>
       {!hint ? (
         <TouchableOpacity style={styles.btn} onPress={() => setHint(1)}>
-          <Text>Show Hint</Text>
+          <Text style={styles.text}>Show Hint</Text>
         </TouchableOpacity>
       ) : (
-        <Text>Hint: {clues[currentClue].hint}</Text>
+        <Text style={styles.text}>Hint: {clues[currentClue].hint}</Text>
       )}
       <TouchableOpacity style={styles.btn} onPress={pressHandler}>
-        <Text>I found it!</Text>
+        <Text style={styles.text}>I found it!</Text>
       </TouchableOpacity>
     </ImageBackground>
   );
@@ -124,6 +124,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#E20014',
     justifyContent: 'center',
     marginTop: 20
+  },
+  text: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 22,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
   }
 });
 

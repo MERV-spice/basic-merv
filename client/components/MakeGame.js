@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react';
 import {
   StyleSheet,
@@ -369,7 +370,7 @@ class MakeGame extends React.Component {
               <Text>Passcode: {this.state.keyCode}</Text>
             ) : null}
             <TouchableOpacity
-              style={styles.btn}
+              style={styles.createBtn}
               onPress={this.addGame.bind(this)}
               disabled={
                 !this.state.userId ||
@@ -447,11 +448,21 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#E20014',
+    backgroundColor: 'white',
     justifyContent: 'center',
     marginTop: 8
   },
   btn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  createBtn: {
     width: WIDTH - 55,
     height: 45,
     borderRadius: 25,

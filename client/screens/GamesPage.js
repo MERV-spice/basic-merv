@@ -53,7 +53,7 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
       return null;
     }
   };
-
+  console.log(games);
   return (
     <ImageBackground source={parchment} style={styles.container}>
       {fontLoaded ? (
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 25,
-    backgroundColor: '#E20014',
+    backgroundColor: 'white',
     justifyContent: 'center',
     marginTop: 20
   },
