@@ -19,7 +19,7 @@ import * as Font from 'expo-font';
 
 const {width: WIDTH} = Dimensions.get('window');
 
-const GamesPage = ({setGames, games, joinGame, userId}) => {
+const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [gameLookedAt, setGameLookedAt] = React.useState('');
 
@@ -37,6 +37,22 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
     setGameLookedAt(-1);
   };
   const pressHandler = async () => await setGames();
+
+  const datePrettifier = dateStr => {
+    if (typeof dateStr === 'string') {
+      let year = dateStr.slice(0, 4);
+      let month = dateStr.slice(5, 7);
+      let day = dateStr.slice(8, 10);
+      let time = dateStr.slice(11, 19);
+      return (
+        <Text>
+          {time} on {month}/{day}/{year}
+        </Text>
+      );
+    } else {
+      return null;
+    }
+  };
 
   return (
     <ImageBackground source={parchment} style={styles.container}>
@@ -68,12 +84,32 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
                           Players: {game.users.length}
                         </Text>
                         <Text style={styles.text}>
-                          Clues: {game.clues.length}
+                          Clues: {datePrettifier(game.clues.length)}
                         </Text>
+                        {game.startTime ? (
+                          <Text style={styles.text}>
+                            Start:{' '}
+                            <Text>
+                              {datePrettifier(
+                                game.startTime.toLocaleString()
+                              ).props.children.join('')}
+                            </Text>
+                          </Text>
+                        ) : null}
+                        {game.endTime ? (
+                          <Text style={styles.text}>
+                            End:{' '}
+                            <Text>
+                              {datePrettifier(
+                                game.endTime.toLocaleString()
+                              ).props.children.join('')}
+                            </Text>
+                          </Text>
+                        ) : null}
                       </React.Fragment>
                       <TouchableOpacity
                         style={styles.btnJoinGame}
-                        onPress={() => joinGame(game.id, userId)}
+                        onPress={() => joinGamePressHandler(game.id, userId)}
                       >
                         <Text style={styles.text}>Join Game</Text>
                       </TouchableOpacity>
@@ -96,7 +132,7 @@ const GamesPage = ({setGames, games, joinGame, userId}) => {
           />
           <TouchableOpacity
             style={styles.btnMakeGame}
-            onPress={() => Actions.makeGame()}
+            onPress={() => navigation.navigate('MakeGame')}
           >
             <Text style={styles.text}>Create A Game</Text>
           </TouchableOpacity>

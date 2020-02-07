@@ -11,6 +11,7 @@ import {useState} from 'react';
 import {connect} from 'react-redux';
 import {currentCluePlus} from '../store/user';
 import {getSingleGameThunk} from '../store/games';
+import CountDown from 'react-native-countdown-component';
 
 const CluePage = props => {
   React.useEffect(() => {
@@ -36,12 +37,30 @@ const CluePage = props => {
   };
 
   if (score > 0.7) thenFun();
-  if (currentClue >= clues.length) props.navigation.navigate('GameOver');
+  if (currentClue >= clues.length) {
+    props.navigation.navigate('GameOver');
+    return <Text>hey</Text>;
+  }
 
   return (
     <View style={styles.container}>
-      <Text>Game Starts At: {props.user.game.startTime}</Text>
-      <Text>Game Ends At: {props.user.game.endTime}</Text>
+      {props.user.game.startTime && props.user.game.endTime ? (
+        // https://www.npmjs.com/package/react-native-countdown-component for info about timer component
+        <CountDown
+          until={(new Date(props.user.game.endTime) - new Date()) / 1000}
+          onFinish={() => props.navigation.navigate('GameOver')}
+          size={20}
+          digitStyle={{
+            backgroundColor: '#FFF',
+            borderWidth: 2,
+            borderColor: '#1CC625'
+          }}
+          digitTxtStyle={{color: '#1CC625'}}
+          timeLabelStyle={{color: 'red', fontWeight: 'bold'}}
+          separatorStyle={{color: '#1CC625'}}
+          showSeparator // this puts : between each time unit element
+        />
+      ) : null}
       <Text style={styles.currClueTitle}>Clue: </Text>
       <Image
         style={{width: 200, height: 200}}
