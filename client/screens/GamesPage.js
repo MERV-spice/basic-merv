@@ -72,7 +72,7 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
                   <Overlay
                     isVisible={game.id === gameLookedAt}
                     onBackdropPress={() => setGameLookedAt(-1)}
-                    height={200}
+                    height={300}
                     overlayBackgroundColor="#ebdda0"
                   >
                     <React.Fragment>
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 25,
-    backgroundColor: 'white',
+    backgroundColor: '#ebdda0',
     justifyContent: 'center',
     marginTop: 20
   },

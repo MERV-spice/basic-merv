@@ -6,12 +6,15 @@ module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
+    // const games = await Game.findAll({
+    //   where: {
+    //     startTime: {
+    //       [Op.gt]: new Date()
+    //     }
+    //   },
+    //   include: [Clue, User]
+    // });
     const games = await Game.findAll({
-      where: {
-        startTime: {
-          [Op.gt]: new Date()
-        }
-      },
       include: [Clue, User]
     });
     res.json(games);

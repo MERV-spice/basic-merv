@@ -1,17 +1,40 @@
 import React, {Component} from 'react';
-import {Text, Button, View, StyleSheet} from 'react-native';
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  ImageBackground,
+  Dimensions
+} from 'react-native';
 import {connect} from 'react-redux';
 import {fetchScores} from '../store/scores';
+import parchment from '../../assets/parchment.jpg';
+import * as Font from 'expo-font';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+
 let time;
+const {width: WIDTH} = Dimensions.get('window');
 
 class GameOver extends Component {
+  constructor() {
+    super();
+    this.state = {
+      fontLoaded: false
+    };
+  }
   async componentDidMount() {
-    await this.props.fetchScores(2);
+    await Font.loadAsync({
+      'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
+    });
+    this.setState({fontLoaded: true});
+    await this.props.fetchScores(this.props.user.id);
+    console.log('COMPONENT DID MOUNT', this.props.user.id);
   }
 
   renderScores() {
     return this.props.scores.map((item, index) => (
-      <Text key={index}>
+      <Text key={index} style={styles.text}>
         {item.user.username}: {item.score}
       </Text>
     ));
@@ -46,21 +69,34 @@ class GameOver extends Component {
       scoreObj => scoreObj.userId === /*this.props.user.id*/ 1
     );
     return (
-      <View style={styles.container}>
-        <Text>Good Job {this.props.user.username}!!!</Text>
-        <Text>Leaderboard:</Text>
-        {this.renderScores()}
-        <Text>Your Score: {userScore ? userScore.score : null}</Text>
-        <Text>
-          Number of Items Found: {userScore ? userScore.itemsFound : null}
-        </Text>
-        <Text>Time elapsed: {time}</Text>
-        <Button
-          title="Play Again?"
-          style={styles.input}
-          onPress={() => this.props.navigation.navigate('GamesPage')}
-        />
-      </View>
+      <ImageBackground source={parchment} style={styles.container}>
+        {this.state.fontLoaded ? (
+          <View style={styles.container}>
+            <Image
+              source={require('../../assets/redx.png')}
+              style={styles.logo}
+            />
+            <Text style={styles.headerText}>
+              Good Job {this.props.user.username}!!!
+            </Text>
+            <Text style={styles.text}>Leaderboard:</Text>
+            {this.renderScores()}
+            <Text style={styles.text}>
+              Your Score: {userScore ? userScore.score : null}
+            </Text>
+            <Text style={styles.text}>
+              Number of Items Found: {userScore ? userScore.itemsFound : null}
+            </Text>
+            <Text style={styles.text}>Time elapsed: {time}</Text>
+            <TouchableOpacity
+              style={styles.input}
+              onPress={() => this.props.navigation.navigate('GamesPage')}
+            >
+              <Text style={styles.text}>play again?</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+      </ImageBackground>
     );
   }
 }
@@ -84,15 +120,39 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1'
+    justifyContent: 'center'
   },
   input: {
-    width: 200,
-    height: 44,
-    padding: 10,
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
     borderWidth: 1,
     borderColor: 'black',
-    marginBottom: 10
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  text: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 22,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  headerText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 40,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  logo: {
+    width: 75,
+    height: 75,
+    marginBottom: 40
   }
 });

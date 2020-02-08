@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, Button} from 'react-native';
 const CluePage = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.currClueTitle}>Clue: </Text>
+      <Text style={styles.currClueTitle}>You're lookin' for this!</Text>
       <Text style={styles.currClueText}>
         Find a yellow brick in a red wall.
       </Text>

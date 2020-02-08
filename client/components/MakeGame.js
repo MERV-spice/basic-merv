@@ -185,7 +185,12 @@ class MakeGame extends React.Component {
                       <View style={styles.imgContainer}>
                         <Image
                           source={{uri: item.pictures[0].accessPic}}
-                          style={{width: 50, height: 50}}
+                          style={{
+                            width: 80,
+                            height: 80,
+                            borderColor: 'black',
+                            borderWidth: 1
+                          }}
                         />
                       </View>
                       <View style={styles.addClueBtnContainer}>
@@ -341,10 +346,17 @@ class MakeGame extends React.Component {
                     onChangeText={clueHint => this.setState({clueHint})}
                   />
                   {this.state.clueImg.accessPic ? (
-                    <Image
-                      style={{width: 50, height: 50}}
-                      source={{uri: this.state.clueImg.accessPic}}
-                    />
+                    <View style={styles.newImgContainer}>
+                      <Image
+                        style={{
+                          width: 200,
+                          height: 200,
+                          borderColor: 'black',
+                          borderWidth: 1
+                        }}
+                        source={{uri: this.state.clueImg.accessPic}}
+                      />
+                    </View>
                   ) : null}
                   <TouchableOpacity
                     style={styles.btn}
@@ -460,7 +472,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: 'white',
+    backgroundColor: '#ebdda0',
     justifyContent: 'center',
     marginTop: 8
   },
@@ -470,7 +482,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: 'white',
+    backgroundColor: '#ebdda0',
     justifyContent: 'center',
     marginBottom: 30
   },
@@ -525,5 +537,9 @@ const styles = StyleSheet.create({
   imgContainer: {
     alignItems: 'center',
     paddingTop: 5
+  },
+  newImgContainer: {
+    alignItems: 'center',
+    marginBottom: 20
   }
 });

@@ -65,7 +65,7 @@ export default class CameraComp extends Component {
               flexDirection: 'row'
             }}
           >
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{
                 flex: 0.3,
                 alignSelf: 'flex-end',
@@ -81,13 +81,13 @@ export default class CameraComp extends Component {
               }
             >
               <Ionicons color="white" size={64} name="ios-reverse-camera" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={this.snapPhoto.bind(this)} //
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',
-                marginLeft: 60
+                marginLeft: 175
               }}
             >
               <MaterialCommunityIcons

@@ -55,40 +55,54 @@ const CluePage = props => {
   return (
     <ImageBackground source={parchment} style={styles.container}>
       {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
-        // https://www.npmjs.com/package/react-native-countdown-component for info about timer component
-        <CountDown
-          until={(new Date(props.user.game.endTime) - new Date()) / 1000}
-          onFinish={() => props.navigation.navigate('GameOver')}
-          size={20}
-          digitStyle={{
-            backgroundColor: '#FFF',
-            borderWidth: 2,
-            borderColor: '#1CC625'
-          }}
-          digitTxtStyle={{color: '#1CC625'}}
-          timeLabelStyle={{color: 'red', fontWeight: 'bold'}}
-          separatorStyle={{color: '#1CC625'}}
-          showSeparator // this puts : between each time unit element
-        />
+        <View>
+          <View style={styles.clueImgContainer}>
+            <Text style={styles.headerText}>You're lookin' for this!</Text>
+            <View style={styles.imgContainer}>
+              <Image
+                style={{
+                  width: 200,
+                  height: 200,
+                  borderColor: 'black',
+                  borderWidth: 1
+                }}
+                source={{uri: clues[currentClue].pictures[0].accessPic}}
+              />
+            </View>
+          </View>
+          <Text style={styles.text}>Clue: {clues[currentClue].text}</Text>
+          {!hint ? (
+            <TouchableOpacity style={styles.hintBtn} onPress={() => setHint(1)}>
+              <Text style={styles.btnText}>Show Hint</Text>
+            </TouchableOpacity>
+          ) : (
+            <Text style={styles.Text}>Hint: {clues[currentClue].hint}</Text>
+          )}
+          <TouchableOpacity style={styles.btn} onPress={pressHandler}>
+            <Text style={styles.btnText}>I found it!</Text>
+          </TouchableOpacity>
+          <View style={styles.timerContainer}>
+            <CountDown
+              until={(new Date(props.user.game.endTime) - new Date()) / 1000}
+              onFinish={() => props.navigation.navigate('GameOver')}
+              size={20}
+              digitStyle={{
+                backgroundColor: '#ebdda0',
+                borderWidth: 1,
+                borderColor: 'black'
+              }}
+              digitTxtStyle={{color: 'black'}}
+              timeLabelStyle={{
+                color: 'black',
+                fontFamily: 'Kranky-Regular',
+                fontSize: 15
+              }}
+              separatorStyle={{color: 'black'}}
+              showSeparator // this puts : between each time unit element
+            />
+          </View>
+        </View>
       ) : null}
-      <View style={styles.clueImgContainer}>
-        <Text style={styles.text}>Clue: </Text>
-        <Image
-          style={{width: 200, height: 200}}
-          source={{uri: clues[currentClue].pictures[0].accessPic}}
-        />
-      </View>
-      <Text style={styles.text}>Clue :{clues[currentClue].text}</Text>
-      {!hint ? (
-        <TouchableOpacity style={styles.btn} onPress={() => setHint(1)}>
-          <Text style={styles.text}>Show Hint</Text>
-        </TouchableOpacity>
-      ) : (
-        <Text style={styles.text}>Hint: {clues[currentClue].hint}</Text>
-      )}
-      <TouchableOpacity style={styles.btn} onPress={pressHandler}>
-        <Text style={styles.text}>I found it!</Text>
-      </TouchableOpacity>
     </ImageBackground>
   );
 };
@@ -99,6 +113,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     padding: 20
+  },
+  timerContainer: {
+    marginTop: 40
+  },
+  imgContainer: {
+    marginTop: 20,
+    marginBottom: 20
   },
   currClueTitle: {
     color: 'black',
@@ -113,6 +134,7 @@ const styles = StyleSheet.create({
     padding: 50
   },
   clueImgContainer: {
+    marginTop: 40,
     alignItems: 'center'
   },
   btn: {
@@ -125,7 +147,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20
   },
+  hintBtn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#ebdda0',
+    justifyContent: 'center',
+    marginTop: 20
+  },
+  headerText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 40,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
   text: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 30,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  btnText: {
     fontFamily: 'Kranky-Regular',
     color: 'black',
     fontSize: 22,
