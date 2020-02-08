@@ -66,7 +66,7 @@ class GameOver extends Component {
       time = dhm(ms);
     }
     const [userScore] = this.props.scores.filter(
-      scoreObj => scoreObj.userId === /*this.props.user.id*/ 1
+      scoreObj => scoreObj.userId === this.props.user.id
     );
     return (
       <ImageBackground source={parchment} style={styles.container}>
@@ -88,12 +88,14 @@ class GameOver extends Component {
               Number of Items Found: {userScore ? userScore.itemsFound : null}
             </Text>
             <Text style={styles.text}>Time elapsed: {time}</Text>
-            <TouchableOpacity
-              style={styles.input}
-              onPress={() => this.props.navigation.navigate('GamesPage')}
-            >
-              <Text style={styles.text}>play again?</Text>
-            </TouchableOpacity>
+            <View style={styles.btnContainer}>
+              <TouchableOpacity
+                style={styles.input}
+                onPress={() => this.props.navigation.navigate('GamesPage')}
+              >
+                <Text style={styles.text}>play again?</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         ) : null}
       </ImageBackground>
@@ -121,6 +123,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  btnContainer: {
+    marginTop: 40
   },
   input: {
     width: WIDTH - 55,

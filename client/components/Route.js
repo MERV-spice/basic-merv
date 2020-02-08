@@ -6,6 +6,7 @@ import {fetchGames} from '../store/games';
 import {fetchClues} from '../store/clues';
 import {AppLoading} from 'expo';
 import GameOver from '../components/GameOver';
+import SignUp from '../components/SignUp';
 
 const Route = ({user, fetchGames, fetchClues}) => {
   const [isReady, setIsReady] = React.useState(false);
@@ -31,7 +32,8 @@ const Route = ({user, fetchGames, fetchClues}) => {
     <React.Fragment>
       {user.id ? (
         <React.Fragment>
-          <GameOver />
+          <SignUp />
+          {/* <GameOver /> */}
           {/* <Navigator /> */}
         </React.Fragment>
       ) : (

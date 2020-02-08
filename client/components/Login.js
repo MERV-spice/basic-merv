@@ -154,7 +154,7 @@ export const styles = StyleSheet.create({
   },
   logoText: {
     fontFamily: 'Kranky-Regular',
-    fontSize: 40,
+    fontSize: 50,
     color: 'black',
     fontWeight: '500',
     marginTop: 10,
