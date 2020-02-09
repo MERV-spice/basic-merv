@@ -5,7 +5,8 @@ import {
   View,
   StyleSheet,
   ImageBackground,
-  Dimensions
+  Dimensions,
+  FlatList
 } from 'react-native';
 import {connect} from 'react-redux';
 import {fetchScores} from '../store/scores';
@@ -29,15 +30,13 @@ class GameOver extends Component {
     });
     this.setState({fontLoaded: true});
     await this.props.fetchScores(this.props.user.id);
-    console.log('COMPONENT DID MOUNT', this.props.user.id);
-  }
-
-  renderScores() {
-    return this.props.scores.map((item, index) => (
-      <Text key={index} style={styles.text}>
-        {item.user.username}: {item.score}
-      </Text>
-    ));
+    console.log(
+      'COMPONENT DID MOUNT',
+      'SCORES',
+      this.props.scores,
+      'USER',
+      this.props.user
+    );
   }
 
   render() {
@@ -62,7 +61,7 @@ class GameOver extends Component {
     }
 
     if (this.props.scores.length) {
-      let ms = new Date() - new Date(this.props.scores[0].game.playerEndTime);
+      let ms = new Date() - new Date(this.props.scores[0].game.endTime);
       time = dhm(ms);
     }
     const [userScore] = this.props.scores.filter(
@@ -79,13 +78,23 @@ class GameOver extends Component {
             <Text style={styles.headerText}>
               Good Job {this.props.user.username}!!!
             </Text>
-            <Text style={styles.text}>Leaderboard:</Text>
-            {this.renderScores()}
-            <Text style={styles.text}>
+            <Text style={styles.subHeaderText}>Leaderboard:</Text>
+            <FlatList
+              keyExtractor={item => String(item.id)}
+              data={this.props.scores}
+              renderItem={({item}) => (
+                <View style={styles.listItemContainer}>
+                  <Text style={styles.text}>
+                    {item.user.username}: {item.score}
+                  </Text>
+                </View>
+              )}
+            />
+            <Text style={styles.subHeaderText}>
               Your Score: {userScore ? userScore.score : null}
             </Text>
             <Text style={styles.text}>
-              Number of Items Found: {userScore ? userScore.itemsFound : null}
+              Number of Items Found: {userScore ? userScore.itemsFound : 0}
             </Text>
             <Text style={styles.text}>Time elapsed: {time}</Text>
             <View style={styles.btnContainer}>
@@ -155,9 +164,29 @@ export const styles = StyleSheet.create({
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10
   },
+  subHeaderText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 30,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
   logo: {
     width: 75,
     height: 75,
+    marginTop: 40,
     marginBottom: 40
+  },
+  listItemContainer: {
+    width: WIDTH - 55,
+    height: 80,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 25,
+    backgroundColor: '#ebdda0',
+    justifyContent: 'center',
+    marginTop: 20
   }
 });
