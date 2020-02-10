@@ -9,12 +9,12 @@ import userScores from './userScores';
 import gameUserScore from './gameUserScore';
 
 const reducer = combineReducers({
-  user: user,
-  games: games,
-  clues: clues,
-  scores: scores,
-  userScores: userScores,
-  gameUserScore: gameUserScore
+  user,
+  games,
+  clues,
+  scores,
+  userScores,
+  gameUserScore
 });
 
 const middleware = applyMiddleware(
