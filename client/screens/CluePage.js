@@ -23,6 +23,9 @@ const {width: WIDTH} = Dimensions.get('window');
 // eslint-disable-next-line complexity
 const CluePage = props => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
+  const [score, setScore] = useState(0);
+  const [hint, setHint] = useState(0);
+
   React.useEffect(() => {
     Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
@@ -30,11 +33,9 @@ const CluePage = props => {
     props.getSingleGameThunk(props.user.game.id);
     props.fetchGameUserScore(props.user.id, props.user.game.id);
   }, []);
+
   const clues = props.user.game.clues;
   const currentClue = props.user.currentClue;
-
-  const [score, setScore] = useState(0);
-  const [hint, setHint] = useState(0);
 
   const pressHandler = () => {
     props.navigation.navigate('Camera', {
@@ -52,9 +53,7 @@ const CluePage = props => {
     setHint(0);
   };
 
-  if (score > 0.2) {
-    thenFun();
-  }
+  if (score > 0.7) thenFun();
   if (currentClue >= clues.length) {
     props.navigation.navigate('GameOver');
     return <Text>Join a new game!</Text>;

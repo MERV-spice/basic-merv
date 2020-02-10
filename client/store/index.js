@@ -7,6 +7,7 @@ import clues from './clues';
 import scores from './scores';
 import userScores from './userScores';
 import gameUserScore from './gameUserScore';
+import requests from './request';
 
 const reducer = combineReducers({
   user,
@@ -14,7 +15,8 @@ const reducer = combineReducers({
   clues,
   scores,
   userScores,
-  gameUserScore
+  gameUserScore,
+  requests
 });
 
 const middleware = applyMiddleware(

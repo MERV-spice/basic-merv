@@ -1,20 +1,40 @@
 const {Expo} = require('expo-server-sdk');
 let expo = new Expo();
 
-app.post('/', async (req, res, next) => {
-  let messages = [];
-  const token = req.body.value;
-  console.log(token);
+const router = require('express').Router();
+const {User} = require('../db/models');
+module.exports = router;
 
-  if (!Expo.isExpoPushToken(token)) {
+router.put('/', async (req, res, next) => {
+  try {
+    if (!Expo.isExpoPushToken(req.body.value)) {
+      console.error('not valid token');
+      return;
+    }
+
+    const user = await User.findByPk(req.session.passport.user);
+    await user.update({token: req.body.value});
+    console.log(req.body.value);
+    res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/', async (req, res, next) => {
+  const user = await User.findByPk(req.body.userId);
+  if (!Expo.isExpoPushToken(user.token)) {
     console.error('not valid token');
     return;
   }
+  console.log(user.token);
+  let messages = [];
 
   messages.push({
-    to: token,
+    to: user.token,
     sound: 'default',
-    body: 'test notification'
+    body: req.body.message,
+    data: {type: req.body.type}
   });
 
   let chunks = expo.chunkPushNotifications(messages);
@@ -24,7 +44,6 @@ app.post('/', async (req, res, next) => {
     for (let chunk of chunks) {
       try {
         let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-        console.log(ticketChunk);
         tickets.push(...ticketChunk);
       } catch (err) {
         console.error('err');
@@ -32,6 +51,8 @@ app.post('/', async (req, res, next) => {
       }
     }
   })();
+
+  res.sendStatus(203);
 
   /* let receiptIds;
      * let receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
