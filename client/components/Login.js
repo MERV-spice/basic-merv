@@ -39,7 +39,6 @@ class AuthForm extends Component {
   async getEmail() {
     try {
       const email = await AsyncStorage.getItem('email');
-      console.log(email);
       if (email !== null) {
         return email;
       }
@@ -51,7 +50,6 @@ class AuthForm extends Component {
   async getPassword() {
     try {
       const password = await AsyncStorage.getItem('password');
-      console.log(password);
       if (password !== null) {
         return password;
       }
