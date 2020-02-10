@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {signUpUser} from '../store/user';
+import {auth} from '../store';
 import * as Font from 'expo-font';
 import parchment from '../../assets/parchment.jpg';
 import {Ionicons} from '@expo/vector-icons';
@@ -32,6 +33,14 @@ class SignUp extends Component {
   }
   static navigationOptions = {headerShown: false};
 
+  async onLogin() {
+    const {email, password} = this.state;
+    await this.props.auth(email, password);
+    if (this.props.user.id) {
+      this.props.navigation.navigate('GamesPage');
+    }
+  }
+
   async componentDidMount() {
     await Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
@@ -46,9 +55,11 @@ class SignUp extends Component {
     }
   };
 
-  onSignUp() {
+  async onSignUp() {
     const {username, email, password} = this.state;
     this.props.signUpUser(this.state);
+    await this.props.auth(email, password);
+    this.props.navigation.navigate('GamesPage');
   }
 
   render() {
@@ -141,7 +152,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    signUpUser: user => dispatch(signUpUser(user))
+    signUpUser: user => dispatch(signUpUser(user)),
+    auth: (email, password) => dispatch(auth(email, password))
   };
 };
 
