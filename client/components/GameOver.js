@@ -31,7 +31,7 @@ class GameOver extends Component {
     });
     this.setState({fontLoaded: true});
     await this.props.fetchScores(this.props.user.game.id);
-    // console.log('COMPONENT DID MOUNT', 'USERGAME', this.props.user.game.id);
+    console.log('COMPONENT DID MOUNT', this.props.user.game);
     await this.props.fetchGameUserScore(
       this.props.user.id,
       this.props.user.game.id
@@ -60,7 +60,7 @@ class GameOver extends Component {
     }
 
     if (this.props.scores.length) {
-      let ms = new Date() - new Date(this.props.scores[0].game.endTime);
+      let ms = new Date() - new Date(this.props.scores[0].game.startTime);
       time = dhm(ms);
     }
     const [userScore] = this.props.scores.filter(
