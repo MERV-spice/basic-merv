@@ -46,16 +46,16 @@ router.get('/gameUser/:userId/:gameId', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
-    const userGame = await Score.findAll({
-      where: {
-        userId: req.body.userId,
-        gameId: req.body.gameId
+    const userGameScore = await Score.increment(
+      {score: req.body.score, itemsFound: 1},
+      {
+        where: {
+          userId: req.body.userId,
+          gameId: req.body.gameId
+        }
       }
-    });
-    const newUserGameScore = await userGame.increment('score', {
-      by: req.body.score
-    });
-    res.json(newUserGameScore);
+    );
+    res.json(userGameScore);
   } catch (err) {
     next(err);
   }

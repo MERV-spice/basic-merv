@@ -3,11 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   Image,
   ImageBackground,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from 'react-native';
 import {useState} from 'react';
 import {connect} from 'react-redux';
@@ -54,55 +54,60 @@ const CluePage = props => {
 
   return (
     <ImageBackground source={parchment} style={styles.container}>
-      {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
-        <View>
-          <View style={styles.clueImgContainer}>
-            <Text style={styles.headerText}>You're lookin' for this!</Text>
-            <View style={styles.imgContainer}>
-              <Image
-                style={{
-                  width: 200,
-                  height: 200,
-                  borderColor: 'black',
-                  borderWidth: 1
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
+          <View>
+            <View style={styles.clueImgContainer}>
+              <Text style={styles.headerText}>You're lookin' for this!</Text>
+              <View style={styles.imgContainer}>
+                <Image
+                  style={{
+                    width: 200,
+                    height: 200,
+                    borderColor: 'black',
+                    borderWidth: 1
+                  }}
+                  source={{uri: clues[currentClue].pictures[0].accessPic}}
+                />
+              </View>
+            </View>
+            <Text style={styles.text}>Clue: {clues[currentClue].text}</Text>
+            {!hint ? (
+              <TouchableOpacity
+                style={styles.hintBtn}
+                onPress={() => setHint(1)}
+              >
+                <Text style={styles.btnText}>Show Hint</Text>
+              </TouchableOpacity>
+            ) : (
+              <Text style={styles.Text}>Hint: {clues[currentClue].hint}</Text>
+            )}
+            <TouchableOpacity style={styles.btn} onPress={pressHandler}>
+              <Text style={styles.btnText}>I found it!</Text>
+            </TouchableOpacity>
+            <View style={styles.timerContainer}>
+              <CountDown
+                until={(new Date(props.user.game.endTime) - new Date()) / 1000}
+                onFinish={() => props.navigation.navigate('GameOver')}
+                size={30}
+                digitStyle={{
+                  backgroundColor: '#ebdda0',
+                  borderWidth: 1,
+                  borderColor: 'black'
                 }}
-                source={{uri: clues[currentClue].pictures[0].accessPic}}
+                digitTxtStyle={{fontFamily: 'Kranky-Regular', color: 'black'}}
+                timeLabelStyle={{
+                  color: 'black',
+                  fontFamily: 'Kranky-Regular',
+                  fontSize: 16
+                }}
+                // separatorStyle={{color: 'black'}}
+                // showSeparator // this puts : between each time unit element
               />
             </View>
           </View>
-          <Text style={styles.text}>Clue: {clues[currentClue].text}</Text>
-          {!hint ? (
-            <TouchableOpacity style={styles.hintBtn} onPress={() => setHint(1)}>
-              <Text style={styles.btnText}>Show Hint</Text>
-            </TouchableOpacity>
-          ) : (
-            <Text style={styles.Text}>Hint: {clues[currentClue].hint}</Text>
-          )}
-          <TouchableOpacity style={styles.btn} onPress={pressHandler}>
-            <Text style={styles.btnText}>I found it!</Text>
-          </TouchableOpacity>
-          <View style={styles.timerContainer}>
-            <CountDown
-              until={(new Date(props.user.game.endTime) - new Date()) / 1000}
-              onFinish={() => props.navigation.navigate('GameOver')}
-              size={30}
-              digitStyle={{
-                backgroundColor: '#ebdda0',
-                borderWidth: 1,
-                borderColor: 'black'
-              }}
-              digitTxtStyle={{fontFamily: 'Kranky-Regular', color: 'black'}}
-              timeLabelStyle={{
-                color: 'black',
-                fontFamily: 'Kranky-Regular',
-                fontSize: 16
-              }}
-              // separatorStyle={{color: 'black'}}
-              // showSeparator // this puts : between each time unit element
-            />
-          </View>
-        </View>
-      ) : null}
+        ) : null}
+      </ScrollView>
     </ImageBackground>
   );
 };
