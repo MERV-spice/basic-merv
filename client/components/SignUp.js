@@ -136,6 +136,12 @@ class SignUp extends Component {
               >
                 <Text style={styles.text}>Sign Up</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.btnSignUp}
+                onPress={() => this.props.navigation.navigate('Login')}
+              >
+                <Text style={styles.text}> Login</Text>
+              </TouchableOpacity>
             </View>
           ) : null}
         </ImageBackground>
