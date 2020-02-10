@@ -49,7 +49,7 @@ const CluePage = props => {
     setHint(0);
   };
 
-  if (score > 0.0) thenFun();
+  if (score > 0.2) thenFun();
   if (currentClue >= clues.length) {
     props.navigation.navigate('GameOver');
     return <Text>hey</Text>;

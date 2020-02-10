@@ -110,6 +110,7 @@ class MakeGame extends React.Component {
   }
 
   addGame() {
+    console.log('in add game');
     let newGame = {
       name: this.state.gameName,
       clues: this.state.gameClues,
@@ -171,7 +172,7 @@ class MakeGame extends React.Component {
     return (
       <ImageBackground source={parchment} style={styles.container}>
         {this.state.fontLoaded ? (
-          <ScrollView>
+          <React.Fragment>
             <Overlay
               isVisible={this.state.showOverlay}
               onBackdropPress={() => this.setState({showOverlay: false})}
@@ -213,198 +214,200 @@ class MakeGame extends React.Component {
                 keyExtractor={item => item.id.toString()}
               />
             </Overlay>
-            <View style={styles.headerContainer}>
-              <Text style={styles.newGameHeader}>Create A New Game!</Text>
-              <Image
-                source={require('../../assets/redx.png')}
-                style={styles.logo}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Ionicons
-                name="ios-create"
-                size={28}
-                color="#0A122A"
-                style={styles.inputIcon}
-              />
-              <TextInput
-                style={styles.input}
-                value={this.state.gameName}
-                onChangeText={gameName => this.setState({gameName})}
-                placeholder="Game Name"
-                underlineColorAndroid="transparent"
-              />
-            </View>
-            <React.Fragment>
-              <TouchableOpacity
-                style={styles.timeBtn}
-                onPress={() => {
-                  this.setState({isDatePickerVisible: true});
-                  this.pickingStart = true;
-                }}
-              >
-                <Text style={styles.text}>pick a start time</Text>
-              </TouchableOpacity>
-              <View style={styles.timeContainer}>
-                <Text style={styles.text}>{this.state.start}</Text>
+            <ScrollView>
+              <View style={styles.headerContainer}>
+                <Text style={styles.newGameHeader}>Create A New Game!</Text>
+                <Image
+                  source={require('../../assets/redx.png')}
+                  style={styles.logo}
+                />
               </View>
-              <TouchableOpacity
-                style={styles.timeBtn}
-                onPress={() => {
-                  this.setState({isDatePickerVisible: true});
-                  this.pickingStart = false;
-                }}
-              >
-                <Text style={styles.text}>pick an end time</Text>
-              </TouchableOpacity>
-              <View style={styles.timeContainer}>
-                <Text style={styles.text}>{this.state.end}</Text>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="ios-create"
+                  size={28}
+                  color="#0A122A"
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  value={this.state.gameName}
+                  onChangeText={gameName => this.setState({gameName})}
+                  placeholder="Game Name"
+                  underlineColorAndroid="transparent"
+                />
               </View>
-              <DateTimePickerModal
-                isVisible={this.state.isDatePickerVisible}
-                mode="datetime"
-                onConfirm={this.handleConfirm}
-                isDarkModeEnabled={this.state.isDarkModeEnabled}
-                onCancel={() =>
-                  this.setState({
-                    isDatePickerVisible: false,
-                    pickingStart: false,
-                    pickingEnd: false
-                  })
-                }
-              />
-            </React.Fragment>
-
-            <Text style={styles.newGameSubHeader}>Clues: </Text>
-            {/* preexisting clues for this game */}
-            {this.state.gameClues.length > 0 ? (
-              <FlatList
-                keyExtractor={item => item.clueNum.toString()}
-                data={this.state.gameClues}
-                renderItem={clue => {
-                  clue = clue.item;
-                  return (
-                    <React.Fragment key={clue.clueNum}>
-                      <Text style={styles.newGameSubHeader}>
-                        Clue {clue.clueNum}:{' '}
-                      </Text>
-                      <Text style={styles.newGameText}>Image: </Text>
-                      <Image
-                        style={{width: 50, height: 50}}
-                        source={{uri: clue.clueAccessPic}}
-                      />
-                      <Text style={styles.newGameText}>
-                        Clue Text: {clue.clueText}
-                      </Text>
-                      <Text style={styles.newGameText}>
-                        Clue Hint: {clue.clueHint}
-                      </Text>
-                    </React.Fragment>
-                  );
-                }}
-              />
-            ) : (
               <React.Fragment>
-                <Text style={styles.newGameText}>
-                  No clues so far... try adding one!
-                </Text>
+                <TouchableOpacity
+                  style={styles.timeBtn}
+                  onPress={() => {
+                    this.setState({isDatePickerVisible: true});
+                    this.pickingStart = true;
+                  }}
+                >
+                  <Text style={styles.text}>pick a start time</Text>
+                </TouchableOpacity>
+                <View style={styles.timeContainer}>
+                  <Text style={styles.text}>{this.state.start}</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.timeBtn}
+                  onPress={() => {
+                    this.setState({isDatePickerVisible: true});
+                    this.pickingStart = false;
+                  }}
+                >
+                  <Text style={styles.text}>pick an end time</Text>
+                </TouchableOpacity>
+                <View style={styles.timeContainer}>
+                  <Text style={styles.text}>{this.state.end}</Text>
+                </View>
+                <DateTimePickerModal
+                  isVisible={this.state.isDatePickerVisible}
+                  mode="datetime"
+                  onConfirm={this.handleConfirm}
+                  isDarkModeEnabled={this.state.isDarkModeEnabled}
+                  onCancel={() =>
+                    this.setState({
+                      isDatePickerVisible: false,
+                      pickingStart: false,
+                      pickingEnd: false
+                    })
+                  }
+                />
               </React.Fragment>
-            )}
-            <React.Fragment>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() =>
-                  this.setState({createClue: false, showOverlay: true})
-                }
-              >
-                <Text style={styles.text}>pick a clue</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => this.setState({createClue: true})}
-              >
-                <Text style={styles.text}>create a clue</Text>
-              </TouchableOpacity>
-              {this.state.createClue === null ? (
-                <React.Fragment />
-              ) : this.state.createClue === true ? (
-                // if you are creating a clue from scratch
+
+              <Text style={styles.newGameSubHeader}>Clues: </Text>
+              {/* preexisting clues for this game */}
+              {this.state.gameClues.length > 0 ? (
+                <FlatList
+                  keyExtractor={item => item.clueNum.toString()}
+                  data={this.state.gameClues}
+                  renderItem={clue => {
+                    clue = clue.item;
+                    return (
+                      <React.Fragment key={clue.clueNum}>
+                        <Text style={styles.newGameSubHeader}>
+                          Clue {clue.clueNum}:{' '}
+                        </Text>
+                        <Text style={styles.newGameText}>Image: </Text>
+                        <Image
+                          style={{width: 50, height: 50}}
+                          source={{uri: clue.clueAccessPic}}
+                        />
+                        <Text style={styles.newGameText}>
+                          Clue Text: {clue.clueText}
+                        </Text>
+                        <Text style={styles.newGameText}>
+                          Clue Hint: {clue.clueHint}
+                        </Text>
+                      </React.Fragment>
+                    );
+                  }}
+                />
+              ) : (
                 <React.Fragment>
-                  <Text style={styles.newGameSubHeader}>
-                    Clue {this.state.clueNum}:{' '}
+                  <Text style={styles.newGameText}>
+                    No clues so far... try adding one!
                   </Text>
-                  <Text style={styles.newGameText}>Clue Text: </Text>
-                  <TextInput
-                    style={styles.input}
-                    value={this.state.clueText}
-                    onChangeText={clueText => this.setState({clueText})}
-                  />
-                  <Text style={styles.newGameText}>Clue Hint: </Text>
-                  <TextInput
-                    style={styles.input}
-                    value={this.state.clueHint}
-                    onChangeText={clueHint => this.setState({clueHint})}
-                  />
-                  {this.state.clueImg.accessPic ? (
-                    <View style={styles.newImgContainer}>
-                      <Image
-                        style={{
-                          width: 200,
-                          height: 200,
-                          borderColor: 'black',
-                          borderWidth: 1
-                        }}
-                        source={{uri: this.state.clueImg.accessPic}}
-                      />
-                    </View>
-                  ) : null}
-                  <TouchableOpacity
-                    style={styles.btn}
-                    onPress={this.goToCamera.bind(this)}
-                  >
-                    <Text style={styles.text}>take a picture</Text>
-                  </TouchableOpacity>
-                  <View>
+                </React.Fragment>
+              )}
+              <React.Fragment>
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() =>
+                    this.setState({createClue: false, showOverlay: true})
+                  }
+                >
+                  <Text style={styles.text}>pick a clue</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() => this.setState({createClue: true})}
+                >
+                  <Text style={styles.text}>create a clue</Text>
+                </TouchableOpacity>
+                {this.state.createClue === null ? (
+                  <React.Fragment />
+                ) : this.state.createClue === true ? (
+                  // if you are creating a clue from scratch
+                  <React.Fragment>
+                    <Text style={styles.newGameSubHeader}>
+                      Clue {this.state.clueNum}:{' '}
+                    </Text>
+                    <Text style={styles.newGameText}>Clue Text: </Text>
+                    <TextInput
+                      style={styles.input}
+                      value={this.state.clueText}
+                      onChangeText={clueText => this.setState({clueText})}
+                    />
+                    <Text style={styles.newGameText}>Clue Hint: </Text>
+                    <TextInput
+                      style={styles.input}
+                      value={this.state.clueHint}
+                      onChangeText={clueHint => this.setState({clueHint})}
+                    />
+                    {this.state.clueImg.accessPic ? (
+                      <View style={styles.newImgContainer}>
+                        <Image
+                          style={{
+                            width: 200,
+                            height: 200,
+                            borderColor: 'black',
+                            borderWidth: 1
+                          }}
+                          source={{uri: this.state.clueImg.accessPic}}
+                        />
+                      </View>
+                    ) : null}
                     <TouchableOpacity
                       style={styles.btn}
-                      onPress={this.addClue.bind(this)}
-                      disabled={!this.state.clueText || !this.state.clueImg}
+                      onPress={this.goToCamera.bind(this)}
                     >
-                      <Text style={styles.text}>add clue</Text>
+                      <Text style={styles.text}>take a picture</Text>
                     </TouchableOpacity>
-                  </View>
-                </React.Fragment>
-              ) : // // if you are using a clue from the database all changes on overlay
-              null}
-            </React.Fragment>
-            <Text style={styles.newGameText}>This game will be: </Text>
-            <RadioForm
-              radio_props={[
-                {label: 'public', value: false},
-                {label: 'private', value: true}
-              ]}
-              initial={false}
-              onPress={value => this.setPrivacy(value)}
-              buttonColor="#E20014"
-              labelStyle={{fontFamily: 'Kranky-Regular', fontSize: 20}}
-            />
-            {this.state.private ? (
-              <Text>Passcode: {this.state.keyCode}</Text>
-            ) : null}
-            <TouchableOpacity
-              style={styles.createBtn}
-              onPress={this.addGame.bind(this)}
-              disabled={
-                !this.state.userId ||
-                !this.state.gameName ||
-                !this.state.gameClues.length ||
-                !this.state.startTime ||
-                !this.state.endTime
-              }
-            >
-              <Text style={styles.text}>create game</Text>
-            </TouchableOpacity>
-          </ScrollView>
+                    <View>
+                      <TouchableOpacity
+                        style={styles.btn}
+                        onPress={this.addClue.bind(this)}
+                        disabled={!this.state.clueText || !this.state.clueImg}
+                      >
+                        <Text style={styles.text}>add clue</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </React.Fragment>
+                ) : // // if you are using a clue from the database all changes on overlay
+                null}
+              </React.Fragment>
+              <Text style={styles.newGameText}>This game will be: </Text>
+              <RadioForm
+                radio_props={[
+                  {label: 'public', value: false},
+                  {label: 'private', value: true}
+                ]}
+                initial={false}
+                onPress={value => this.setPrivacy(value)}
+                buttonColor="#E20014"
+                labelStyle={{fontFamily: 'Kranky-Regular', fontSize: 20}}
+              />
+              {this.state.private ? (
+                <Text>Passcode: {this.state.keyCode}</Text>
+              ) : null}
+              <TouchableOpacity
+                style={styles.createBtn}
+                onPress={this.addGame.bind(this)}
+                disabled={
+                  !this.state.userId ||
+                  !this.state.gameName ||
+                  !this.state.gameClues.length ||
+                  !this.state.startDB ||
+                  !this.state.endDB
+                }
+              >
+                <Text style={styles.text}>create game</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </React.Fragment>
         ) : null}
       </ImageBackground>
     );

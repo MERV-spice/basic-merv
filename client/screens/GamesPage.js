@@ -85,7 +85,7 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
                           Players: {game.users.length}
                         </Text>
                         <Text style={styles.text}>
-                          Clues: {datePrettifier(game.clues.length)}
+                          Clues: {game.clues.length}
                         </Text>
                         {game.startTime ? (
                           <Text style={styles.text}>
