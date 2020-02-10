@@ -33,14 +33,6 @@ class SignUp extends Component {
   }
   static navigationOptions = {headerShown: false};
 
-  async onLogin() {
-    const {email, password} = this.state;
-    await this.props.auth(email, password);
-    if (this.props.user.id) {
-      this.props.navigation.navigate('GamesPage');
-    }
-  }
-
   async componentDidMount() {
     await Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
