@@ -4,7 +4,6 @@ import Login from './Login';
 import {connect} from 'react-redux';
 import {fetchGames} from '../store/games';
 import {fetchClues} from '../store/clues';
-import {fetchRequests} from '../store/request';
 import {AppLoading, Notifications} from 'expo';
 import {Text, View, Button} from 'react-native';
 import axios from 'axios';
@@ -17,7 +16,6 @@ const Route = ({user, fetchGames, fetchClues, fetchRequests}) => {
     const arr = [];
     arr.push(fetchGames());
     arr.push(fetchClues());
-    arr.push(fetchRequests());
     return Promise.all(arr);
   };
 
@@ -49,8 +47,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   fetchGames: () => dispatch(fetchGames()),
-  fetchClues: () => dispatch(fetchClues()),
-  fetchRequests: () => dispatch(fetchRequests())
+  fetchClues: () => dispatch(fetchClues())
 });
 
 export default connect(mapState, mapDispatch)(Route);
