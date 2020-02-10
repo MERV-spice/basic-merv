@@ -53,11 +53,8 @@ const CluePage = props => {
   };
 
   if (score > 0.2) {
-    // console.log('score pass', props.gameUserScore)
     thenFun();
-  } else if (props.gameUserScore[0]) {
-      console.log('no pass', props.gameUserScore[0].score);
-    }
+  }
   if (currentClue >= clues.length) {
     props.navigation.navigate('GameOver');
     return <Text>Join a new game!</Text>;

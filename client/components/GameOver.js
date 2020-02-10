@@ -31,7 +31,6 @@ class GameOver extends Component {
     });
     this.setState({fontLoaded: true});
     await this.props.fetchScores(this.props.user.game.id);
-    // console.log('COMPONENT DID MOUNT', 'USERGAME', this.props.user.game.id);
     await this.props.fetchGameUserScore(
       this.props.user.id,
       this.props.user.game.id

@@ -3,8 +3,8 @@ const Picture = require('../db/models/picture');
 module.exports = router;
 
 router.post('/', async (req, res, next) => {
-  console.log('in images route');
   try {
+    console.log('req body on upload', req.body);
     // const point = {
     //   type: 'Point',
     //   coordinates: [
