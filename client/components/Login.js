@@ -146,7 +146,7 @@ class AuthForm extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.btnLogin}
-                // onPress={() => this.props.navigation.navigate('SignUp')}
+                onPress={() => this.props.navigation.navigate('SignUp')}
               >
                 <Text style={styles.text}>Sign Up</Text>
               </TouchableOpacity>
