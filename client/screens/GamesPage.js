@@ -64,6 +64,7 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
             style={styles.logo}
           />
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={games}
             renderItem={game => {
               game = game.item;

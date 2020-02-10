@@ -32,9 +32,9 @@ const Route = ({user, fetchGames, fetchClues}) => {
     <React.Fragment>
       {user.id ? (
         <React.Fragment>
-          {/* <SignUp /> */}
-          <GameOver />
-          {/* <Navigator /> */}
+          {/* <SignUp />
+          <GameOver /> */}
+          <Navigator />
         </React.Fragment>
       ) : (
         <Login />

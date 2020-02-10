@@ -85,20 +85,20 @@ const CluePage = props => {
             <CountDown
               until={(new Date(props.user.game.endTime) - new Date()) / 1000}
               onFinish={() => props.navigation.navigate('GameOver')}
-              size={20}
+              size={30}
               digitStyle={{
                 backgroundColor: '#ebdda0',
                 borderWidth: 1,
                 borderColor: 'black'
               }}
-              digitTxtStyle={{color: 'black'}}
+              digitTxtStyle={{fontFamily: 'Kranky-Regular', color: 'black'}}
               timeLabelStyle={{
                 color: 'black',
                 fontFamily: 'Kranky-Regular',
-                fontSize: 15
+                fontSize: 16
               }}
-              separatorStyle={{color: 'black'}}
-              showSeparator // this puts : between each time unit element
+              // separatorStyle={{color: 'black'}}
+              // showSeparator // this puts : between each time unit element
             />
           </View>
         </View>

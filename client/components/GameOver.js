@@ -81,6 +81,7 @@ class GameOver extends Component {
             <Text style={styles.subHeaderText}>Leaderboard:</Text>
             <FlatList
               keyExtractor={item => String(item.id)}
+              showsVerticalScrollIndicator={false}
               data={this.props.scores}
               renderItem={({item}) => (
                 <View style={styles.listItemContainer}>
