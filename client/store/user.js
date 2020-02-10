@@ -1,6 +1,7 @@
 import axios from 'axios';
 import url from '../ngrok';
 import {fetchGames} from './games';
+import {fetchRequests} from '../request';
 import {AsyncStorage} from 'react-native';
 
 const SIGN_UP = 'SIGN_UP';
@@ -8,12 +9,17 @@ const GET_USER = 'GET_USER';
 const SET_GAME = 'SET_GAME';
 const CLUE_PLUS = 'CLUE_PLUS';
 const CLUE_RESET = 'CLUE_RESET';
+const NEW_FRIEND = 'NEW_FRIEND';
 
 const signUp = user => ({type: SIGN_UP, user});
 const getUser = user => ({type: GET_USER, user});
 const setGame = game => ({type: SET_GAME, game});
 const cluePlus = () => ({type: CLUE_PLUS});
 const clueReset = () => ({type: CLUE_RESET});
+export const newFriend = user => ({type: NEW_FRIEND, user});
+
+import {Notifications} from 'expo';
+import * as Permissions from 'expo-permissions';
 
 export const signUpUser = user => {
   return async dispatch => {
@@ -68,6 +74,14 @@ export const auth = (email, password) => async dispatch => {
 
   try {
     dispatch(getUser(res.data));
+    const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    if (status !== 'granted') {
+      return;
+    }
+
+    const token = await Notifications.getExpoPushTokenAsync();
+    await axios.put(`${url}/api/notification`, {value: token});
+    dispatch(fetchRequests());
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr);
   }
@@ -86,7 +100,9 @@ export const joinGame = (gameId, userId) => async dispatch => {
   }
 };
 
-export default function(state = {}, action) {
+const initialState = {};
+
+export default function(state = initialState, action) {
   switch (action.type) {
     case SIGN_UP:
       return action.user;
@@ -98,6 +114,8 @@ export default function(state = {}, action) {
       return {...state, currentClue: state.currentClue + 1};
     case CLUE_RESET:
       return {...state, currentClue: 0};
+    case NEW_FRIEND:
+      return {...state, Friend: [...state.Friend, action.user]};
     default:
       return state;
   }

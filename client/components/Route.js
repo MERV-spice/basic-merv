@@ -4,23 +4,31 @@ import Login from './Login';
 import {connect} from 'react-redux';
 import {fetchGames} from '../store/games';
 import {fetchClues} from '../store/clues';
-import {AppLoading} from 'expo';
+import {AppLoading, Notifications} from 'expo';
+import {Text, View, Button} from 'react-native';
+import axios from 'axios';
+import url from '../ngrok';
 
-const Route = ({user, fetchGames, fetchClues}) => {
+const Route = ({user, fetchGames, fetchClues, fetchRequests}) => {
   const [isReady, setIsReady] = React.useState(false);
 
-  const loadItems = async () => {
+  const loadItems = () => {
     const arr = [];
     arr.push(fetchGames());
     arr.push(fetchClues());
     return Promise.all(arr);
   };
 
+  const finishLoad = () => {
+    setIsReady(true);
+    Notifications.addListener(fetchRequests);
+  };
+
   if (!isReady) {
     return (
       <AppLoading
         startAsync={loadItems}
-        onFinish={() => setIsReady(true)}
+        onFinish={finishLoad}
         onError={console.warn}
       />
     );
@@ -33,7 +41,7 @@ const Route = ({user, fetchGames, fetchClues}) => {
   );
 };
 
-const mapState = () => state => ({
+const mapState = state => ({
   user: state.user
 });
 

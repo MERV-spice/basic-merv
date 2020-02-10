@@ -34,6 +34,9 @@ const User = db.define('user', {
   currentClue: {
     type: Sequelize.INTEGER,
     defaultValue: 0
+  },
+  token: {
+    type: Sequelize.STRING
   }
 });
 

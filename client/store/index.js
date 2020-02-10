@@ -5,12 +5,14 @@ import user from './user';
 import games from './games';
 import clues from './clues';
 import scores from './scores';
+import requests from './request';
 
 const reducer = combineReducers({
-  user: user,
-  games: games,
-  clues: clues,
-  scores: scores
+  user,
+  games,
+  clues,
+  scores,
+  requests
 });
 
 const middleware = applyMiddleware(
