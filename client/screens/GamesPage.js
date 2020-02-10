@@ -53,7 +53,7 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
       return null;
     }
   };
-  console.log(games);
+
   return (
     <ImageBackground source={parchment} style={styles.container}>
       {fontLoaded ? (
