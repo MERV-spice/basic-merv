@@ -28,13 +28,7 @@ const Route = ({user, fetchGames, fetchClues}) => {
 
   return (
     <React.Fragment>
-      {user.id ? (
-        <React.Fragment>
-          <Navigator />
-        </React.Fragment>
-      ) : (
-        <Login />
-      )}
+      <Navigator />
     </React.Fragment>
   );
 };

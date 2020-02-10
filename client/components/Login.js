@@ -57,8 +57,8 @@ class AuthForm extends Component {
       console.log('no password in async storage');
     }
   }
-  onLogin(email, password) {
-    this.props.auth(email, password);
+  async onLogin(email, password) {
+    await this.props.auth(email, password);
     if (this.props.user.id) {
       this.props.navigation.navigate('GamesPage');
     }
