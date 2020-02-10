@@ -16,7 +16,7 @@ import {getSingleGameThunk} from '../store/games';
 import CountDown from 'react-native-countdown-component';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
-import addScoreThunk from '../store/gameUserScore';
+import {addScoreThunk, fetchGameUserScore} from '../store/gameUserScore';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -27,6 +27,7 @@ const CluePage = props => {
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
     }).then(setFontLoaded(true));
     props.getSingleGameThunk(props.user.game.id);
+    props.fetchGameUserScore(props.user.id, props.user.game.id);
   }, []);
   const clues = props.user.game.clues;
   const currentClue = props.user.currentClue;
@@ -43,16 +44,20 @@ const CluePage = props => {
 
   const thenFun = () => {
     props.addScoreThunk(props.user.id, props.user.game.id, 10);
-    console.log('FUNNNNNN!!!!');
     setScore(0);
     props.currentCluePlus(props.user);
     setHint(0);
   };
 
-  if (score > 0.2) thenFun();
+  if (score > 0.2) {
+    // console.log('score pass', props.gameUserScore)
+    thenFun();
+  } else {
+    console.log('no pass', props.gameUserScore);
+  }
   if (currentClue >= clues.length) {
     props.navigation.navigate('GameOver');
-    return <Text>hey</Text>;
+    return <Text>Join a new game!</Text>;
   }
 
   return (
@@ -60,6 +65,7 @@ const CluePage = props => {
       <ScrollView showsVerticalScrollIndicator={false}>
         {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
           <View>
+            <Text>{props.gameUserScore.score}</Text>
             <View style={styles.clueImgContainer}>
               <Text style={styles.headerText}>You're lookin' for this!</Text>
               <View style={styles.imgContainer}>
@@ -85,7 +91,7 @@ const CluePage = props => {
             ) : (
               <Text style={styles.text}>Hint: {clues[currentClue].hint}</Text>
             )}
-            <TouchableOpacity style={styles.btn} onPress={pressHandler}>
+            <TouchableOpacity style={styles.btn} onPress={() => pressHandler()}>
               <Text style={styles.btnText}>I found it!</Text>
             </TouchableOpacity>
             <View style={styles.timerContainer}>
@@ -195,13 +201,15 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => ({
-  user: state.user
+  user: state.user,
+  gameUserScore: state.gameUserScore
 });
 
 const mapDispatch = {
   currentCluePlus,
   getSingleGameThunk,
-  addScoreThunk
+  addScoreThunk,
+  fetchGameUserScore
 };
 
 export default connect(mapState, mapDispatch)(CluePage);

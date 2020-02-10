@@ -46,6 +46,16 @@ router.get('/gameUser/:userId/:gameId', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
+    const selectedRow = await Score.findOrCreate({
+      where: {
+        userId: req.body.userId,
+        gameId: req.body.gameId
+      },
+      defaults: {
+        score: 0,
+        itemsFound: 0
+      }
+    });
     const userGameScore = await Score.increment(
       {score: req.body.score, itemsFound: 1},
       {
@@ -55,6 +65,7 @@ router.put('/', async (req, res, next) => {
         }
       }
     );
+
     res.json(userGameScore);
   } catch (err) {
     next(err);
