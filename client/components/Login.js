@@ -34,6 +34,8 @@ class AuthForm extends Component {
     this.onLogin = this.onLogin.bind(this);
   }
 
+  static navigationOptions = {headerShown: false};
+
   async getEmail() {
     try {
       const email = await AsyncStorage.getItem('email');
@@ -57,8 +59,8 @@ class AuthForm extends Component {
       console.log('no password in async storage');
     }
   }
-  onLogin(email, password) {
-    this.props.auth(email, password);
+  async onLogin(email, password) {
+    await this.props.auth(email, password);
     if (this.props.user.id) {
       this.props.navigation.navigate('GamesPage');
     }
@@ -144,7 +146,7 @@ class AuthForm extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.btnLogin}
-                // onPress={() => this.props.navigation.navigate('SignUp')}
+                onPress={() => this.props.navigation.navigate('SignUp')}
               >
                 <Text style={styles.text}>Sign Up</Text>
               </TouchableOpacity>

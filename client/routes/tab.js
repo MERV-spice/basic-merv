@@ -6,7 +6,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import CluePage from '../screens/CluePage';
 import GameOver from '../components/GameOver';
 import GamesPage from '../screens/GamesPage'; //
-import {MakeClueCamera, MakeGame} from '../components'; //
+import {MakeClueCamera, MakeGame, Login, SignUp} from '../components'; //
 
 const screens = {
   GamesPage: {
@@ -35,6 +35,18 @@ const tab = createBottomTabNavigator(screens, {
 });
 
 const appCon = createStackNavigator({
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      tabBarLabel: 'Login'
+    }
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: {
+      tabBarLabel: 'SignUp'
+    }
+  },
   Home: tab, //
   Camera: {
     screen: Camera,
