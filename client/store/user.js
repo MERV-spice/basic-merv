@@ -1,6 +1,7 @@
 import axios from 'axios';
 import url from '../ngrok';
 import {fetchGames} from './games';
+import {fetchRequests} from '../request';
 import {AsyncStorage} from 'react-native';
 
 const SIGN_UP = 'SIGN_UP';
@@ -80,6 +81,7 @@ export const auth = (email, password) => async dispatch => {
 
     const token = await Notifications.getExpoPushTokenAsync();
     await axios.put(`${url}/api/notification`, {value: token});
+    dispatch(fetchRequests());
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr);
   }
