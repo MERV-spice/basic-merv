@@ -34,6 +34,8 @@ class AuthForm extends Component {
     this.onLogin = this.onLogin.bind(this);
   }
 
+  static navigationOptions = {headerShown: false};
+
   async getEmail() {
     try {
       const email = await AsyncStorage.getItem('email');
