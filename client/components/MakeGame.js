@@ -306,7 +306,7 @@ class MakeGame extends React.Component {
                           Clue Hint: {clue.clueHint}
                         </Text>
                         <TouchableOpacity
-                          style={styles.btn}
+                          style={styles.removeBtn}
                           onPress={() => this.removeClue(clue.clueNum)}
                         >
                           <Text style={styles.text}>remove Clue</Text>
@@ -497,6 +497,16 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: '#ebdda0',
     justifyContent: 'center',
+    marginBottom: 30
+  },
+  removeBtn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#7A8B8B',
+    justifyContent: 'flex-start',
     marginBottom: 30
   },
   createBtn: {
