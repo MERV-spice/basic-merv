@@ -16,6 +16,7 @@ import {getSingleGameThunk} from '../store/games';
 import CountDown from 'react-native-countdown-component';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
+import addScoreThunk from '../store/gameUserScore';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -41,12 +42,14 @@ const CluePage = props => {
   };
 
   const thenFun = () => {
+    props.addScoreThunk(props.user.id, props.user.game.id, 10);
+    console.log('FUNNNNNN!!!!');
     setScore(0);
     props.currentCluePlus(props.user);
     setHint(0);
   };
 
-  if (score > 0.7) thenFun();
+  if (score > 0.0) thenFun();
   if (currentClue >= clues.length) {
     props.navigation.navigate('GameOver');
     return <Text>hey</Text>;
@@ -80,7 +83,7 @@ const CluePage = props => {
                 <Text style={styles.btnText}>Show Hint</Text>
               </TouchableOpacity>
             ) : (
-              <Text style={styles.Text}>Hint: {clues[currentClue].hint}</Text>
+              <Text style={styles.text}>Hint: {clues[currentClue].hint}</Text>
             )}
             <TouchableOpacity style={styles.btn} onPress={pressHandler}>
               <Text style={styles.btnText}>I found it!</Text>
@@ -197,7 +200,8 @@ const mapState = state => ({
 
 const mapDispatch = {
   currentCluePlus,
-  getSingleGameThunk
+  getSingleGameThunk,
+  addScoreThunk
 };
 
 export default connect(mapState, mapDispatch)(CluePage);

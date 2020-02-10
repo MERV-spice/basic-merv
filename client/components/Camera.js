@@ -24,7 +24,7 @@ export default class CameraComp extends Component {
       position: {}
     };
     this.upload = this.upload.bind(this);
-    this.snapPhoto = this.snapPhoto.bind(this);
+    // this.snapPhoto = this.snapPhoto.bind(this);
   }
 
   async componentDidMount() {
@@ -112,7 +112,7 @@ export default class CameraComp extends Component {
               <Ionicons color="white" size={64} name="ios-reverse-camera" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={this.snapPhoto.bind(this)}
+              onPress={(this.snapPhoto.bind(this), console.log('PRESSSED!!!'))}
               style={{
                 alignSelf: 'flex-end',
                 alignItems: 'center',

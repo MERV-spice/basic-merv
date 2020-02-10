@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {fetchScores} from '../store/scores';
+import {fetchGameUserScore} from '../store/gameUserScore';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -29,13 +30,11 @@ class GameOver extends Component {
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
     });
     this.setState({fontLoaded: true});
-    await this.props.fetchScores(this.props.user.id);
-    console.log(
-      'COMPONENT DID MOUNT',
-      'SCORES',
-      this.props.scores,
-      'USER',
-      this.props.user
+    await this.props.fetchScores(this.props.user.game.id);
+    // console.log('COMPONENT DID MOUNT', 'USERGAME', this.props.user.game.id);
+    await this.props.fetchGameUserScore(
+      this.props.user.id,
+      this.props.user.game.id
     );
   }
 
@@ -115,6 +114,7 @@ class GameOver extends Component {
 
 const mapState = state => {
   return {
+    gameUserScore: state.gameUserScore,
     scores: state.scores,
     user: state.user
   };
@@ -122,7 +122,9 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    fetchScores: gameId => dispatch(fetchScores(gameId))
+    fetchScores: gameId => dispatch(fetchScores(gameId)),
+    fetchGameUserScore: (userId, gameId) =>
+      dispatch(fetchGameUserScore(userId, gameId))
   };
 };
 

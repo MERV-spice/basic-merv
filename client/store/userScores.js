@@ -3,15 +3,15 @@ import url from '../ngrok';
 
 const initialState = [];
 
-const SET_SCORES = 'SET_SCORES';
+const GET_USER_SCORES = 'GET_USER_SCORES';
 
-const setScores = scores => ({type: SET_SCORES, scores});
+const getUserScores = scores => ({type: GET_USER_SCORES, scores});
 
-export const fetchScores = gameId => {
+export const fetchUserScores = userId => {
   return async dispatch => {
     try {
-      const {data} = await axios.get(`${url}/api/score/game/${gameId}`);
-      dispatch(setScores(data));
+      const {data} = await axios.get(`${url}/api/score/user/${userId}`);
+      dispatch(getUserScores(data));
     } catch (err) {
       console.log(err);
     }
@@ -20,7 +20,7 @@ export const fetchScores = gameId => {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case SET_SCORES:
+    case GET_USER_SCORES:
       return action.scores;
     default:
       return state;
