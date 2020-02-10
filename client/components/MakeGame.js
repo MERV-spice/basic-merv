@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react';
 import {
   StyleSheet,
@@ -184,7 +185,12 @@ class MakeGame extends React.Component {
                       <View style={styles.imgContainer}>
                         <Image
                           source={{uri: item.pictures[0].accessPic}}
-                          style={{width: 50, height: 50}}
+                          style={{
+                            width: 80,
+                            height: 80,
+                            borderColor: 'black',
+                            borderWidth: 1
+                          }}
                         />
                       </View>
                       <View style={styles.addClueBtnContainer}>
@@ -340,10 +346,17 @@ class MakeGame extends React.Component {
                     onChangeText={clueHint => this.setState({clueHint})}
                   />
                   {this.state.clueImg.accessPic ? (
-                    <Image
-                      style={{width: 50, height: 50}}
-                      source={{uri: this.state.clueImg.accessPic}}
-                    />
+                    <View style={styles.newImgContainer}>
+                      <Image
+                        style={{
+                          width: 200,
+                          height: 200,
+                          borderColor: 'black',
+                          borderWidth: 1
+                        }}
+                        source={{uri: this.state.clueImg.accessPic}}
+                      />
+                    </View>
                   ) : null}
                   <TouchableOpacity
                     style={styles.btn}
@@ -379,7 +392,7 @@ class MakeGame extends React.Component {
               <Text>Passcode: {this.state.keyCode}</Text>
             ) : null}
             <TouchableOpacity
-              style={styles.btn}
+              style={styles.createBtn}
               onPress={this.addGame.bind(this)}
               disabled={
                 !this.state.userId ||
@@ -459,11 +472,21 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#E20014',
+    backgroundColor: '#ebdda0',
     justifyContent: 'center',
     marginTop: 8
   },
   btn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#ebdda0',
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  createBtn: {
     width: WIDTH - 55,
     height: 45,
     borderRadius: 25,
@@ -514,5 +537,9 @@ const styles = StyleSheet.create({
   imgContainer: {
     alignItems: 'center',
     paddingTop: 5
+  },
+  newImgContainer: {
+    alignItems: 'center',
+    marginBottom: 20
   }
 });

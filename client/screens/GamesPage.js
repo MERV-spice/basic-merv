@@ -64,6 +64,7 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
             style={styles.logo}
           />
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={games}
             renderItem={game => {
               game = game.item;
@@ -72,7 +73,7 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
                   <Overlay
                     isVisible={game.id === gameLookedAt}
                     onBackdropPress={() => setGameLookedAt(-1)}
-                    height={200}
+                    height={300}
                     overlayBackgroundColor="#ebdda0"
                   >
                     <React.Fragment>
@@ -151,7 +152,8 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 50
+    marginBottom: 50,
+    marginTop: 50
   },
   logo: {
     width: 75,
@@ -194,7 +196,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 25,
-    backgroundColor: '#E20014',
+    backgroundColor: '#ebdda0',
     justifyContent: 'center',
     marginTop: 20
   },

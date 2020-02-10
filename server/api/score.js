@@ -10,7 +10,6 @@ router.get('/game/:gameId', async (req, res, next) => {
         gameId: req.params.gameId
       },
       order: [['score', 'DESC']]
-      // limit: 5
     });
     res.json(scores);
   } catch (err) {

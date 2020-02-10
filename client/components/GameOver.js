@@ -1,20 +1,42 @@
 import React, {Component} from 'react';
-import {Text, Button, View, StyleSheet} from 'react-native';
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  ImageBackground,
+  Dimensions,
+  FlatList
+} from 'react-native';
 import {connect} from 'react-redux';
 import {fetchScores} from '../store/scores';
+import parchment from '../../assets/parchment.jpg';
+import * as Font from 'expo-font';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+
 let time;
+const {width: WIDTH} = Dimensions.get('window');
 
 class GameOver extends Component {
-  async componentDidMount() {
-    await this.props.fetchScores(2);
+  constructor() {
+    super();
+    this.state = {
+      fontLoaded: false
+    };
   }
-
-  renderScores() {
-    return this.props.scores.map((item, index) => (
-      <Text key={index}>
-        {item.user.username}: {item.score}
-      </Text>
-    ));
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
+    });
+    this.setState({fontLoaded: true});
+    await this.props.fetchScores(this.props.user.id);
+    console.log(
+      'COMPONENT DID MOUNT',
+      'SCORES',
+      this.props.scores,
+      'USER',
+      this.props.user
+    );
   }
 
   render() {
@@ -39,28 +61,54 @@ class GameOver extends Component {
     }
 
     if (this.props.scores.length) {
-      let ms = new Date() - new Date(this.props.scores[0].game.playerEndTime);
+      let ms = new Date() - new Date(this.props.scores[0].game.endTime);
       time = dhm(ms);
     }
     const [userScore] = this.props.scores.filter(
-      scoreObj => scoreObj.userId === /*this.props.user.id*/ 1
+      scoreObj => scoreObj.userId === this.props.user.id
     );
     return (
-      <View style={styles.container}>
-        <Text>Good Job {this.props.user.username}!!!</Text>
-        <Text>Leaderboard:</Text>
-        {this.renderScores()}
-        <Text>Your Score: {userScore ? userScore.score : null}</Text>
-        <Text>
-          Number of Items Found: {userScore ? userScore.itemsFound : null}
-        </Text>
-        <Text>Time elapsed: {time}</Text>
-        <Button
-          title="Play Again?"
-          style={styles.input}
-          onPress={() => this.props.navigation.navigate('GamesPage')}
-        />
-      </View>
+      <ImageBackground source={parchment} style={styles.container}>
+        {this.state.fontLoaded ? (
+          <View style={styles.container}>
+            <Image
+              source={require('../../assets/redx.png')}
+              style={styles.logo}
+            />
+            <Text style={styles.headerText}>
+              Good Job {this.props.user.username}!!!
+            </Text>
+            <Text style={styles.subHeaderText}>Leaderboard:</Text>
+            <FlatList
+              keyExtractor={item => String(item.id)}
+              showsVerticalScrollIndicator={false}
+              data={this.props.scores}
+              renderItem={({item}) => (
+                <View style={styles.listItemContainer}>
+                  <Text style={styles.text}>
+                    {item.user.username}: {item.score}
+                  </Text>
+                </View>
+              )}
+            />
+            <Text style={styles.subHeaderText}>
+              Your Score: {userScore ? userScore.score : null}
+            </Text>
+            <Text style={styles.text}>
+              Number of Items Found: {userScore ? userScore.itemsFound : 0}
+            </Text>
+            <Text style={styles.text}>Time elapsed: {time}</Text>
+            <View style={styles.btnContainer}>
+              <TouchableOpacity
+                style={styles.input}
+                onPress={() => this.props.navigation.navigate('GamesPage')}
+              >
+                <Text style={styles.text}>play again?</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : null}
+      </ImageBackground>
     );
   }
 }
@@ -84,15 +132,62 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1'
+    justifyContent: 'center'
+  },
+  btnContainer: {
+    marginTop: 40
   },
   input: {
-    width: 200,
-    height: 44,
-    padding: 10,
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
     borderWidth: 1,
     borderColor: 'black',
-    marginBottom: 10
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  text: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 22,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  headerText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 40,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  subHeaderText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 30,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  logo: {
+    width: 75,
+    height: 75,
+    marginTop: 40,
+    marginBottom: 40
+  },
+  listItemContainer: {
+    width: WIDTH - 55,
+    height: 80,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 25,
+    backgroundColor: '#ebdda0',
+    justifyContent: 'center',
+    marginTop: 20
   }
 });

@@ -46,7 +46,8 @@ const makeGames = () => {
   for (let i = 0; i < 10; i++) {
     games.push({
       name: `game ${i}`,
-      time: new Date()
+      startTime: new Date(),
+      endTime: new Date()
     });
   }
   return games;
