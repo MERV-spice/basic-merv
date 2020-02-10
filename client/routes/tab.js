@@ -7,9 +7,9 @@ import {Button} from 'react-native';
 
 import CluePage from '../screens/CluePage';
 import GameOver from '../components/GameOver';
-import GamesPage from '../screens/GamesPage';
 import FriendsPage from '../screens/FriendsPage';
-import {MakeClueCamera, MakeGame} from '../components';
+import GamesPage from '../screens/GamesPage'; //
+import {MakeClueCamera, MakeGame, Login, SignUp} from '../components'; //
 
 const screens = {
   GamesPage: {
@@ -47,7 +47,19 @@ const tab = createBottomTabNavigator(screens, {
 });
 
 const appCon = createStackNavigator({
-  Home: tab,
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      tabBarLabel: 'Login'
+    }
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: {
+      tabBarLabel: 'SignUp'
+    }
+  },
+  Home: tab, 
   Camera: {
     screen: Camera,
     navigationOptions: {

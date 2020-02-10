@@ -147,7 +147,6 @@ router.post('/reset', async (req, res, next) => {
 
 router.put('/joingame', async (req, res, next) => {
   try {
-    console.log(req.body);
     const user = await User.findByPk(req.body.userId);
     //get session id instead of user id from the req.body so that nobody
     //can craft an id to mimic that user

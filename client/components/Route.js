@@ -41,17 +41,11 @@ const Route = ({user, fetchGames, fetchClues, fetchRequests}) => {
 
   return (
     <React.Fragment>
-      {user.id ? (
-        <React.Fragment>
-          <Navigator ref={ref} />
-          <NotificationOverlay
-            visible={showNotifications}
-            setVisible={setShowNotifications}
-          />
-        </React.Fragment>
-      ) : (
-        <Login />
-      )}
+      <Navigator />
+      <NotificationOverlay
+        visible={showNotifications}
+        setVisible={setShowNotifications}
+      />
     </React.Fragment>
   );
 };

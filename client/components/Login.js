@@ -8,13 +8,15 @@ import {
   Dimensions,
   TouchableOpacity,
   ImageBackground,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  AsyncStorage
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {connect} from 'react-redux';
 import {auth} from '../store';
 import * as Font from 'expo-font';
 import parchment from '../../assets/parchment.jpg';
+import {NavigationEvents} from 'react-navigation';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -29,11 +31,47 @@ class AuthForm extends Component {
       email: 'user0@email.com',
       password: '123'
     };
+    this.onLogin = this.onLogin.bind(this);
+  }
+
+  static navigationOptions = {headerShown: false};
+
+  async getEmail() {
+    try {
+      const email = await AsyncStorage.getItem('email');
+      console.log(email);
+      if (email !== null) {
+        return email;
+      }
+    } catch {
+      console.log('no email in async storage');
+    }
+  }
+
+  async getPassword() {
+    try {
+      const password = await AsyncStorage.getItem('password');
+      console.log(password);
+      if (password !== null) {
+        return password;
+      }
+    } catch {
+      console.log('no password in async storage');
+    }
+  }
+  async onLogin(email, password) {
+    await this.props.auth(email, password);
+    if (this.props.user.id) {
+      this.props.navigation.navigate('GamesPage');
+    }
   }
   async componentDidMount() {
     await Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
     });
+    const email = await this.getEmail();
+    const password = await this.getPassword();
+    this.onLogin(email, password);
     this.setState({fontLoaded: true});
   }
 
@@ -45,10 +83,6 @@ class AuthForm extends Component {
     }
   };
 
-  onLogin() {
-    const {email, password} = this.state;
-    this.props.auth(email, password);
-  }
   render() {
     return (
       <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
@@ -104,9 +138,17 @@ class AuthForm extends Component {
               </View>
               <TouchableOpacity
                 style={styles.btnLogin}
-                onPress={this.onLogin.bind(this)}
+                onPress={() =>
+                  this.onLogin(this.state.email, this.state.password)
+                }
               >
                 <Text style={styles.text}>Login</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.btnLogin}
+                onPress={() => this.props.navigation.navigate('SignUp')}
+              >
+                <Text style={styles.text}>Sign Up</Text>
               </TouchableOpacity>
             </View>
           ) : null}
@@ -147,7 +189,7 @@ export const styles = StyleSheet.create({
   },
   logoText: {
     fontFamily: 'Kranky-Regular',
-    fontSize: 40,
+    fontSize: 50,
     color: 'black',
     fontWeight: '500',
     marginTop: 10,
