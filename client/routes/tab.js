@@ -38,7 +38,8 @@ const tab = createBottomTabNavigator(screens, {
     visible: false
   },
   navigationOptions: {
-    headerShown: false
+    headerShown: false, // this hides the header for gamespage and clue page
+    headerLeft: () => null // if you want a header but do not want a back arrow turn the false above into true
   }
 });
 

@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {signUpUser} from '../store/user';
+import {auth} from '../store';
 import * as Font from 'expo-font';
 import parchment from '../../assets/parchment.jpg';
 import {Ionicons} from '@expo/vector-icons';
@@ -46,9 +47,11 @@ class SignUp extends Component {
     }
   };
 
-  onSignUp() {
+  async onSignUp() {
     const {username, email, password} = this.state;
     this.props.signUpUser(this.state);
+    await this.props.auth(email, password);
+    this.props.navigation.navigate('GamesPage');
   }
 
   render() {
@@ -125,6 +128,12 @@ class SignUp extends Component {
               >
                 <Text style={styles.text}>Sign Up</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.btnSignUp}
+                onPress={() => this.props.navigation.navigate('Login')}
+              >
+                <Text style={styles.text}> Login</Text>
+              </TouchableOpacity>
             </View>
           ) : null}
         </ImageBackground>
@@ -141,7 +150,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    signUpUser: user => dispatch(signUpUser(user))
+    signUpUser: user => dispatch(signUpUser(user)),
+    auth: (email, password) => dispatch(auth(email, password))
   };
 };
 
