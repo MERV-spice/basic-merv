@@ -38,11 +38,7 @@ const tab = createBottomTabNavigator(screens, {
     visible: false
   },
   navigationOptions: {
-    headerShown: true,
-    headerTitle: 'Ahoy',
-    headerRight: () => (
-      <Button title="notifications" onPress={() => console.log(true)} />
-    )
+    headerShown: false
   }
 });
 
@@ -59,7 +55,7 @@ const appCon = createStackNavigator({
       tabBarLabel: 'SignUp'
     }
   },
-  Home: tab, 
+  Home: tab,
   Camera: {
     screen: Camera,
     navigationOptions: {

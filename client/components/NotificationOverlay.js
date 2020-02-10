@@ -4,6 +4,7 @@ import {FlatList, Button, Text, View} from 'react-native';
 import {Overlay} from 'react-native-elements';
 
 const NotificationOverlay = ({notifications, visible, setVisible}) => {
+  console.log(visible);
   return (
     <Overlay
       isVisible={visible}

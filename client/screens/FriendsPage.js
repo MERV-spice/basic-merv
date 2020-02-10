@@ -5,7 +5,7 @@ import {
   FlatList,
   Text,
   Button,
-  ScrollView
+  SafeAreaView
 } from 'react-native';
 import axios from 'axios';
 import url from '../ngrok';
@@ -37,9 +37,10 @@ const FriendsPage = ({
   };
 
   return (
-    <ScrollView>
+    <SafeAreaView style={{flex: 1}}>
       <Text>Current Friend Requests</Text>
       <FlatList
+        style={{flex: 1}}
         data={requests.received}
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => (
@@ -55,6 +56,7 @@ const FriendsPage = ({
 
       <Text>Current Friends:</Text>
       <FlatList
+        style={{flex: 1}}
         data={friends}
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => <Text>{item.username}</Text>}
@@ -73,6 +75,7 @@ const FriendsPage = ({
         data={searchResults}
         keyExtractor={item => item.id.toString()}
         extraData={[searchResults, requests]}
+        style={{flex: 1}}
         renderItem={({item}) => (
           <View>
             <Text>username: {item.username}</Text>
@@ -93,7 +96,7 @@ const FriendsPage = ({
           </View>
         )}
       />
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 

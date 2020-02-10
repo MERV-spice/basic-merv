@@ -21,17 +21,18 @@ const {width: WIDTH} = Dimensions.get('window');
 
 const CluePage = props => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
+  const [score, setScore] = useState(0);
+  const [hint, setHint] = useState(0);
+
   React.useEffect(() => {
     Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
     }).then(setFontLoaded(true));
     props.getSingleGameThunk(props.user.game.id);
   }, []);
+
   const clues = props.user.game.clues;
   const currentClue = props.user.currentClue;
-
-  const [score, setScore] = useState(0);
-  const [hint, setHint] = useState(0);
 
   const pressHandler = () => {
     props.navigation.navigate('Camera', {
@@ -55,7 +56,7 @@ const CluePage = props => {
 
   return (
     <ImageBackground source={parchment} style={styles.container}>
-      {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
+      {fontLoaded ? (
         <View>
           <View style={styles.clueImgContainer}>
             <Text style={styles.headerText}>You're lookin' for this!</Text>

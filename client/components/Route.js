@@ -9,12 +9,9 @@ import {AppLoading, Notifications} from 'expo';
 import {Text, View, Button} from 'react-native';
 import axios from 'axios';
 import url from '../ngrok';
-import NotificationOverlay from './NotificationOverlay';
 
 const Route = ({user, fetchGames, fetchClues, fetchRequests}) => {
   const [isReady, setIsReady] = React.useState(false);
-  const [showNotifications, setShowNotifications] = React.useState(false);
-  const ref = React.useRef(null);
 
   const loadItems = () => {
     const arr = [];
@@ -42,10 +39,6 @@ const Route = ({user, fetchGames, fetchClues, fetchRequests}) => {
   return (
     <React.Fragment>
       <Navigator />
-      <NotificationOverlay
-        visible={showNotifications}
-        setVisible={setShowNotifications}
-      />
     </React.Fragment>
   );
 };

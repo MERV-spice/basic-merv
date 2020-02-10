@@ -24,7 +24,6 @@ router.post('/login', async (req, res, next) => {
       ]
     });
 
-    console.log(user.dataValues);
     if (!user) {
       console.log('No such user found:', req.body.email);
       res.status(401).send('Wrong username and/or password');
