@@ -36,7 +36,11 @@ const CluePage = props => {
   };
 
   if (score > 0.7) thenFun();
-  if (currentClue >= clues.length) props.navigation.navigate('GameOver');
+
+  if (currentClue >= clues.length) {
+    props.navigation.navigate('GameOver');
+    return <Text>Good Game!</Text>;
+  }
 
   return (
     <View style={styles.container}>
