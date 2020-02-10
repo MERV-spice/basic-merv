@@ -1,6 +1,7 @@
 import axios from 'axios';
 import url from '../ngrok';
 import {fetchGames} from './games';
+import {AsyncStorage} from 'react-native';
 
 const SIGN_UP = 'SIGN_UP';
 const GET_USER = 'GET_USER';
@@ -59,6 +60,8 @@ export const auth = (email, password) => async dispatch => {
       password,
       login: 'login'
     });
+    await AsyncStorage.setItem('email', email);
+    await AsyncStorage.setItem('password', password);
   } catch (authError) {
     return dispatch(getUser({error: authError}));
   }
