@@ -24,7 +24,7 @@ export default class CameraComp extends Component {
       position: {}
     };
     this.upload = this.upload.bind(this);
-    this.snapPhoto = this.snapPhoto.bind(this);
+    // this.snapPhoto = this.snapPhoto.bind(this);
   }
 
   async componentDidMount() {

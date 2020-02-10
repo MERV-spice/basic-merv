@@ -3,11 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   Image,
   ImageBackground,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from 'react-native';
 import {useState} from 'react';
 import {connect} from 'react-redux';
@@ -16,9 +16,11 @@ import {getSingleGameThunk} from '../store/games';
 import CountDown from 'react-native-countdown-component';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
+import {addScoreThunk, fetchGameUserScore} from '../store/gameUserScore';
 
 const {width: WIDTH} = Dimensions.get('window');
 
+// eslint-disable-next-line complexity
 const CluePage = props => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [score, setScore] = useState(0);
@@ -29,6 +31,7 @@ const CluePage = props => {
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
     }).then(setFontLoaded(true));
     props.getSingleGameThunk(props.user.game.id);
+    props.fetchGameUserScore(props.user.id, props.user.game.id);
   }, []);
 
   const clues = props.user.game.clues;
@@ -42,69 +45,86 @@ const CluePage = props => {
   };
 
   const thenFun = () => {
+    let coins = 10;
+    if (hint) coins = 5;
+    props.addScoreThunk(props.user.id, props.user.game.id, coins);
     setScore(0);
     props.currentCluePlus(props.user);
     setHint(0);
   };
 
   if (score > 0.7) thenFun();
-
   if (currentClue >= clues.length) {
     props.navigation.navigate('GameOver');
-    return <Text>Good Game!</Text>;
+    return <Text>Join a new game!</Text>;
   }
 
   return (
     <ImageBackground source={parchment} style={styles.container}>
-      {fontLoaded ? (
-        <View>
-          <View style={styles.clueImgContainer}>
-            <Text style={styles.headerText}>You're lookin' for this!</Text>
-            <View style={styles.imgContainer}>
-              <Image
-                style={{
-                  width: 200,
-                  height: 200,
-                  borderColor: 'black',
-                  borderWidth: 1
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
+          <View>
+            {props.gameUserScore[0] ? (
+              <Text style={styles.text}>
+                Your Current Score: {props.gameUserScore[0].score}
+              </Text>
+            ) : null}
+            {hint ? (
+              <Text style={styles.text}>This clue is worth: 5 coins</Text>
+            ) : (
+              <Text style={styles.text}>This clue is worth: 10 coins</Text>
+            )}
+            <View style={styles.clueImgContainer}>
+              <Text style={styles.headerText}>You're lookin' for this!</Text>
+              <View style={styles.imgContainer}>
+                <Image
+                  style={{
+                    width: 200,
+                    height: 200,
+                    borderColor: 'black',
+                    borderWidth: 1
+                  }}
+                  source={{uri: clues[currentClue].pictures[0].accessPic}}
+                />
+              </View>
+            </View>
+            <Text style={styles.text}>Clue: {clues[currentClue].text}</Text>
+            {!hint ? (
+              <TouchableOpacity
+                style={styles.hintBtn}
+                onPress={() => setHint(1)}
+              >
+                <Text style={styles.btnText}>Show Hint</Text>
+              </TouchableOpacity>
+            ) : (
+              <Text style={styles.text}>Hint: {clues[currentClue].hint}</Text>
+            )}
+            <TouchableOpacity style={styles.btn} onPress={() => pressHandler()}>
+              <Text style={styles.btnText}>I found it!</Text>
+            </TouchableOpacity>
+            <View style={styles.timerContainer}>
+              <CountDown
+                until={(new Date(props.user.game.endTime) - new Date()) / 1000}
+                onFinish={() => props.navigation.navigate('GameOver')}
+                size={30}
+                digitStyle={{
+                  backgroundColor: '#ebdda0',
+                  borderWidth: 1,
+                  borderColor: 'black'
                 }}
-                source={{uri: clues[currentClue].pictures[0].accessPic}}
+                digitTxtStyle={{fontFamily: 'Kranky-Regular', color: 'black'}}
+                timeLabelStyle={{
+                  color: 'black',
+                  fontFamily: 'Kranky-Regular',
+                  fontSize: 16
+                }}
+                // separatorStyle={{color: 'black'}}
+                // showSeparator // this puts : between each time unit element
               />
             </View>
           </View>
-          <Text style={styles.text}>Clue: {clues[currentClue].text}</Text>
-          {!hint ? (
-            <TouchableOpacity style={styles.hintBtn} onPress={() => setHint(1)}>
-              <Text style={styles.btnText}>Show Hint</Text>
-            </TouchableOpacity>
-          ) : (
-            <Text style={styles.Text}>Hint: {clues[currentClue].hint}</Text>
-          )}
-          <TouchableOpacity style={styles.btn} onPress={pressHandler}>
-            <Text style={styles.btnText}>I found it!</Text>
-          </TouchableOpacity>
-          <View style={styles.timerContainer}>
-            <CountDown
-              until={(new Date(props.user.game.endTime) - new Date()) / 1000}
-              onFinish={() => props.navigation.navigate('GameOver')}
-              size={30}
-              digitStyle={{
-                backgroundColor: '#ebdda0',
-                borderWidth: 1,
-                borderColor: 'black'
-              }}
-              digitTxtStyle={{fontFamily: 'Kranky-Regular', color: 'black'}}
-              timeLabelStyle={{
-                color: 'black',
-                fontFamily: 'Kranky-Regular',
-                fontSize: 16
-              }}
-              // separatorStyle={{color: 'black'}}
-              // showSeparator // this puts : between each time unit element
-            />
-          </View>
-        </View>
-      ) : null}
+        ) : null}
+      </ScrollView>
     </ImageBackground>
   );
 };
@@ -189,12 +209,15 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => ({
-  user: state.user
+  user: state.user,
+  gameUserScore: state.gameUserScore
 });
 
 const mapDispatch = {
   currentCluePlus,
-  getSingleGameThunk
+  getSingleGameThunk,
+  addScoreThunk,
+  fetchGameUserScore
 };
 
 export default connect(mapState, mapDispatch)(CluePage);

@@ -45,9 +45,9 @@ export default class CameraComp extends Component {
 
   async upload(picBase64) {
     const serverUrl = 'https://api.cloudinary.com/v1_1/basic-merv/image/upload';
-    const data = picBase64;
+    const imageData = picBase64;
     let formData = new FormData();
-    formData.append('file', 'data:image/png;base64,' + data);
+    formData.append('file', 'data:image/png;base64,' + imageData);
     formData.append('upload_preset', 'jb7k5twx');
     try {
       const res = await axios.post(serverUrl, formData);

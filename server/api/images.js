@@ -4,6 +4,7 @@ module.exports = router;
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log('req body on upload', req.body);
     // const point = {
     //   type: 'Point',
     //   coordinates: [

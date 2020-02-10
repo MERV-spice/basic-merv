@@ -5,6 +5,8 @@ import user from './user';
 import games from './games';
 import clues from './clues';
 import scores from './scores';
+import userScores from './userScores';
+import gameUserScore from './gameUserScore';
 import requests from './request';
 
 const reducer = combineReducers({
@@ -12,6 +14,8 @@ const reducer = combineReducers({
   games,
   clues,
   scores,
+  userScores,
+  gameUserScore,
   requests
 });
 
