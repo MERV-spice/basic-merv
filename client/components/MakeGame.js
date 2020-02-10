@@ -54,6 +54,7 @@ class MakeGame extends React.Component {
     this.setPrivacy = this.setPrivacy.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
     this.pickingStart = true;
+    this.removeClue = this.removeClue.bind(this);
   }
 
   async componentDidMount() {
@@ -87,6 +88,12 @@ class MakeGame extends React.Component {
       clueText: '',
       createClue: false,
       clueHint: ''
+    });
+  }
+
+  removeClue(id) {
+    this.setState({
+      gameClues: () => this.state.gameClues.filter(el => el !== id)
     });
   }
 
@@ -298,6 +305,12 @@ class MakeGame extends React.Component {
                         <Text style={styles.newGameText}>
                           Clue Hint: {clue.clueHint}
                         </Text>
+                        <TouchableOpacity
+                          style={styles.btn}
+                          onPress={() => this.removeClue(clue.clueNum)}
+                        >
+                          <Text style={styles.text}>remove Clue</Text>
+                        </TouchableOpacity>
                       </React.Fragment>
                     );
                   }}
