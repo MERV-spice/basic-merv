@@ -20,6 +20,7 @@ import {addScoreThunk, fetchGameUserScore} from '../store/gameUserScore';
 
 const {width: WIDTH} = Dimensions.get('window');
 
+// eslint-disable-next-line complexity
 const CluePage = props => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   React.useEffect(() => {
@@ -43,7 +44,9 @@ const CluePage = props => {
   };
 
   const thenFun = () => {
-    props.addScoreThunk(props.user.id, props.user.game.id, 10);
+    let coins = 10;
+    if (hint) coins = 5;
+    props.addScoreThunk(props.user.id, props.user.game.id, coins);
     setScore(0);
     props.currentCluePlus(props.user);
     setHint(0);
@@ -52,9 +55,9 @@ const CluePage = props => {
   if (score > 0.2) {
     // console.log('score pass', props.gameUserScore)
     thenFun();
-  } else {
-    console.log('no pass', props.gameUserScore);
-  }
+  } else if (props.gameUserScore[0]) {
+      console.log('no pass', props.gameUserScore[0].score);
+    }
   if (currentClue >= clues.length) {
     props.navigation.navigate('GameOver');
     return <Text>Join a new game!</Text>;
@@ -65,7 +68,16 @@ const CluePage = props => {
       <ScrollView showsVerticalScrollIndicator={false}>
         {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
           <View>
-            <Text>{props.gameUserScore.score}</Text>
+            {props.gameUserScore[0] ? (
+              <Text style={styles.text}>
+                Your Current Score: {props.gameUserScore[0].score}
+              </Text>
+            ) : null}
+            {hint ? (
+              <Text style={styles.text}>This clue is worth: 5 coins</Text>
+            ) : (
+              <Text style={styles.text}>This clue is worth: 10 coins</Text>
+            )}
             <View style={styles.clueImgContainer}>
               <Text style={styles.headerText}>You're lookin' for this!</Text>
               <View style={styles.imgContainer}>
