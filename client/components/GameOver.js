@@ -25,6 +25,8 @@ class GameOver extends Component {
       fontLoaded: false
     };
   }
+  static navigationOptions = {headerShown: false};
+
   async componentDidMount() {
     await Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
