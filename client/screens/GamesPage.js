@@ -121,7 +121,14 @@ const styles = StyleSheet.create({
   }
 });
 
-const GamesPage = ({setGames, games, enterGame, userId, navigation, setGameUserScore}) => {
+const GamesPage = ({
+  setGames,
+  games,
+  enterGame,
+  userId,
+  navigation,
+  setGameUserScore
+}) => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [gameLookedAt, setGameLookedAt] = React.useState('');
   const [isRefreshing, setRefreshing] = React.useState(false);
@@ -141,7 +148,6 @@ const GamesPage = ({setGames, games, enterGame, userId, navigation, setGameUserS
   };
 
   const joinGamePressHandler = (gameId, uId) => {
-
     setGameUserScore(uId, gameId);
     setGameMade(false);
     enterGame(gameId, uId);
@@ -258,28 +264,30 @@ const GamesPage = ({setGames, games, enterGame, userId, navigation, setGameUserS
           >
             <Text style={styles.text}>Create A Game</Text>
           </TouchableOpacity>
-          <React.Fragment key={420}>
-            <Overlay
-              isVisible={gameMade === true}
-              onBackdropPress={() => setGameMade(false)}
-              height={300}
-              overlayBackgroundColor="#ebdda0"
-            >
-              <Text style={styles.currGamesListText}>
-                Your Game: {games[games.length - 1].name} has been created!
-              </Text>
-              <React.Fragment>
-                <TouchableOpacity
-                  style={styles.btnJoinGame}
-                  onPress={() =>
-                    joinGamePressHandler(games[games.length - 1].id, userId)
-                  }
-                >
-                  <Text style={styles.text}>Join Game</Text>
-                </TouchableOpacity>
-              </React.Fragment>
-            </Overlay>
-          </React.Fragment>
+          {games.length ? (
+            <React.Fragment key={420}>
+              <Overlay
+                isVisible={gameMade === true}
+                onBackdropPress={() => setGameMade(false)}
+                height={300}
+                overlayBackgroundColor="#ebdda0"
+              >
+                <Text style={styles.currGamesListText}>
+                  Your Game: {games[games.length - 1].name} has been created!
+                </Text>
+                <React.Fragment>
+                  <TouchableOpacity
+                    style={styles.btnJoinGame}
+                    onPress={() =>
+                      joinGamePressHandler(games[games.length - 1].id, userId)
+                    }
+                  >
+                    <Text style={styles.text}>Join Game</Text>
+                  </TouchableOpacity>
+                </React.Fragment>
+              </Overlay>
+            </React.Fragment>
+          ) : null}
         </View>
       ) : null}
     </ImageBackground>
@@ -296,7 +304,6 @@ const mapDispatch = dispatch => ({
     dispatch(fetchGameUserScore(userId, gameId)),
   enterGame: (gameId, userId) => dispatch(joinGame(gameId, userId)),
   setGames: () => dispatch(fetchGames())
-
 });
 
 export default connect(mapState, mapDispatch)(GamesPage);
