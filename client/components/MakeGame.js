@@ -118,6 +118,7 @@ class MakeGame extends React.Component {
       endTime: this.state.endDB,
       passcode: this.state.keyCode
     };
+    console.log(true);
     this.props.navigation.navigate('GamesPage');
     this.props.addGameThunk(newGame);
   }
