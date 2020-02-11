@@ -42,7 +42,7 @@ export const signUpUser = user => {
       const res = await axios.post(`${url}/api/users/signup`, user);
       dispatch(signUp(res.data));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };
@@ -55,7 +55,7 @@ export const currentCluePlus = user => {
         dispatch(cluePlus());
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };
@@ -68,7 +68,7 @@ export const currentClueReset = user => {
         dispatch(clueReset());
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };

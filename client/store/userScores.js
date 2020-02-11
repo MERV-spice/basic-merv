@@ -13,7 +13,7 @@ export const fetchUserScores = userId => {
       const {data} = await axios.get(`${url}/api/score/user/${userId}`);
       dispatch(getUserScores(data));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };

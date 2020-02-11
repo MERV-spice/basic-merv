@@ -19,7 +19,7 @@ export const fetchGames = () => {
       const {data} = await axios.get(`${url}/api/games`);
       dispatch(setGames(data));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };
@@ -30,7 +30,7 @@ export const addGameThunk = game => {
       const {data} = await axios.post(`${url}/api/games`, game);
       return dispatch(addGame(data));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };
@@ -41,7 +41,7 @@ export const getSingleGameThunk = gameId => {
       const {data} = await axios.get(`${url}/api/games`, gameId);
       dispatch(getSingleGame(data));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };

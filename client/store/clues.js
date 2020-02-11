@@ -31,7 +31,7 @@ export const fetchClues = () => {
       const {data} = await axios.get(`${url}/api/clues`);
       dispatch(getClues(data));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };

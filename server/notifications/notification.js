@@ -21,6 +21,10 @@ router.put('/', async (req, res, next) => {
   }
 });
 
+// app.post('/', async (req, res, next) => {
+//   let messages = [];
+//   const token = req.body.value;
+
 router.post('/', async (req, res, next) => {
   const user = await User.findByPk(req.body.userId);
   if (!Expo.isExpoPushToken(user.token)) {

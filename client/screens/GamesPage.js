@@ -16,6 +16,7 @@ import {fetchGames} from '../store/games';
 import {joinGame} from '../store/user';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
+import {fetchGameUserScore} from '../store/gameUserScore';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const GamesPage = ({setGames, games, enterGame, userId, navigation}) => {
+const GamesPage = ({setGames, games, enterGame, userId, navigation, setGameUserScore}) => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [gameLookedAt, setGameLookedAt] = React.useState('');
   const [isRefreshing, setRefreshing] = React.useState(false);
@@ -140,8 +141,11 @@ const GamesPage = ({setGames, games, enterGame, userId, navigation}) => {
   };
 
   const joinGamePressHandler = (gameId, uId) => {
+
+    setGameUserScore(uId, gameId);
     setGameMade(false);
     enterGame(gameId, uId);
+
     navigation.navigate('CluePage');
     setGameLookedAt(-1);
   };
@@ -288,8 +292,11 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
+  setGameUserScore: (userId, gameId) =>
+    dispatch(fetchGameUserScore(userId, gameId)),
   enterGame: (gameId, userId) => dispatch(joinGame(gameId, userId)),
   setGames: () => dispatch(fetchGames())
+
 });
 
 export default connect(mapState, mapDispatch)(GamesPage);
