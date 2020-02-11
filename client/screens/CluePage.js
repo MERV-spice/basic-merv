@@ -18,6 +18,7 @@ import CountDown from 'react-native-countdown-component';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
 import {addScoreThunk, fetchGameUserScore} from '../store/gameUserScore';
+
 const {width: WIDTH} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
