@@ -38,7 +38,7 @@ router.get('/gameUser/:userId/:gameId', async (req, res, next) => {
         gameId: req.params.gameId
       }
     });
-    res.json(userGameScores);
+    res.json(userGameScores[0]);
   } catch (err) {
     next(err);
   }
@@ -46,16 +46,6 @@ router.get('/gameUser/:userId/:gameId', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
-    await Score.findOrCreate({
-      where: {
-        userId: req.body.userId,
-        gameId: req.body.gameId
-      },
-      defaults: {
-        score: 0,
-        itemsFound: 0
-      }
-    });
     const userGameScore = await Score.increment(
       {score: req.body.score, itemsFound: 1},
       {
@@ -66,6 +56,24 @@ router.put('/', async (req, res, next) => {
       }
     );
     res.json(userGameScore[0][0][0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/create', async (req, res, next) => {
+  try {
+    let score = await Score.findOrCreate({
+      where: {
+        userId: req.body.userId,
+        gameId: req.body.gameId
+      },
+      defaults: {
+        score: 0,
+        itemsFound: 0
+      }
+    });
+    res.json(score);
   } catch (err) {
     next(err);
   }

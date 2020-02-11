@@ -16,7 +16,7 @@ import {fetchGames} from '../store/games';
 import {joinGame} from '../store/user';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
-import {fetchGameUserScore} from '../store/gameUserScore';
+import {fetchGameUserScore, addGUScoreRowThunk} from '../store/gameUserScore';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -127,7 +127,8 @@ const GamesPage = ({
   enterGame,
   userId,
   navigation,
-  setGameUserScore
+  setGameUserScore,
+  gUScore
 }) => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [gameLookedAt, setGameLookedAt] = React.useState('');
@@ -151,7 +152,7 @@ const GamesPage = ({
     setGameUserScore(uId, gameId);
     setGameMade(false);
     enterGame(gameId, uId);
-
+    gUScore(gameId, uId);
     navigation.navigate('CluePage');
     setGameLookedAt(-1);
   };
@@ -303,7 +304,8 @@ const mapDispatch = dispatch => ({
   setGameUserScore: (userId, gameId) =>
     dispatch(fetchGameUserScore(userId, gameId)),
   enterGame: (gameId, userId) => dispatch(joinGame(gameId, userId)),
-  setGames: () => dispatch(fetchGames())
+  setGames: () => dispatch(fetchGames()),
+  gUScore: (userId, gameId) => dispatch(addGUScoreRowThunk(userId, gameId))
 });
 
 export default connect(mapState, mapDispatch)(GamesPage);
