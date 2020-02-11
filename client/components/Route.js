@@ -1,27 +1,24 @@
 import React from 'react';
 import Navigator from '../routes/tab';
-import Login from './Login';
 import {connect} from 'react-redux';
 import {fetchGames} from '../store/games';
 import {fetchClues} from '../store/clues';
+import {fetchRequests} from '../store/request';
 import {AppLoading, Notifications} from 'expo';
-import {Text, View, Button} from 'react-native';
-import axios from 'axios';
-import url from '../ngrok';
 
-const Route = ({user, fetchGames, fetchClues, fetchRequests}) => {
+const Route = ({setGames, setClues, setRequests}) => {
   const [isReady, setIsReady] = React.useState(false);
 
   const loadItems = () => {
     const arr = [];
-    arr.push(fetchGames());
-    arr.push(fetchClues());
+    arr.push(setGames());
+    arr.push(setClues());
     return Promise.all(arr);
   };
 
   const finishLoad = () => {
     setIsReady(true);
-    Notifications.addListener(fetchRequests);
+    Notifications.addListener(setRequests);
   };
 
   if (!isReady) {
@@ -41,13 +38,10 @@ const Route = ({user, fetchGames, fetchClues, fetchRequests}) => {
   );
 };
 
-const mapState = state => ({
-  user: state.user
-});
-
 const mapDispatch = dispatch => ({
-  fetchGames: () => dispatch(fetchGames()),
-  fetchClues: () => dispatch(fetchClues())
+  setGames: () => dispatch(fetchGames()),
+  setClues: () => dispatch(fetchClues()),
+  setRequests: () => dispatch(fetchRequests())
 });
 
-export default connect(mapState, mapDispatch)(Route);
+export default connect(null, mapDispatch)(Route);

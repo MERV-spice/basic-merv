@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   TextInput,
   View,
@@ -10,21 +10,21 @@ import {
 import axios from 'axios';
 import url from '../ngrok';
 import {connect} from 'react-redux';
-import {fetchRequests, makeRequest, addFriend} from '../store/request';
+import {fetchRequests, makeRequest} from '../store/request';
+import {addFriend} from '../store/user';
 
 const FriendsPage = ({
   requests,
-  fetchRequests,
-  makeRequest,
-  addFriend,
+  setRequests,
+  makeNewRequest,
+  addNewFriend,
   friends
 }) => {
   const [input, setInput] = React.useState('');
   const [searchResults, setSearchResults] = React.useState([]);
 
   React.useEffect(() => {
-    const setter = async () => await fetchRequests();
-    setter();
+    setRequests();
   }, []);
 
   const searchForUser = async value => {
@@ -48,7 +48,7 @@ const FriendsPage = ({
             <Text>username: {item.user.username}</Text>
             <Button
               title="Accept Friend Request"
-              onPress={() => addFriend(item.id, item.fromUser)}
+              onPress={() => addNewFriend(item.id, item.fromUser)}
             />
           </View>
         )}
@@ -85,11 +85,11 @@ const FriendsPage = ({
               .length ? (
               <Button
                 title="Accept Friend Request"
-                onPress={() => addFriend(item.id, item.fromUser)}
+                onPress={() => addNewFriend(item.id, item.fromUser)}
               />
             ) : (
               <Button
-                onPress={() => makeRequest('friendRequest', item.id)}
+                onPress={() => makeNewRequest('friendRequest', item.id)}
                 title="Add Friend"
               />
             )}
@@ -105,10 +105,10 @@ const mapState = state => ({
   friends: state.user.Friend
 });
 
-const mapDispatch = {
-  fetchRequests,
-  makeRequest,
-  addFriend
-};
+const mapDispatch = dispatch => ({
+  setRequests: () => dispatch(fetchRequests()),
+  makeNewRequest: (type, id) => dispatch(makeRequest(type, id)),
+  addNewFriend: (id, fromUser) => dispatch(addFriend(id, fromUser))
+});
 
 export default connect(mapState, mapDispatch)(FriendsPage);

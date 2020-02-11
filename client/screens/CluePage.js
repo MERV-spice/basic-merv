@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,6 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native';
-import {useState} from 'react';
 import {connect} from 'react-redux';
 import {currentCluePlus} from '../store/user';
 import {getSingleGameThunk} from '../store/games';
@@ -19,6 +18,85 @@ import * as Font from 'expo-font';
 import {addScoreThunk, fetchGameUserScore} from '../store/gameUserScore';
 
 const {width: WIDTH} = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    padding: 20
+  },
+  timerContainer: {
+    marginTop: 40
+  },
+  imgContainer: {
+    marginTop: 20,
+    marginBottom: 20
+  },
+  currClueTitle: {
+    color: 'black',
+    fontSize: 35,
+    fontWeight: 'bold'
+  },
+  currClueText: {
+    textAlign: 'center',
+    color: 'black',
+    fontSize: 25,
+    flex: 0,
+    padding: 50
+  },
+  clueImgContainer: {
+    marginTop: 40,
+    alignItems: 'center'
+  },
+  btn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginTop: 20
+  },
+  hintBtn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#ebdda0',
+    justifyContent: 'center',
+    marginTop: 20
+  },
+  headerText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 40,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  text: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 30,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  btnText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 22,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  }
+});
 
 // eslint-disable-next-line complexity
 const CluePage = props => {
@@ -129,85 +207,6 @@ const CluePage = props => {
     </ImageBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    padding: 20
-  },
-  timerContainer: {
-    marginTop: 40
-  },
-  imgContainer: {
-    marginTop: 20,
-    marginBottom: 20
-  },
-  currClueTitle: {
-    color: 'black',
-    fontSize: 35,
-    fontWeight: 'bold'
-  },
-  currClueText: {
-    textAlign: 'center',
-    color: 'black',
-    fontSize: 25,
-    flex: 0,
-    padding: 50
-  },
-  clueImgContainer: {
-    marginTop: 40,
-    alignItems: 'center'
-  },
-  btn: {
-    width: WIDTH - 55,
-    height: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#E20014',
-    justifyContent: 'center',
-    marginTop: 20
-  },
-  hintBtn: {
-    width: WIDTH - 55,
-    height: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#ebdda0',
-    justifyContent: 'center',
-    marginTop: 20
-  },
-  headerText: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 40,
-    textAlign: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  },
-  text: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 30,
-    textAlign: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  },
-  btnText: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 22,
-    textAlign: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  }
-});
 
 const mapState = state => ({
   user: state.user,

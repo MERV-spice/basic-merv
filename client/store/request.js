@@ -1,6 +1,5 @@
 import axios from 'axios';
 import url from '../ngrok';
-import {newFriend} from './user';
 
 const initialState = {
   sent: [],
@@ -13,7 +12,7 @@ const DELETE_REQUEST = 'DELETE_REQUEST';
 
 const addRequest = (request, sent) => ({type: ADD_REQUEST, request, sent});
 const setRequests = requests => ({type: SET_REQUESTS, requests});
-const deleteRequest = reqId => ({type: DELETE_REQUEST, reqId});
+export const deleteRequest = reqId => ({type: DELETE_REQUEST, reqId});
 
 export const fetchRequests = () => {
   return async dispatch => {
@@ -39,21 +38,6 @@ export const makeRequest = (type, userId) => {
         userId
       });
       dispatch(addRequest(data, true));
-    } catch (err) {
-      console.error(err);
-    }
-  };
-};
-
-export const addFriend = (reqId, userId) => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.post(`${url}/api/users/addFriend`, {
-        reqId,
-        userId
-      });
-      dispatch(deleteRequest(reqId));
-      dispatch(newFriend(data));
     } catch (err) {
       console.error(err);
     }

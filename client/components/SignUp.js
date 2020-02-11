@@ -19,6 +19,75 @@ import {Ionicons} from '@expo/vector-icons';
 
 const {width: WIDTH} = Dimensions.get('window');
 
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1'
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 50
+  },
+  logo: {
+    width: 120,
+    height: 120
+  },
+  logoText: {
+    fontFamily: 'Kranky-Regular',
+    fontSize: 50,
+    color: 'black',
+    fontWeight: '500',
+    marginTop: 10,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  input: {
+    width: WIDTH - 55,
+    height: 45,
+    paddingLeft: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: 'rgba(219,249,244,0.35)',
+    fontSize: 16
+  },
+  inputIcon: {
+    position: 'absolute',
+    top: 8,
+    left: 14
+  },
+  inputContainer: {
+    marginTop: 10
+  },
+  btnSignUp: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginTop: 20
+  },
+  btnEye: {
+    position: 'absolute',
+    top: 8,
+    right: 14
+  },
+  text: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 22,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  }
+});
+
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -48,7 +117,7 @@ class SignUp extends Component {
   };
 
   async onSignUp() {
-    const {username, email, password} = this.state;
+    const {email, password} = this.state;
     this.props.signUpUser(this.state);
     await this.props.auth(email, password);
     this.props.navigation.navigate('GamesPage');
@@ -156,72 +225,3 @@ const mapDispatch = dispatch => {
 };
 
 export default connect(mapState, mapDispatch)(SignUp);
-
-export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1'
-  },
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: 50
-  },
-  logo: {
-    width: 120,
-    height: 120
-  },
-  logoText: {
-    fontFamily: 'Kranky-Regular',
-    fontSize: 50,
-    color: 'black',
-    fontWeight: '500',
-    marginTop: 10,
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  },
-  input: {
-    width: WIDTH - 55,
-    height: 45,
-    paddingLeft: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: 'rgba(219,249,244,0.35)',
-    fontSize: 16
-  },
-  inputIcon: {
-    position: 'absolute',
-    top: 8,
-    left: 14
-  },
-  inputContainer: {
-    marginTop: 10
-  },
-  btnSignUp: {
-    width: WIDTH - 55,
-    height: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#E20014',
-    justifyContent: 'center',
-    marginTop: 20
-  },
-  btnEye: {
-    position: 'absolute',
-    top: 8,
-    right: 14
-  },
-  text: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 22,
-    textAlign: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  }
-});
