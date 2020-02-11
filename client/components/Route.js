@@ -5,9 +5,18 @@ import {fetchGames} from '../store/games';
 import {fetchClues} from '../store/clues';
 import {fetchRequests} from '../store/request';
 import {AppLoading, Notifications} from 'expo';
+import * as Permissions from 'expo-permissions';
 
 const Route = ({setGames, setClues, setRequests}) => {
   const [isReady, setIsReady] = React.useState(false);
+
+  React.useEffect(() => {
+    const perms = async () => {
+      await Permissions.askAsync(Permissions.CAMERA);
+      await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    };
+    perms();
+  }, []);
 
   const loadItems = () => {
     const arr = [];
