@@ -18,6 +18,70 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 let time;
 const {width: WIDTH} = Dimensions.get('window');
 
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  btnContainer: {
+    marginTop: 40
+  },
+  input: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  text: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 22,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  headerText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 40,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  subHeaderText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 30,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  logo: {
+    width: 75,
+    height: 75,
+    marginTop: 40,
+    marginBottom: 40
+  },
+  listItemContainer: {
+    width: WIDTH - 55,
+    height: 80,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 25,
+    backgroundColor: '#ebdda0',
+    justifyContent: 'center',
+    marginTop: 20
+  }
+});
+
 class GameOver extends Component {
   constructor() {
     super();
@@ -33,12 +97,12 @@ class GameOver extends Component {
     });
     this.setState({fontLoaded: true});
     await this.props.fetchScores(this.props.user.game.id);
-    console.log('COMPONENT DID MOUNT', this.props.user.game);
     await this.props.fetchGameUserScore(
       this.props.user.id,
       this.props.user.game.id
     );
   }
+  static navigationOptions = {headerShown: false};
 
   render() {
     function dhm(t) {
@@ -131,67 +195,3 @@ const mapDispatch = dispatch => {
 };
 
 export default connect(mapState, mapDispatch)(GameOver);
-
-export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  btnContainer: {
-    marginTop: 40
-  },
-  input: {
-    width: WIDTH - 55,
-    height: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#E20014',
-    justifyContent: 'center',
-    marginBottom: 30
-  },
-  text: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 22,
-    textAlign: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  },
-  headerText: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 40,
-    textAlign: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  },
-  subHeaderText: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 30,
-    textAlign: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  },
-  logo: {
-    width: 75,
-    height: 75,
-    marginTop: 40,
-    marginBottom: 40
-  },
-  listItemContainer: {
-    width: WIDTH - 55,
-    height: 80,
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 25,
-    backgroundColor: '#ebdda0',
-    justifyContent: 'center',
-    marginTop: 20
-  }
-});

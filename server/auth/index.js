@@ -16,9 +16,14 @@ router.post('/login', async (req, res, next) => {
               include: [Picture]
             }
           ]
+        },
+        {
+          model: User,
+          as: 'Friend'
         }
       ]
     });
+
     if (!user) {
       console.log('No such user found:', req.body.email);
       res.status(401).send('Wrong username and/or password');

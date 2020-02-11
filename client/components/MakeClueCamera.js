@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import * as Permissions from 'expo-permissions';
 import {Camera} from 'expo-camera';
-import {View, TouchableOpacity, Image, Text} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import axios from 'axios';
 import {findCoordinates} from '../helperFunctions';
@@ -26,7 +26,9 @@ export default class CameraComp extends Component {
 
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA);
-    findCoordinates(position => (this.position = position));
+    findCoordinates(position => {
+      this.position = position;
+    });
   }
 
   async snapPhoto() {
@@ -45,9 +47,9 @@ export default class CameraComp extends Component {
 
   async upload(picBase64) {
     const serverUrl = 'https://api.cloudinary.com/v1_1/basic-merv/image/upload';
-    const data = picBase64;
+    const imageData = picBase64;
     let formData = new FormData();
-    formData.append('file', 'data:image/png;base64,' + data);
+    formData.append('file', 'data:image/png;base64,' + imageData);
     formData.append('upload_preset', 'jb7k5twx');
     try {
       const res = await axios.post(serverUrl, formData);
@@ -55,7 +57,7 @@ export default class CameraComp extends Component {
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
       const {data} = await axios.post(`${url}/api/images`, {
         url: imageUrl,
-        position: this.state.position,
+        position: this.position,
         compare: false
       });
       this.props.navigation.state.params.fn(data); //

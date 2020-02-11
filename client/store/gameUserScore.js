@@ -23,7 +23,6 @@ export const fetchGameUserScore = (userId, gameId) => {
 };
 
 export const addScoreThunk = (userId, gameId, score) => {
-  console.log('in add score thunk', userId, gameId, score);
   return async dispatch => {
     try {
       const reqObject = {userId, gameId, score};

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -23,6 +23,9 @@ const {width: WIDTH} = Dimensions.get('window');
 // eslint-disable-next-line complexity
 const CluePage = props => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
+  const [score, setScore] = useState(-1);
+  const [hint, setHint] = useState(0);
+
   React.useEffect(() => {
     Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
@@ -30,18 +33,18 @@ const CluePage = props => {
     props.getSingleGameThunk(props.user.game.id);
     props.fetchGameUserScore(props.user.id, props.user.game.id);
   }, []);
+
   const clues = props.user.game.clues;
   const currentClue = props.user.currentClue;
 
-  const [score, setScore] = useState(-1);
-  const [hint, setHint] = useState(0);
   const [isSuccessOverlayVisible, makeSuccessOverlayVisible] = useState(false);
   const [isFailureOverlayVisible, makeFailureOverlayVisible] = useState(false);
 
   const pressHandler = () => {
     props.navigation.navigate('Camera', {
       setScore,
-      id: clues[currentClue].pictures[0].id
+      id: clues[currentClue].pictures[0].id,
+      location: clues[currentClue].pictures[0].location.coordinates
     });
   };
 

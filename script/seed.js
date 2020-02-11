@@ -1,14 +1,7 @@
 'use strict';
 
 const db = require('../server/db'); //Will this change on the basis of our new db location
-const {
-  User,
-  Game,
-  Clue,
-  Picture,
-  CluePicture,
-  Score
-} = require('../server/db/models');
+const {User, Game, Clue, Picture, Score} = require('../server/db/models');
 const faker = require('faker/locale/en_US');
 
 // https://www.npmjs.com/package/faker --- for further use in faking it til we make it

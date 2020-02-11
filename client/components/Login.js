@@ -8,133 +8,16 @@ import {
   Dimensions,
   TouchableOpacity,
   ImageBackground,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  AsyncStorage
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {connect} from 'react-redux';
 import {auth} from '../store';
 import * as Font from 'expo-font';
 import parchment from '../../assets/parchment.jpg';
-import {NavigationEvents} from 'react-navigation';
 
 const {width: WIDTH} = Dimensions.get('window');
-
-class AuthForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      fontLoaded: false,
-      showPass: true,
-      press: false,
-      email: 'user0@email.com',
-      password: '123'
-    };
-  }
-  async componentDidMount() {
-    await Font.loadAsync({
-      'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
-    });
-    this.setState({fontLoaded: true});
-  }
-
-  showPass = () => {
-    if (this.state.press === false) {
-      this.setState({showPass: false, press: true});
-    } else {
-      this.setState({showPass: true, press: false});
-    }
-  };
-
-  onLogin() {
-    const {email, password} = this.state;
-    this.props.auth(email, password);
-  }
-  render() {
-    return (
-      <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
-        <ImageBackground source={parchment} style={styles.container}>
-          {this.state.fontLoaded ? (
-            <View>
-              <View style={styles.logoContainer}>
-                <Image
-                  source={require('../../assets/redx.png')}
-                  style={styles.logo}
-                />
-                <Text style={styles.logoText}>Ahoy!!!</Text>
-              </View>
-              <View style={styles.inputContainer}>
-                <Ionicons
-                  name="md-at"
-                  size={28}
-                  color="#0A122A"
-                  style={styles.inputIcon}
-                />
-                <TextInput
-                  style={styles.input}
-                  value={this.state.email}
-                  onChangeText={email => this.setState({email})}
-                  placeholder="Email"
-                  underlineColorAndroid="transparent"
-                />
-              </View>
-              <View style={styles.inputContainer}>
-                <Ionicons
-                  name="ios-lock"
-                  size={28}
-                  color="#0A122A"
-                  style={styles.inputIcon}
-                />
-                <TextInput
-                  style={styles.input}
-                  value={this.state.password}
-                  onChangeText={password => this.setState({password})}
-                  placeholder="Password"
-                  secureTextEntry={this.state.showPass}
-                  underlineColorAndroid="transparent"
-                />
-                <TouchableOpacity
-                  style={styles.btnEye}
-                  onPress={this.showPass.bind(this)}
-                >
-                  <Ionicons
-                    name={this.state.press === false ? 'md-eye' : 'md-eye-off'}
-                    size={26}
-                  />
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity
-                style={styles.btnLogin}
-                onPress={this.onLogin.bind(this)}
-              >
-                <Text style={styles.text}>Login</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.btnLogin}
-                // onPress={() => this.props.navigation.navigate('SignUp')}
-              >
-                <Text style={styles.text}>Sign Up</Text>
-              </TouchableOpacity>
-            </View>
-          ) : null}
-        </ImageBackground>
-      </KeyboardAvoidingView>
-    );
-  }
-}
-
-const mapState = state => {
-  return {
-    user: state.user
-  };
-};
-
-const mapDispatch = dispatch => {
-  return {
-    auth: (email, password) => dispatch(auth(email, password))
-  };
-};
-export default connect(mapState, mapDispatch)(AuthForm);
 
 export const styles = StyleSheet.create({
   container: {
@@ -205,3 +88,152 @@ export const styles = StyleSheet.create({
     textShadowRadius: 10
   }
 });
+
+class AuthForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      fontLoaded: false,
+      showPass: true,
+      press: false,
+      email: 'user0@email.com',
+      password: '123'
+    };
+    this.onLogin = this.onLogin.bind(this);
+  }
+
+  static navigationOptions = {headerShown: false};
+
+  async getEmail() {
+    try {
+      const email = await AsyncStorage.getItem('email');
+      if (email !== null) {
+        return email;
+      }
+    } catch {
+      console.log('no email in async storage');
+    }
+  }
+
+  async getPassword() {
+    try {
+      const password = await AsyncStorage.getItem('password');
+      if (password !== null) {
+        return password;
+      }
+    } catch {
+      console.log('no password in async storage');
+    }
+  }
+  async onLogin(email, password) {
+    await this.props.auth(email, password);
+    if (this.props.user.id) {
+      this.props.navigation.navigate('GamesPage');
+    }
+  }
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
+    });
+    const email = await this.getEmail();
+    const password = await this.getPassword();
+    this.onLogin(email, password);
+    this.setState({fontLoaded: true});
+  }
+
+  showPass = () => {
+    if (this.state.press === false) {
+      this.setState({showPass: false, press: true});
+    } else {
+      this.setState({showPass: true, press: false});
+    }
+  };
+
+  render() {
+    return (
+      <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
+        <ImageBackground source={parchment} style={styles.container}>
+          {this.state.fontLoaded ? (
+            <View>
+              <View style={styles.logoContainer}>
+                <Image
+                  source={require('../../assets/redx.png')}
+                  style={styles.logo}
+                />
+                <Text style={styles.logoText}>Ahoy!!!</Text>
+              </View>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="md-at"
+                  size={28}
+                  color="#0A122A"
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  value={this.state.email}
+                  onChangeText={email => this.setState({email})}
+                  placeholder="Email"
+                  underlineColorAndroid="transparent"
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="ios-lock"
+                  size={28}
+                  color="#0A122A"
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  value={this.state.password}
+                  onChangeText={password => this.setState({password})}
+                  placeholder="Password"
+                  secureTextEntry={this.state.showPass}
+                  underlineColorAndroid="transparent"
+                />
+                <TouchableOpacity
+                  style={styles.btnEye}
+                  onPress={this.showPass.bind(this)}
+                >
+                  <Ionicons
+                    name={this.state.press === false ? 'md-eye' : 'md-eye-off'}
+                    size={26}
+                  />
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                style={styles.btnLogin}
+                onPress={() =>
+                  this.onLogin(this.state.email, this.state.password)
+                }
+              >
+                <Text style={styles.text}>Login</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.btnLogin}
+                onPress={() => this.props.navigation.navigate('SignUp')}
+              >
+                <Text style={styles.text}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+        </ImageBackground>
+      </KeyboardAvoidingView>
+    );
+  }
+}
+
+const mapState = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatch = dispatch => {
+  return {
+    auth: (email, password) => dispatch(auth(email, password))
+  };
+};
+export default connect(mapState, mapDispatch)(AuthForm);
