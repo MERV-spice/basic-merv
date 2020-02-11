@@ -152,7 +152,7 @@ const GamesPage = ({
     setGameUserScore(uId, gameId);
     setGameMade(false);
     enterGame(gameId, uId);
-    gUScore(gameId, uId);
+    gUScore(uId, gameId);
     navigation.navigate('CluePage');
     setGameLookedAt(-1);
   };

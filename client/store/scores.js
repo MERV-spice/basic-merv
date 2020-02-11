@@ -11,6 +11,7 @@ export const fetchScores = gameId => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`${url}/api/score/game/${gameId}`);
+      console.log('scores', data);
       dispatch(setScores(data));
     } catch (err) {
       console.error(err);
