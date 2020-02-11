@@ -104,6 +104,12 @@ class GameOver extends Component {
   }
   static navigationOptions = {headerShown: false};
 
+  pressHandler() {
+    const {setHint} = this.props.navigation.state.params;
+    setHint(0);
+    this.props.navigation.navigate('GamesPage');
+  }
+
   render() {
     function dhm(t) {
       let cd = 24 * 60 * 60 * 1000,
@@ -166,7 +172,7 @@ class GameOver extends Component {
             <View style={styles.btnContainer}>
               <TouchableOpacity
                 style={styles.input}
-                onPress={() => this.props.navigation.navigate('GamesPage')}
+                onPress={this.pressHandler.bind(this)}
               >
                 <Text style={styles.text}>play again?</Text>
               </TouchableOpacity>
