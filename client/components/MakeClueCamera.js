@@ -55,7 +55,7 @@ export default class CameraComp extends Component {
       const imageUrl = `https://res.cloudinary.com/basic-merv/image/upload/v1580414724/${publicId}.jpg`;
       const {data} = await axios.post(`${url}/api/images`, {
         url: imageUrl,
-        position: this.state.position,
+        position: this.position,
         compare: false
       });
       this.props.navigation.state.params.fn(data); //
