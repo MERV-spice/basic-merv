@@ -44,8 +44,8 @@ class MakeGame extends React.Component {
       isDarkModeEnabled: false,
       start: '',
       end: '',
-      pickingStart: false,
-      pickingEnd: false,
+      // pickingStart: false,
+      // pickingEnd: false,
       fontLoaded: false,
       startDB: null,
       endDB: null
@@ -71,6 +71,7 @@ class MakeGame extends React.Component {
   }
 
   addClue() {
+    // console.log('make game object keys', this.state.clueImg.location.coordinates)
     let newGameClues = this.state.gameClues.concat([
       {
         clueNum: this.state.clueNum,

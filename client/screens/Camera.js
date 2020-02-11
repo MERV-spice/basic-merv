@@ -29,6 +29,7 @@ export default class CameraComp extends Component {
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA);
     findCoordinates(position => (this.position = position));
+    console.log('reg cam position', this.position);
   }
 
   async snapPhoto() {
