@@ -33,7 +33,7 @@ export default class CameraComp extends Component {
 
   async snapPhoto() {
     if (this.camera) {
-      const {id, setScore} = this.props.navigation.state.params;
+      const {id, setScore, setPicTaken} = this.props.navigation.state.params;
       const options = {
         quality: 0.25,
         base64: true,
@@ -47,6 +47,7 @@ export default class CameraComp extends Component {
       console.log('position', this.position);
       const comparison = await compare(photo.base64, id);
       setScore(comparison);
+      setPicTaken(true);
     }
   }
 

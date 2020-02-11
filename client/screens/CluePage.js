@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,8 +9,8 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native';
-import {useState} from 'react';
 import {connect} from 'react-redux';
+import {Overlay} from 'react-native-elements';
 import {currentCluePlus} from '../store/user';
 import {getSingleGameThunk} from '../store/games';
 import CountDown from 'react-native-countdown-component';
@@ -22,9 +22,10 @@ const {width: WIDTH} = Dimensions.get('window');
 
 // eslint-disable-next-line complexity
 const CluePage = props => {
-  const [fontLoaded, setFontLoaded] = React.useState(false);
+  const [fontLoaded, setFontLoaded] = useState(false);
   const [score, setScore] = useState(0);
   const [hint, setHint] = useState(0);
+  const [picTaken, setPicTaken] = useState(false);
 
   React.useEffect(() => {
     Font.loadAsync({
@@ -40,7 +41,8 @@ const CluePage = props => {
   const pressHandler = () => {
     props.navigation.navigate('Camera', {
       setScore,
-      id: clues[currentClue].pictures[0].id
+      id: clues[currentClue].pictures[0].id,
+      setPicTaken
     });
   };
 
@@ -122,6 +124,21 @@ const CluePage = props => {
                 // showSeparator // this puts : between each time unit element
               />
             </View>
+            <React.Fragment key={420}>
+              <Overlay
+                isVisible={picTaken === true}
+                onBackdropPress={() => setPicTaken(false)}
+                height={300}
+                overlayBackgroundColor="#ebdda0"
+              >
+                <React.Fragment>
+                  <Text style={styles.text}>
+                    Not close enough to the buried treasure... argh. Try again,
+                    and this time put your beard into it!
+                  </Text>
+                </React.Fragment>
+              </Overlay>
+            </React.Fragment>
           </View>
         ) : null}
       </ScrollView>
