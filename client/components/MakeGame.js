@@ -22,7 +22,6 @@ import {Appearance} from 'react-native-appearance';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
-import {Alert} from 'react-native';
 
 const {width: WIDTH} = Dimensions.get('window');
 
