@@ -177,6 +177,9 @@ const GamesPage = ({
     <ImageBackground source={parchment} style={styles.container}>
       {fontLoaded ? (
         <View style={styles.logoContainer}>
+          <TouchableOpacity style={styles.btnLogout} onPress={() => logOut()}>
+            <Text style={styles.text}>Logout</Text>
+          </TouchableOpacity>
           <Text style={styles.currGamesTitle}>Current Games</Text>
           <Image
             source={require('../../assets/redx.png')}
@@ -262,9 +265,11 @@ const GamesPage = ({
           >
             <Text style={styles.text}>Create A Game</Text>
           </TouchableOpacity>
+
           <TouchableOpacity style={styles.btnLogout} onPress={() => logOut()}>
             <Text style={styles.text}>Logout</Text>
           </TouchableOpacity>
+
           {games.length ? (
             <React.Fragment key={420}>
               <Overlay

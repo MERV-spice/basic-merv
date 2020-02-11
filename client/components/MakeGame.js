@@ -22,6 +22,7 @@ import {Appearance} from 'react-native-appearance';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
+import {Alert} from 'react-native';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -96,6 +97,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: '#7A8B8B',
     justifyContent: 'center',
+
     marginBottom: 30
   },
   createBtn: {
@@ -177,7 +179,9 @@ class MakeGame extends React.Component {
       end: '',
       fontLoaded: false,
       startDB: null,
-      endDB: null
+      endDB: null,
+      showStartError: false,
+      showEndError: false
     };
     this.addDBClue = this.addDBClue.bind(this);
     this.setPrivacy = this.setPrivacy.bind(this);
@@ -291,15 +295,25 @@ class MakeGame extends React.Component {
 
   //confirming start and end dates
   handleConfirm(date) {
-    date = date.toLocaleString();
+    let newDate = new Date();
     if (this.pickingStart) {
-      this.setState({startDB: date});
-      date = date.toLocaleString();
-      this.setState({start: date});
+      if ((date - newDate) / 1000 > -200) {
+        this.setState({
+          startDB: date,
+          start: date.toLocaleString(),
+          showStartError: false
+        });
+      } else {
+        this.setState({showStartError: true});
+      }
+    } else if ((date - this.state.startDB) / 1000 > -200) {
+      this.setState({
+        endDB: date,
+        end: date.toLocaleString(),
+        showEndError: false
+      });
     } else {
-      this.setState({endDB: date});
-      date = date.toLocaleString();
-      this.setState({end: date});
+      this.setState({showEndError: true});
     }
     this.setState({
       isDatePickerVisible: false
@@ -393,9 +407,18 @@ class MakeGame extends React.Component {
                 >
                   <Text style={styles.text}>pick a start time</Text>
                 </TouchableOpacity>
-                <View style={styles.timeContainer}>
-                  <Text style={styles.text}>{this.state.start}</Text>
-                </View>
+
+                {this.state.showStartError ? (
+                  <Text
+                    style={{...styles.text, color: 'red', fontWeight: 'bold'}}
+                  >
+                    Please pick a future date.{' '}
+                  </Text>
+                ) : (
+                  <View style={styles.timeContainer}>
+                    <Text style={styles.text}>{this.state.start}</Text>
+                  </View>
+                )}
                 <TouchableOpacity
                   style={styles.timeBtn}
                   onPress={() => {
@@ -405,9 +428,19 @@ class MakeGame extends React.Component {
                 >
                   <Text style={styles.text}>pick an end time</Text>
                 </TouchableOpacity>
-                <View style={styles.timeContainer}>
-                  <Text style={styles.text}>{this.state.end}</Text>
-                </View>
+
+                {this.state.showEndError ? (
+                  <Text
+                    style={{...styles.text, color: 'red', fontWeight: 'bold'}}
+                  >
+                    Please pick an end date after start.{' '}
+                  </Text>
+                ) : (
+                  <View style={styles.timeContainer}>
+                    <Text style={styles.text}>{this.state.end}</Text>
+                  </View>
+                )}
+
                 <DateTimePickerModal
                   isVisible={this.state.isDatePickerVisible}
                   mode="datetime"
@@ -497,6 +530,7 @@ class MakeGame extends React.Component {
                       style={styles.input}
                       value={this.state.clueText}
                       onChangeText={clueText => this.setState({clueText})}
+
                     />
                     <Text style={styles.newGameText}>Clue Hint: </Text>
                     <TextInput
@@ -504,6 +538,7 @@ class MakeGame extends React.Component {
                       value={this.state.clueHint}
                       onChangeText={clueHint => this.setState({clueHint})}
                     />
+
                     {this.state.clueImg.accessPic ? (
                       <View style={styles.newImgContainer}>
                         <Image
