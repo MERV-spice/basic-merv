@@ -36,15 +36,14 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 20
+    alignItems: 'center'
   },
   listContainer: {
     borderRadius: 200,
     borderWidth: 2,
     flex: 1,
     width: WIDTH - 10,
-    backgroundColor: 'rgba(34, 158, 212, .4)'
+    backgroundColor: '#ebdda0'
   },
   contentContainerStyle: {
     display: 'flex',
@@ -57,17 +56,18 @@ const styles = StyleSheet.create({
     height: 40,
     width: WIDTH - 40,
     marginBottom: 10,
-    backgroundColor: 'pink',
+    backgroundColor: '#ebdda0',
     borderRadius: 5,
     borderWidth: 1,
     paddingLeft: 5,
     paddingRight: 5
   },
   titles: {
-    fontSize: 24,
-    fontWeight: 'bold'
+    fontFamily: 'Kranky-Regular',
+    fontSize: 24
   },
   button: {
+    fontFamily: 'Kranky-Regular',
     backgroundColor: '#E20014',
     marginLeft: 25,
     borderRadius: 10,
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   text: {
+    fontFamily: 'Kranky-Regular',
     fontSize: 16
   }
 });
@@ -90,8 +91,12 @@ const FriendsPage = ({
 }) => {
   const [input, setInput] = React.useState('');
   const [searchResults, setSearchResults] = React.useState([]);
+  const [fontLoaded, setFontLoaded] = React.useState(false);
 
   React.useEffect(() => {
+    Font.loadAsync({
+      'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
+    }).then(setFontLoaded(true));
     setRequests();
   }, []);
 
@@ -104,10 +109,12 @@ const FriendsPage = ({
     }
   };
 
+  if (!fontLoaded) return <Text>No Font</Text>;
+
   return (
     <ImageBackground source={parchment} style={styles.container}>
       <SafeAreaView style={styles.allHolder}>
-        <Text style={styles.titles}>Current Friend Requests</Text>
+        <Text style={styles.titles}>Current Friend Requests:</Text>
         <FlatList
           style={styles.listContainer}
           contentContainerStyle={styles.contentContainerStyle}
@@ -136,7 +143,7 @@ const FriendsPage = ({
           )}
         />
 
-        <Text style={styles.titles}>Search for users</Text>
+        <Text style={styles.titles}>Search for Users:</Text>
         <TextInput
           style={styles.textInput}
           onChangeText={text => setInput(text)}
