@@ -1,7 +1,7 @@
 import axios from 'axios';
 import url from '../ngrok';
 import {fetchGames} from './games';
-import {fetchRequests} from './request';
+import {fetchRequests, deleteRequest} from './request';
 import {AsyncStorage} from 'react-native';
 
 const SIGN_UP = 'SIGN_UP';
@@ -20,6 +20,21 @@ export const newFriend = user => ({type: NEW_FRIEND, user});
 
 import {Notifications} from 'expo';
 import * as Permissions from 'expo-permissions';
+
+export const addFriend = (reqId, userId) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post(`${url}/api/users/addFriend`, {
+        reqId,
+        userId
+      });
+      dispatch(newFriend(data));
+      dispatch(deleteRequest(reqId));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+};
 
 export const signUpUser = user => {
   return async dispatch => {

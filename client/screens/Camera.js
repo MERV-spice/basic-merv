@@ -3,14 +3,12 @@
 import React, {Component} from 'react';
 import * as Permissions from 'expo-permissions';
 import {Camera} from 'expo-camera';
-import {View, TouchableOpacity, Image, Text, Button} from 'react-native';
-import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
-import axios from 'axios';
+import {View, TouchableOpacity} from 'react-native';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 import {compare} from '../../server/clarifai/compare';
 
 import {findCoordinates} from '../helperFunctions';
-import url from '../ngrok';
 
 //make a gallery
 //how do you get the image from a snapshot
@@ -28,7 +26,9 @@ export default class CameraComp extends Component {
 
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA);
-    findCoordinates(position => (this.position = position));
+    findCoordinates(position => {
+      this.position = position;
+    });
   }
 
   async snapPhoto() {
@@ -45,7 +45,7 @@ export default class CameraComp extends Component {
         fixOrientation: true,
         exif: true
       };
-      this.props.navigation.navigate('CluePage'); //
+      this.props.navigation.navigate('CluePage');
 
       const photo = await this.camera.takePictureAsync(options);
       photo.exif.Orientation = 1;
@@ -71,7 +71,9 @@ export default class CameraComp extends Component {
       <View style={{flex: 1}}>
         <Camera
           style={{flex: 1}}
-          ref={ref => (this.camera = ref)}
+          ref={ref => {
+            this.camera = ref;
+          }}
           type={this.state.type}
         >
           <View
