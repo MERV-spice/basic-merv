@@ -124,6 +124,8 @@ const GamesPage = ({setGames, games, enterGame, userId, navigation}) => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [gameLookedAt, setGameLookedAt] = React.useState('');
   const [isRefreshing, setRefreshing] = React.useState(false);
+  const [gameMade, setGameMade] = React.useState(false);
+
   React.useEffect(() => {
     Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
@@ -138,6 +140,7 @@ const GamesPage = ({setGames, games, enterGame, userId, navigation}) => {
   };
 
   const joinGamePressHandler = (gameId, uId) => {
+    setGameMade(false);
     enterGame(gameId, uId);
     navigation.navigate('CluePage');
     setGameLookedAt(-1);
@@ -247,10 +250,32 @@ const GamesPage = ({setGames, games, enterGame, userId, navigation}) => {
           />
           <TouchableOpacity
             style={styles.btnMakeGame}
-            onPress={() => navigation.navigate('MakeGame')}
+            onPress={() => navigation.navigate('MakeGame', {setGameMade})}
           >
             <Text style={styles.text}>Create A Game</Text>
           </TouchableOpacity>
+          <React.Fragment key={420}>
+            <Overlay
+              isVisible={gameMade === true}
+              onBackdropPress={() => setGameMade(false)}
+              height={300}
+              overlayBackgroundColor="#ebdda0"
+            >
+              <Text style={styles.currGamesListText}>
+                Your Game: {games[games.length - 1].name} has been created!
+              </Text>
+              <React.Fragment>
+                <TouchableOpacity
+                  style={styles.btnJoinGame}
+                  onPress={() =>
+                    joinGamePressHandler(games[games.length - 1].id, userId)
+                  }
+                >
+                  <Text style={styles.text}>Join Game</Text>
+                </TouchableOpacity>
+              </React.Fragment>
+            </Overlay>
+          </React.Fragment>
         </View>
       ) : null}
     </ImageBackground>

@@ -265,6 +265,7 @@ class MakeGame extends React.Component {
       passcode: this.state.keyCode
     };
     this.props.navigation.navigate('GamesPage');
+    this.props.navigation.state.params.setGameMade(true);
     this.props.addGameThunk(newGame);
   }
 

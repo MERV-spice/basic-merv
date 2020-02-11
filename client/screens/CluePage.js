@@ -118,7 +118,8 @@ const CluePage = props => {
   const pressHandler = () => {
     props.navigation.navigate('Camera', {
       setScore,
-      id: clues[currentClue].pictures[0].id
+      id: clues[currentClue].pictures[0].id,
+      location: clues[currentClue].pictures[0].location.coordinates
     });
   };
 
