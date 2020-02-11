@@ -265,28 +265,30 @@ const GamesPage = ({
           >
             <Text style={styles.text}>Create A Game</Text>
           </TouchableOpacity>
-          <React.Fragment key={420}>
-            <Overlay
-              isVisible={gameMade === true}
-              onBackdropPress={() => setGameMade(false)}
-              height={300}
-              overlayBackgroundColor="#ebdda0"
-            >
-              <Text style={styles.currGamesListText}>
-                Your Game: {games[games.length - 1].name} has been created!
-              </Text>
-              <React.Fragment>
-                <TouchableOpacity
-                  style={styles.btnJoinGame}
-                  onPress={() =>
-                    joinGamePressHandler(games[games.length - 1].id, userId)
-                  }
-                >
-                  <Text style={styles.text}>Join Game</Text>
-                </TouchableOpacity>
-              </React.Fragment>
-            </Overlay>
-          </React.Fragment>
+          {games.length ? (
+            <React.Fragment key={420}>
+              <Overlay
+                isVisible={gameMade === true}
+                onBackdropPress={() => setGameMade(false)}
+                height={300}
+                overlayBackgroundColor="#ebdda0"
+              >
+                <Text style={styles.currGamesListText}>
+                  Your Game: {games[games.length - 1].name} has been created!
+                </Text>
+                <React.Fragment>
+                  <TouchableOpacity
+                    style={styles.btnJoinGame}
+                    onPress={() =>
+                      joinGamePressHandler(games[games.length - 1].id, userId)
+                    }
+                  >
+                    <Text style={styles.text}>Join Game</Text>
+                  </TouchableOpacity>
+                </React.Fragment>
+              </Overlay>
+            </React.Fragment>
+          ) : null}
         </View>
       ) : null}
     </ImageBackground>
