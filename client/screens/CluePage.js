@@ -165,7 +165,6 @@ const CluePage = props => {
     if (hint) coins = 5;
     props.addScoreThunk(props.user.id, props.user.game.id, coins);
     setScore(-1);
-    props.currentCluePlus(props.user);
     setHint(0);
   };
 
@@ -178,6 +177,7 @@ const CluePage = props => {
     console.log('score', score);
     setScore(-1);
   }
+
   if (currentClue >= clues.length) {
     props.navigation.navigate('GameOver');
     return <Text>Join a new game!</Text>;
@@ -186,7 +186,10 @@ const CluePage = props => {
     <ImageBackground source={parchment} style={styles.container}>
       <Overlay
         isVisible={isSuccessOverlayVisible}
-        onBackdropPress={() => makeSuccessOverlayVisible(false)}
+        onBackdropPress={() => {
+          makeSuccessOverlayVisible(false);
+          props.currentCluePlus(props.user);
+        }}
         height={200}
         overlayBackgroundColor="#ebdda0"
       >
@@ -194,7 +197,10 @@ const CluePage = props => {
           <Text style={styles.text}>Ye' found the booty!!!</Text>
           <TouchableOpacity
             style={styles.successOverlayBtn}
-            onPress={() => makeSuccessOverlayVisible(false)}
+            onPress={() => {
+              makeSuccessOverlayVisible(false);
+              props.currentCluePlus(props.user);
+            }}
           >
             <Text style={styles.text}>Next Clue</Text>
           </TouchableOpacity>
