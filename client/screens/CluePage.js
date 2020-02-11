@@ -29,7 +29,6 @@ const CluePage = props => {
     }).then(setFontLoaded(true));
     props.getSingleGameThunk(props.user.game.id);
     props.fetchGameUserScore(props.user.id, props.user.game.id);
-    console.log('proips', props);
   }, []);
   const clues = props.user.game.clues;
   const currentClue = props.user.currentClue;
@@ -40,13 +39,12 @@ const CluePage = props => {
   const pressHandler = () => {
     props.navigation.navigate('Camera', {
       setScore,
-      id: clues[currentClue].pictures[0].id
+      id: clues[currentClue].pictures[0].id,
+      location: clues[currentClue].pictures[0].location.coordinates
     });
   };
 
   const thenFun = () => {
-    // console.log('clue location', clues[currentClue].pictures[currentClue || 0].location)
-    console.log('proips', props);
     let coins = 10;
     if (hint) coins = 5;
     props.addScoreThunk(props.user.id, props.user.game.id, coins);

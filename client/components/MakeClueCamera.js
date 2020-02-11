@@ -58,12 +58,6 @@ export default class CameraComp extends Component {
         position: this.position,
         compare: false
       });
-      //
-      //
-      //
-      // console.log('data coords', data.location.coordinates)
-      //
-      //
       this.props.navigation.state.params.fn(data); //
     } catch (err) {
       console.error(err);

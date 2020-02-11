@@ -29,12 +29,11 @@ export default class CameraComp extends Component {
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA);
     findCoordinates(position => (this.position = position));
-    console.log('reg cam position', this.position);
   }
 
   async snapPhoto() {
     if (this.camera) {
-      const {id, setScore} = this.props.navigation.state.params;
+      const {id, setScore, location} = this.props.navigation.state.params;
       const options = {
         quality: 0.25,
         base64: true,
@@ -45,9 +44,19 @@ export default class CameraComp extends Component {
 
       const photo = await this.camera.takePictureAsync(options);
       photo.exif.Orientation = 1;
-      console.log('position', this.position);
-      const comparison = await compare(photo.base64, id);
-      setScore(comparison);
+      if (
+        this.position.coords &&
+        location &&
+        location[0] > this.position.coords.latitude - 0.01 &&
+        location[0] < this.position.coords.latitude + 0.01 &&
+        location[1] > this.position.coords.longitude - 0.01 &&
+        location[1] < this.position.coords.longitude + 0.01
+      ) {
+        const comparison = await compare(photo.base64, id);
+        setScore(comparison);
+      } else {
+        setScore(0);
+      }
     }
   }
 
