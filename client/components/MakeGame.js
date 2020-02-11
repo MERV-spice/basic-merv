@@ -44,8 +44,8 @@ class MakeGame extends React.Component {
       isDarkModeEnabled: false,
       start: '',
       end: '',
-      pickingStart: false,
-      pickingEnd: false,
+      // pickingStart: false,
+      // pickingEnd: false,
       fontLoaded: false,
       startDB: null,
       endDB: null

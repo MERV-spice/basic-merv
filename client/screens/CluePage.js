@@ -42,7 +42,8 @@ const CluePage = props => {
     props.navigation.navigate('Camera', {
       setScore,
       id: clues[currentClue].pictures[0].id,
-      setPicTaken
+      setPicTaken,
+      location: clues[currentClue].pictures[0].location.coordinates
     });
   };
 
