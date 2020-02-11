@@ -1,4 +1,3 @@
-
 /* eslint-disable react/display-name */
 import React from 'react';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
@@ -14,7 +13,6 @@ import FriendsPage from '../screens/FriendsPage';
 import GamesPage from '../screens/GamesPage'; //
 import {MakeClueCamera, MakeGame, Login, SignUp} from '../components';
 
-
 const screens = {
   GamesPage: {
     screen: GamesPage,
@@ -29,7 +27,6 @@ const screens = {
           color={tintColor}
         />
       )
-
     }
   },
   CluePage: {
@@ -49,12 +46,6 @@ const screens = {
         <Ionicons name="ios-people" size={25} color={tintColor} />
       )
     }
-  },
-  FriendsPage: {
-    screen: FriendsPage,
-    navigationOptions: {
-      tabBarLabel: 'FriendsPage'
-    }
   }
 };
 
@@ -65,7 +56,6 @@ const tab = createBottomTabNavigator(screens, {
     style: {
       backgroundColor: '#ebdda0'
     }
-
   },
   navigationOptions: {
     headerShown: false, // this hides the header for gamespage and clue page
