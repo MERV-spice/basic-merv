@@ -16,10 +16,18 @@ import {joinGame} from '../store/user';
 import {Actions} from 'react-native-router-flux';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
+import {fetchGameUserScore} from '../store/gameUserScore';
 
 const {width: WIDTH} = Dimensions.get('window');
 
-const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
+const GamesPage = ({
+  setGames,
+  games,
+  joinGame,
+  userId,
+  navigation,
+  setGameUserScore
+}) => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [gameLookedAt, setGameLookedAt] = React.useState('');
 
@@ -33,6 +41,7 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
 
   const joinGamePressHandler = (gameId, uId) => {
     joinGame(gameId, uId);
+    setGameUserScore(uId, gameId);
     navigation.navigate('CluePage');
     setGameLookedAt(-1);
   };
@@ -240,7 +249,9 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   joinGame: (gameId, userId) => dispatch(joinGame(gameId, userId)),
-  fetchGames: () => dispatch(fetchGames())
+  fetchGames: () => dispatch(fetchGames()),
+  setGameUserScore: (userId, gameId) =>
+    dispatch(fetchGameUserScore(userId, gameId))
 });
 
 export default connect(mapState, mapDispatch)(GamesPage);

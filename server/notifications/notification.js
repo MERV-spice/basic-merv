@@ -4,7 +4,6 @@ let expo = new Expo();
 app.post('/', async (req, res, next) => {
   let messages = [];
   const token = req.body.value;
-  console.log(token);
 
   if (!Expo.isExpoPushToken(token)) {
     console.error('not valid token');
@@ -24,7 +23,6 @@ app.post('/', async (req, res, next) => {
     for (let chunk of chunks) {
       try {
         let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-        console.log(ticketChunk);
         tickets.push(...ticketChunk);
       } catch (err) {
         console.error('err');

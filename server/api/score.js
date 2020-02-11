@@ -65,8 +65,7 @@ router.put('/', async (req, res, next) => {
         }
       }
     );
-
-    res.json(userGameScore);
+    res.json(userGameScore[0][0][0]);
   } catch (err) {
     next(err);
   }

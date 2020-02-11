@@ -60,15 +60,14 @@ const CluePage = props => {
     props.navigation.navigate('GameOver');
     return <Text>Join a new game!</Text>;
   }
-
   return (
     <ImageBackground source={parchment} style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
           <View>
-            {props.gameUserScore[0] ? (
+            {props.gameUserScore.score ? (
               <Text style={styles.text}>
-                Your Current Score: {props.gameUserScore[0].score}
+                Your Current Score: {props.gameUserScore.score || 0}
               </Text>
             ) : null}
             {hint ? (

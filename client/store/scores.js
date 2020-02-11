@@ -13,7 +13,7 @@ export const fetchScores = gameId => {
       const {data} = await axios.get(`${url}/api/score/game/${gameId}`);
       dispatch(setScores(data));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };

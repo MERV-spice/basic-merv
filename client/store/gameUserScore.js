@@ -15,21 +15,21 @@ export const fetchGameUserScore = (userId, gameId) => {
       const {data} = await axios.get(
         `${url}/api/score/gameUser/${userId}/${gameId}`
       );
-      return dispatch(getGameUserScore(data));
+      return dispatch(getGameUserScore(data[0]));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };
 
-export const addScoreThunk = (userId, gameId, score) => {
+export const addScoreThunk = (userId, gameId, score, itemsFound) => {
   return async dispatch => {
     try {
-      const reqObject = {userId, gameId, score};
+      const reqObject = {userId, gameId, score, itemsFound};
       const {data} = await axios.put(`${url}/api/score/`, reqObject);
       return dispatch(addScore(data));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 };
