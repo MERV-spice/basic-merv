@@ -55,6 +55,7 @@ router.put('/', async (req, res, next) => {
         }
       }
     );
+    console.log('updates', userGameScore);
     res.json(userGameScore[0][0][0]);
   } catch (err) {
     next(err);
