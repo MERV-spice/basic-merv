@@ -65,21 +65,24 @@ const CluePage = props => {
 
   return (
     <ImageBackground source={parchment} style={styles.container}>
+      {console.log('IN RETURN', props)}
       <ScrollView showsVerticalScrollIndicator={false}>
         {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
           <View>
             {props.gameUserScore[0] ? (
-              <Text style={styles.text}>
+              <Text style={styles.hintText}>
                 Your Current Score: {props.gameUserScore[0].score}
               </Text>
             ) : null}
             {hint ? (
-              <Text style={styles.text}>This clue is worth: 5 coins</Text>
+              <Text style={styles.hintText}>This clue is worth: 5 coins</Text>
             ) : (
-              <Text style={styles.text}>This clue is worth: 10 coins</Text>
+              <Text style={styles.hintText}>This clue is worth: 10 coins</Text>
             )}
             <View style={styles.clueImgContainer}>
-              <Text style={styles.headerText}>You're lookin' for this!</Text>
+              <Text style={styles.headerText}>
+                Ye're lookin' fer this matey!
+              </Text>
               <View style={styles.imgContainer}>
                 <Image
                   style={{
@@ -103,6 +106,9 @@ const CluePage = props => {
             ) : (
               <Text style={styles.text}>Hint: {clues[currentClue].hint}</Text>
             )}
+            <Text style={styles.hintText}>
+              If ye click for the hint ye'll lose 5 coins... Argghhhhh!
+            </Text>
             <TouchableOpacity style={styles.btn} onPress={() => pressHandler()}>
               <Text style={styles.btnText}>I found it!</Text>
             </TouchableOpacity>
@@ -200,6 +206,16 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10
+  },
+  hintText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 20,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+    marginTop: 10
   },
   btnText: {
     fontFamily: 'Kranky-Regular',
