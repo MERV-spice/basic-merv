@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+
+import React, {useEffect, useState} from 'react';
+
 import {
   StyleSheet,
   Text,
@@ -10,6 +12,7 @@ import {
   ScrollView
 } from 'react-native';
 import {connect} from 'react-redux';
+import {Overlay} from 'react-native-elements';
 import {currentCluePlus} from '../store/user';
 import {getSingleGameThunk} from '../store/games';
 import CountDown from 'react-native-countdown-component';
@@ -25,6 +28,7 @@ const CluePage = props => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [score, setScore] = useState(-1);
   const [hint, setHint] = useState(0);
+  const [wrongLocation, setWrongLocation] = useState(false);
 
   React.useEffect(() => {
     Font.loadAsync({
@@ -44,6 +48,7 @@ const CluePage = props => {
     props.navigation.navigate('Camera', {
       setScore,
       id: clues[currentClue].pictures[0].id,
+      setWrongLocation,
       location: clues[currentClue].pictures[0].location.coordinates
     });
   };
@@ -175,6 +180,21 @@ const CluePage = props => {
                 // showSeparator // this puts : between each time unit element
               />
             </View>
+            <React.Fragment key={420}>
+              <Overlay
+                isVisible={wrongLocation === true}
+                onBackdropPress={() => setWrongLocation(false)}
+                height={300}
+                overlayBackgroundColor="#ebdda0"
+              >
+                <React.Fragment>
+                  <Text style={styles.text}>
+                    Not close enough to the buried treasure... argh. Try again,
+                    and this time put your beard into it!
+                  </Text>
+                </React.Fragment>
+              </Overlay>
+            </React.Fragment>
           </View>
         ) : null}
       </ScrollView>
