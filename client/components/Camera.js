@@ -1,7 +1,6 @@
 // // https://snack.expo.io/@charliecruzan/camerja  <--- Resource for camera info and largely where we sourced our code from
 
 import React, {Component} from 'react';
-import * as Permissions from 'expo-permissions';
 import {Camera} from 'expo-camera';
 import {View, TouchableOpacity, Image, Text} from 'react-native';
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
@@ -27,7 +26,6 @@ export default class CameraComp extends Component {
   }
 
   async componentDidMount() {
-    await Permissions.askAsync(Permissions.CAMERA);
     findCoordinates(position => this.setState({position}));
   }
 
