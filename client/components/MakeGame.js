@@ -71,7 +71,6 @@ class MakeGame extends React.Component {
   }
 
   addClue() {
-    console.log('adding image');
     let newGameClues = this.state.gameClues.concat([
       {
         clueNum: this.state.clueNum,
@@ -81,7 +80,6 @@ class MakeGame extends React.Component {
         clueHint: this.state.clueHint
       }
     ]);
-    // console.log('clueText', this.state.clueText, 'clueImg', this.state.clueImg)
     this.setState({
       gameClues: newGameClues,
       clueNum: this.state.clueNum + 1,
@@ -118,7 +116,6 @@ class MakeGame extends React.Component {
       endTime: this.state.endDB,
       passcode: this.state.keyCode
     };
-    console.log(true);
     this.props.navigation.navigate('GamesPage');
     this.props.addGameThunk(newGame);
   }
