@@ -89,6 +89,8 @@ class GameOver extends Component {
       fontLoaded: false
     };
   }
+  static navigationOptions = {headerShown: false};
+
   async componentDidMount() {
     await Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
@@ -124,7 +126,7 @@ class GameOver extends Component {
     }
 
     if (this.props.scores.length) {
-      let ms = new Date() - new Date(this.props.scores[0].game.endTime);
+      let ms = new Date() - new Date(this.props.scores[0].game.startTime);
       time = dhm(ms);
     }
     const [userScore] = this.props.scores.filter(

@@ -432,13 +432,20 @@ class MakeGame extends React.Component {
                     return (
                       <React.Fragment key={clue.clueNum}>
                         <Text style={styles.newGameSubHeader}>
-                          Clue {clue.clueNum}:{' '}
+                          Clue {clue.clueNum}:
                         </Text>
                         <Text style={styles.newGameText}>Image: </Text>
-                        <Image
-                          style={{width: 50, height: 50}}
-                          source={{uri: clue.clueAccessPic}}
-                        />
+                        <View style={styles.imgContainer}>
+                          <Image
+                            style={{
+                              width: 200,
+                              height: 200,
+                              borderColor: 'black',
+                              borderWidth: 1
+                            }}
+                            source={{uri: clue.clueAccessPic}}
+                          />
+                        </View>
                         <Text style={styles.newGameText}>
                           Clue Text: {clue.clueText}
                         </Text>
