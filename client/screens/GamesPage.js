@@ -20,10 +20,10 @@ import * as Font from 'expo-font';
 
 const {width: WIDTH} = Dimensions.get('window');
 
-const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
+const GamesPage = ({fetchGames, games, joinGame, userId, navigation}) => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [gameLookedAt, setGameLookedAt] = React.useState('');
-
+  const [isRefreshing, setRefreshing] = React.useState(false);
   React.useEffect(() => {
     Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
@@ -76,6 +76,12 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
           <FlatList
             showsVerticalScrollIndicator={false}
             data={games}
+            onRefresh={async () => {
+              setRefreshing(true);
+              await fetchGames();
+              setRefreshing(false);
+            }}
+            refreshing={isRefreshing}
             renderItem={game => {
               game = game.item;
               return (
