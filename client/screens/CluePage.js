@@ -1,4 +1,3 @@
-
 import React, {useEffect, useState} from 'react';
 
 import {
@@ -19,7 +18,7 @@ import CountDown from 'react-native-countdown-component';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
 import {addScoreThunk, fetchGameUserScore} from '../store/gameUserScore';
-import {Overlay} from 'react-native-elements';
+// import {Overlay} from 'react-native-elements';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -112,11 +111,9 @@ const CluePage = props => {
       <ScrollView showsVerticalScrollIndicator={false}>
         {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
           <View>
-
             {props.gameUserScore.score ? (
               <Text style={styles.text}>
                 Your Current Score: {props.gameUserScore.score || 0}
-
               </Text>
             ) : (
               <Text style={styles.hintText}> yer score: 0</Text>
