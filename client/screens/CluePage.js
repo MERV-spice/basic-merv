@@ -18,7 +18,6 @@ import CountDown from 'react-native-countdown-component';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
 import {addScoreThunk, fetchGameUserScore} from '../store/gameUserScore';
-// import {Overlay} from 'react-native-elements';
 
 const {width: WIDTH} = Dimensions.get('window');
 
