@@ -3,7 +3,6 @@ import url from '../ngrok';
 import {fetchGames} from './games';
 import {fetchRequests, deleteRequest} from './request';
 import {AsyncStorage} from 'react-native';
-import {Notifications} from 'expo';
 
 const SIGN_UP = 'SIGN_UP';
 const GET_USER = 'GET_USER';
@@ -18,6 +17,7 @@ const setGame = game => ({type: SET_GAME, game});
 const cluePlus = () => ({type: CLUE_PLUS});
 const clueReset = () => ({type: CLUE_RESET});
 export const newFriend = user => ({type: NEW_FRIEND, user});
+
 
 export const addFriend = (reqId, userId) => {
   return async dispatch => {

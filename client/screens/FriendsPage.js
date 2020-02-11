@@ -4,17 +4,21 @@ import {
   View,
   FlatList,
   Text,
+
+  Button,
   TouchableOpacity,
   SafeAreaView,
   StyleSheet,
   Dimensions,
   ImageBackground
+
 } from 'react-native';
 import axios from 'axios';
 import url from '../ngrok';
 import {connect} from 'react-redux';
 import {fetchRequests, makeRequest} from '../store/request';
 import {addFriend} from '../store/user';
+
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
 
@@ -105,6 +109,7 @@ const FriendsPage = ({
   };
 
   return (
+
     <ImageBackground source={parchment} style={styles.container}>
       <SafeAreaView style={styles.allHolder}>
         <Text style={styles.titles}>Current Friend Requests</Text>
@@ -175,6 +180,7 @@ const FriendsPage = ({
         />
       </SafeAreaView>
     </ImageBackground>
+
   );
 };
 

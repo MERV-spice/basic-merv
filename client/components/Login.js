@@ -162,6 +162,9 @@ class AuthForm extends Component {
                   style={styles.logo}
                 />
                 <Text style={styles.logoText}>Ahoy!!!</Text>
+                <Text style={styles.text}>
+                  A mobile tresure hunting adventure...
+                </Text>
               </View>
               <View style={styles.inputContainer}>
                 <Ionicons
