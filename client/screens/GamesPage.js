@@ -7,7 +7,8 @@ import {
   Dimensions,
   ImageBackground,
   View,
-  Image
+  Image,
+  AsyncStorage
 } from 'react-native';
 import {ListItem, Overlay} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -19,10 +20,10 @@ import * as Font from 'expo-font';
 
 const {width: WIDTH} = Dimensions.get('window');
 
-const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
+const GamesPage = ({fetchGames, games, joinGame, userId, navigation}) => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
   const [gameLookedAt, setGameLookedAt] = React.useState('');
-
+  const [isRefreshing, setRefreshing] = React.useState(false);
   React.useEffect(() => {
     Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
@@ -30,6 +31,12 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
     const setter = async () => await fetchGames();
     setter();
   }, []);
+
+  const logOut = async () => {
+    await AsyncStorage.removeItem('email');
+    await AsyncStorage.removeItem('password');
+    navigation.navigate('Login');
+  };
 
   const joinGamePressHandler = (gameId, uId) => {
     joinGame(gameId, uId);
@@ -53,10 +60,14 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
       return null;
     }
   };
+
   return (
     <ImageBackground source={parchment} style={styles.container}>
       {fontLoaded ? (
         <View style={styles.logoContainer}>
+          <TouchableOpacity style={styles.btnLogout} onPress={() => logOut()}>
+            <Text style={styles.text}>Logout</Text>
+          </TouchableOpacity>
           <Text style={styles.currGamesTitle}>Current Games</Text>
           <Image
             source={require('../../assets/redx.png')}
@@ -65,6 +76,12 @@ const GamesPage = ({setGames, games, joinGame, userId, navigation}) => {
           <FlatList
             showsVerticalScrollIndicator={false}
             data={games}
+            onRefresh={async () => {
+              setRefreshing(true);
+              await fetchGames();
+              setRefreshing(false);
+            }}
+            refreshing={isRefreshing}
             renderItem={game => {
               game = game.item;
               return (
@@ -230,6 +247,16 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10
+  },
+  btnLogout: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginTop: 20
   }
 });
 

@@ -36,6 +36,7 @@ class GameOver extends Component {
       this.props.user.game.id
     );
   }
+  static navigationOptions = {headerShown: false};
 
   render() {
     function dhm(t) {

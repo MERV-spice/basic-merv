@@ -54,6 +54,7 @@ class MakeGame extends React.Component {
     this.setPrivacy = this.setPrivacy.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
     this.pickingStart = true;
+    this.removeClue = this.removeClue.bind(this);
   }
 
   async componentDidMount() {
@@ -87,6 +88,12 @@ class MakeGame extends React.Component {
       clueText: '',
       createClue: false,
       clueHint: ''
+    });
+  }
+
+  removeClue(id) {
+    this.setState({
+      gameClues: () => this.state.gameClues.filter(el => el !== id)
     });
   }
 
@@ -298,6 +305,12 @@ class MakeGame extends React.Component {
                         <Text style={styles.newGameText}>
                           Clue Hint: {clue.clueHint}
                         </Text>
+                        <TouchableOpacity
+                          style={styles.removeBtn}
+                          onPress={() => this.removeClue(clue.clueNum)}
+                        >
+                          <Text style={styles.text}>remove Clue</Text>
+                        </TouchableOpacity>
                       </React.Fragment>
                     );
                   }}
@@ -484,6 +497,16 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: '#ebdda0',
     justifyContent: 'center',
+    marginBottom: 30
+  },
+  removeBtn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#7A8B8B',
+    justifyContent: 'flex-start',
     marginBottom: 30
   },
   createBtn: {

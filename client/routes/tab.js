@@ -3,16 +3,19 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import Camera from '../screens/Camera';
 import {createStackNavigator} from 'react-navigation-stack';
+import {Button} from 'react-native';
+
 import CluePage from '../screens/CluePage';
 import GameOver from '../components/GameOver';
+import FriendsPage from '../screens/FriendsPage';
 import GamesPage from '../screens/GamesPage'; //
-import {MakeClueCamera, MakeGame} from '../components'; //
+import {MakeClueCamera, MakeGame, Login, SignUp} from '../components'; //
 
 const screens = {
   GamesPage: {
-    screen: GamesPage, //
+    screen: GamesPage,
     navigationOptions: {
-      headerShown: false, //
+      headerShown: false,
       tabBarLabel: 'GamesPage'
     }
   },
@@ -21,21 +24,39 @@ const screens = {
     navigationOptions: {
       tabBarLabel: 'CluePage'
     }
+  },
+  FriendsPage: {
+    screen: FriendsPage,
+    navigationOptions: {
+      tabBarLabel: 'FriendsPage'
+    }
   }
 };
 
 const tab = createBottomTabNavigator(screens, {
   tabBarOptions: {
     visible: false
-  }, //
+  },
   navigationOptions: {
-    //
-    headerShown: false //
+    headerShown: false, // this hides the header for gamespage and clue page
+    headerLeft: () => null // if you want a header but do not want a back arrow turn the false above into true
   }
 });
 
 const appCon = createStackNavigator({
-  Home: tab, //
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      tabBarLabel: 'Login'
+    }
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: {
+      tabBarLabel: 'SignUp'
+    }
+  },
+  Home: tab,
   Camera: {
     screen: Camera,
     navigationOptions: {
@@ -47,22 +68,18 @@ const appCon = createStackNavigator({
     navigationOptions: {
       tabBarLabel: 'GameOver'
     }
-  }, //
+  },
   MakeGame: {
-    //
-    screen: MakeGame, //
+    screen: MakeGame,
     navigationOptions: {
-      //
-      tabBarLabel: 'MakeGame' //
-    } //
-  }, //
+      tabBarLabel: 'MakeGame'
+    }
+  },
   MakeClueCamera: {
-    //
-    screen: MakeClueCamera, //
+    screen: MakeClueCamera,
     navigationOptions: {
-      //
-      tabBarLabel: 'MakeClueCamera' //
-    } //
+      tabBarLabel: 'MakeClueCamera'
+    }
   }
 });
 
