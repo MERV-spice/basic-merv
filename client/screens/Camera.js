@@ -36,7 +36,7 @@ export default class CameraComp extends Component {
       const {
         id,
         setScore,
-        setPicTaken,
+        setWrongLocation,
         location
       } = this.props.navigation.state.params;
       const options = {
@@ -61,7 +61,7 @@ export default class CameraComp extends Component {
         setScore(comparison);
       } else {
         setScore(0);
-        setPicTaken(true);
+        setWrongLocation(true);
       }
     }
   }

@@ -25,7 +25,7 @@ const CluePage = props => {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [score, setScore] = useState(0);
   const [hint, setHint] = useState(0);
-  const [picTaken, setPicTaken] = useState(false);
+  const [wrongLocation, setWrongLocation] = useState(false);
 
   React.useEffect(() => {
     Font.loadAsync({
@@ -42,7 +42,7 @@ const CluePage = props => {
     props.navigation.navigate('Camera', {
       setScore,
       id: clues[currentClue].pictures[0].id,
-      setPicTaken,
+      setWrongLocation,
       location: clues[currentClue].pictures[0].location.coordinates
     });
   };
@@ -127,8 +127,8 @@ const CluePage = props => {
             </View>
             <React.Fragment key={420}>
               <Overlay
-                isVisible={picTaken === true}
-                onBackdropPress={() => setPicTaken(false)}
+                isVisible={wrongLocation === true}
+                onBackdropPress={() => setWrongLocation(false)}
                 height={300}
                 overlayBackgroundColor="#ebdda0"
               >
