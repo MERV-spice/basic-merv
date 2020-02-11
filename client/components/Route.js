@@ -1,26 +1,31 @@
 import React from 'react';
 import Navigator from '../routes/tab';
-import Login from './Login';
 import {connect} from 'react-redux';
 import {fetchGames} from '../store/games';
 import {fetchClues} from '../store/clues';
-import {AppLoading} from 'expo';
+import {fetchRequests} from '../store/request';
+import {AppLoading, Notifications} from 'expo';
 
-const Route = ({user, fetchGames, fetchClues}) => {
+const Route = ({setGames, setClues, setRequests}) => {
   const [isReady, setIsReady] = React.useState(false);
 
-  const loadItems = async () => {
+  const loadItems = () => {
     const arr = [];
-    arr.push(fetchGames());
-    arr.push(fetchClues());
+    arr.push(setGames());
+    arr.push(setClues());
     return Promise.all(arr);
+  };
+
+  const finishLoad = () => {
+    setIsReady(true);
+    Notifications.addListener(setRequests);
   };
 
   if (!isReady) {
     return (
       <AppLoading
         startAsync={loadItems}
-        onFinish={() => setIsReady(true)}
+        onFinish={finishLoad}
         onError={console.warn}
       />
     );
@@ -28,24 +33,15 @@ const Route = ({user, fetchGames, fetchClues}) => {
 
   return (
     <React.Fragment>
-      {user.id ? (
-        <React.Fragment>
-          <Navigator />
-        </React.Fragment>
-      ) : (
-        <Login />
-      )}
+      <Navigator />
     </React.Fragment>
   );
 };
 
-const mapState = () => state => ({
-  user: state.user
-});
-
 const mapDispatch = dispatch => ({
-  fetchGames: () => dispatch(fetchGames()),
-  fetchClues: () => dispatch(fetchClues())
+  setGames: () => dispatch(fetchGames()),
+  setClues: () => dispatch(fetchClues()),
+  setRequests: () => dispatch(fetchRequests())
 });
 
-export default connect(mapState, mapDispatch)(Route);
+export default connect(null, mapDispatch)(Route);

@@ -1,16 +1,22 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import {createLogger} from 'redux-logger';
+//import {createLogger} from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import user from './user';
 import games from './games';
 import clues from './clues';
 import scores from './scores';
+import requests from './request';
+import userScores from './userScores';
+import gameUserScore from './gameUserScore';
 
 const reducer = combineReducers({
-  user: user,
-  games: games,
-  clues: clues,
-  scores: scores
+  user,
+  games,
+  clues,
+  scores,
+  requests,
+  userScores,
+  gameUserScore
 });
 
 const middleware = applyMiddleware(

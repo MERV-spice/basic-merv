@@ -1,41 +1,80 @@
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+/* eslint-disable react/display-name */
 import React from 'react';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createAppContainer} from 'react-navigation';
 import Camera from '../screens/Camera';
 import {createStackNavigator} from 'react-navigation-stack';
+import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
+import {Text} from 'react-native';
 import CluePage from '../screens/CluePage';
 import GameOver from '../components/GameOver';
+import FriendsPage from '../screens/FriendsPage';
 import GamesPage from '../screens/GamesPage'; //
-import {MakeClueCamera, MakeGame} from '../components'; //
+import {MakeClueCamera, MakeGame, Login, SignUp} from '../components';
 
 const screens = {
   GamesPage: {
-    screen: GamesPage, //
+    screen: GamesPage,
     navigationOptions: {
-      headerShown: false, //
-      tabBarLabel: 'GamesPage'
+      headerShown: false,
+      tabBarLabel: () => <Text>Games</Text>,
+      tabBarIcon: ({tintColor}) => (
+        <MaterialCommunityIcons
+          name="treasure-chest"
+          size={25}
+          color={tintColor}
+        />
+      )
     }
   },
   CluePage: {
     screen: CluePage,
     navigationOptions: {
-      tabBarLabel: 'CluePage'
+      tabBarLabel: () => <Text>Clues</Text>,
+      tabBarIcon: ({tintColor}) => (
+        <Ionicons name="ios-search" size={25} color={tintColor} />
+      )
+    }
+  },
+  FriendsPage: {
+    screen: FriendsPage,
+    navigationOptions: {
+      tabBarLabel: () => <Text>Friends</Text>,
+      tabBarIcon: ({tintColor}) => (
+        <Ionicons name="ios-people" size={25} color={tintColor} />
+      )
     }
   }
 };
 
 const tab = createBottomTabNavigator(screens, {
   tabBarOptions: {
-    visible: false
-  }, //
+    visible: false,
+    activeTintColor: '#E20014',
+    style: {
+      backgroundColor: '#ebdda0'
+    }
+  },
   navigationOptions: {
-    //
-    headerShown: false //
+    headerShown: false, // this hides the header for gamespage and clue page
+    headerLeft: () => null // if you want a header but do not want a back arrow turn the false above into true
   }
 });
 
 const appCon = createStackNavigator({
-  Home: tab, //
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      tabBarLabel: 'Login'
+    }
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: {
+      tabBarLabel: 'SignUp'
+    }
+  },
+  Home: tab,
   Camera: {
     screen: Camera,
     navigationOptions: {
@@ -47,22 +86,18 @@ const appCon = createStackNavigator({
     navigationOptions: {
       tabBarLabel: 'GameOver'
     }
-  }, //
+  },
   MakeGame: {
-    //
-    screen: MakeGame, //
+    screen: MakeGame,
     navigationOptions: {
-      //
-      tabBarLabel: 'MakeGame' //
-    } //
-  }, //
+      tabBarLabel: 'MakeGame'
+    }
+  },
   MakeClueCamera: {
-    //
-    screen: MakeClueCamera, //
+    screen: MakeClueCamera,
     navigationOptions: {
-      //
-      tabBarLabel: 'MakeClueCamera' //
-    } //
+      tabBarLabel: 'MakeClueCamera'
+    }
   }
 });
 
