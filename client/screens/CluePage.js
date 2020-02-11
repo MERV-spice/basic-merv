@@ -1,4 +1,6 @@
-import React, {useEffect} from 'react';
+
+import React, {useEffect, useState} from 'react';
+
 import {
   StyleSheet,
   Text,
@@ -9,20 +11,25 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native';
-import {useState} from 'react';
 import {connect} from 'react-redux';
+import {Overlay} from 'react-native-elements';
 import {currentCluePlus} from '../store/user';
 import {getSingleGameThunk} from '../store/games';
 import CountDown from 'react-native-countdown-component';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
 import {addScoreThunk, fetchGameUserScore} from '../store/gameUserScore';
+import {Overlay} from 'react-native-elements';
 
 const {width: WIDTH} = Dimensions.get('window');
 
 // eslint-disable-next-line complexity
 const CluePage = props => {
   const [fontLoaded, setFontLoaded] = React.useState(false);
+  const [score, setScore] = useState(-1);
+  const [hint, setHint] = useState(0);
+  const [wrongLocation, setWrongLocation] = useState(false);
+
   React.useEffect(() => {
     Font.loadAsync({
       'Kranky-Regular': require('../../assets/fonts/Kranky-Regular.ttf')
@@ -30,16 +37,18 @@ const CluePage = props => {
     props.getSingleGameThunk(props.user.game.id);
     props.fetchGameUserScore(props.user.id, props.user.game.id);
   }, []);
+
   const clues = props.user.game.clues;
   const currentClue = props.user.currentClue;
 
-  const [score, setScore] = useState(0);
-  const [hint, setHint] = useState(0);
+  const [isSuccessOverlayVisible, makeSuccessOverlayVisible] = useState(false);
+  const [isFailureOverlayVisible, makeFailureOverlayVisible] = useState(false);
 
   const pressHandler = () => {
     props.navigation.navigate('Camera', {
       setScore,
       id: clues[currentClue].pictures[0].id,
+      setWrongLocation,
       location: clues[currentClue].pictures[0].location.coordinates
     });
   };
@@ -48,13 +57,19 @@ const CluePage = props => {
     let coins = 10;
     if (hint) coins = 5;
     props.addScoreThunk(props.user.id, props.user.game.id, coins);
-    setScore(0);
+    setScore(-1);
     props.currentCluePlus(props.user);
     setHint(0);
   };
 
-  if (score > 0.2) {
+  if (score >= 0.7) {
+    makeSuccessOverlayVisible(true);
+    console.log('score', score);
     thenFun();
+  } else if (score > 0 && score < 0.7) {
+    makeFailureOverlayVisible(true);
+    console.log('score', score);
+    setScore(-1);
   }
   if (currentClue >= clues.length) {
     props.navigation.navigate('GameOver');
@@ -62,21 +77,59 @@ const CluePage = props => {
   }
   return (
     <ImageBackground source={parchment} style={styles.container}>
+      <Overlay
+        isVisible={isSuccessOverlayVisible}
+        onBackdropPress={() => makeSuccessOverlayVisible(false)}
+        height={200}
+        overlayBackgroundColor="#ebdda0"
+      >
+        <View>
+          <Text style={styles.text}>Ye' found the booty!!!</Text>
+          <TouchableOpacity
+            style={styles.successOverlayBtn}
+            onPress={() => makeSuccessOverlayVisible(false)}
+          >
+            <Text style={styles.text}>Next Clue</Text>
+          </TouchableOpacity>
+        </View>
+      </Overlay>
+      <Overlay
+        isVisible={isFailureOverlayVisible}
+        onBackdropPress={() => makeFailureOverlayVisible(false)}
+        height={200}
+        overlayBackgroundColor="#ebdda0"
+      >
+        <View>
+          <Text style={styles.text}>Ye' be not quite there. Arghhhh!!!</Text>
+          <TouchableOpacity
+            style={styles.failureOverlayBtn}
+            onPress={() => makeFailureOverlayVisible(false)}
+          >
+            <Text style={styles.text}>Try Again</Text>
+          </TouchableOpacity>
+        </View>
+      </Overlay>
       <ScrollView showsVerticalScrollIndicator={false}>
         {fontLoaded && props.user.game.startTime && props.user.game.endTime ? (
           <View>
+
             {props.gameUserScore.score ? (
               <Text style={styles.text}>
                 Your Current Score: {props.gameUserScore.score || 0}
+
               </Text>
-            ) : null}
-            {hint ? (
-              <Text style={styles.text}>This clue is worth: 5 coins</Text>
             ) : (
-              <Text style={styles.text}>This clue is worth: 10 coins</Text>
+              <Text style={styles.hintText}> yer score: 0</Text>
+            )}
+            {hint ? (
+              <Text style={styles.hintText}>this clue be worth: 5 coins</Text>
+            ) : (
+              <Text style={styles.hintText}>this clue be worth: 10 coins</Text>
             )}
             <View style={styles.clueImgContainer}>
-              <Text style={styles.headerText}>You're lookin' for this!</Text>
+              <Text style={styles.headerText}>
+                Ye're lookin' fer this matey!
+              </Text>
               <View style={styles.imgContainer}>
                 <Image
                   style={{
@@ -100,6 +153,11 @@ const CluePage = props => {
             ) : (
               <Text style={styles.text}>Hint: {clues[currentClue].hint}</Text>
             )}
+            {!hint ? (
+              <Text style={styles.hintText}>
+                If ye click for the hint ye'll lose 5 coins... Argghhhhh!
+              </Text>
+            ) : null}
             <TouchableOpacity style={styles.btn} onPress={() => pressHandler()}>
               <Text style={styles.btnText}>I found it!</Text>
             </TouchableOpacity>
@@ -123,6 +181,21 @@ const CluePage = props => {
                 // showSeparator // this puts : between each time unit element
               />
             </View>
+            <React.Fragment key={420}>
+              <Overlay
+                isVisible={wrongLocation === true}
+                onBackdropPress={() => setWrongLocation(false)}
+                height={300}
+                overlayBackgroundColor="#ebdda0"
+              >
+                <React.Fragment>
+                  <Text style={styles.text}>
+                    Not close enough to the buried treasure... argh. Try again,
+                    and this time put your beard into it!
+                  </Text>
+                </React.Fragment>
+              </Overlay>
+            </React.Fragment>
           </View>
         ) : null}
       </ScrollView>
@@ -198,6 +271,16 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10
   },
+  hintText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 20,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+    marginTop: 10
+  },
   btnText: {
     fontFamily: 'Kranky-Regular',
     color: 'black',
@@ -206,6 +289,26 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10
+  },
+  failureOverlayBtn: {
+    width: WIDTH - 100,
+    height: 45,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 25,
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginTop: 40
+  },
+  successOverlayBtn: {
+    width: WIDTH - 100,
+    height: 45,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 25,
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginTop: 80
   }
 });
 

@@ -25,6 +25,137 @@ import {Ionicons} from '@expo/vector-icons';
 
 const {width: WIDTH} = Dimensions.get('window');
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20
+  },
+  headerContainer: {
+    alignItems: 'center',
+    marginBottom: 50
+  },
+  input: {
+    width: WIDTH - 55,
+    height: 45,
+    paddingLeft: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: 'rgba(219,249,244,0.35)',
+    fontSize: 16,
+    marginBottom: 20
+  },
+  inputIcon: {
+    position: 'absolute',
+    top: 8,
+    left: 14
+  },
+  newGameHeader: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 40
+  },
+  newGameSubHeader: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 30
+  },
+  newGameText: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 25
+  },
+  timeBtn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#ebdda0',
+    justifyContent: 'center',
+    marginTop: 8
+  },
+  btn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#ebdda0',
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  removeBtn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#7A8B8B',
+    justifyContent: 'flex-start',
+    marginBottom: 30
+  },
+  createBtn: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  overlayBtn: {
+    width: WIDTH - 240,
+    height: 30,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginTop: 20
+  },
+  text: {
+    fontFamily: 'Kranky-Regular',
+    color: 'black',
+    fontSize: 22,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  overlayItem: {
+    backgroundColor: '#ebdda0',
+    borderWidth: 1,
+    borderColor: 'black'
+  },
+  logo: {
+    width: 75,
+    height: 75
+  },
+  inputContainer: {
+    marginTop: 10
+  },
+  timeContainer: {
+    marginTop: 8
+  },
+  addClueBtnContainer: {
+    alignItems: 'center',
+    paddingBottom: 5
+  },
+  imgContainer: {
+    alignItems: 'center',
+    paddingTop: 5
+  },
+  newImgContainer: {
+    alignItems: 'center',
+    marginBottom: 20
+  }
+});
+
 class MakeGame extends React.Component {
   constructor(props) {
     super(props);
@@ -44,8 +175,6 @@ class MakeGame extends React.Component {
       isDarkModeEnabled: false,
       start: '',
       end: '',
-      // pickingStart: false,
-      // pickingEnd: false,
       fontLoaded: false,
       startDB: null,
       endDB: null
@@ -54,6 +183,7 @@ class MakeGame extends React.Component {
     this.setPrivacy = this.setPrivacy.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
     this.pickingStart = true;
+    this.removeClue = this.removeClue.bind(this);
   }
 
   async componentDidMount() {
@@ -71,18 +201,23 @@ class MakeGame extends React.Component {
   }
 
   addClue() {
-    let newGameClues = this.state.gameClues.concat([
-      {
-        clueNum: this.state.clueNum,
-        clueImgId: this.state.clueImg.id,
-        clueText: this.state.clueText,
-        clueAccessPic: this.state.clueImg.accessPic,
-        clueHint: this.state.clueHint
-      }
-    ]);
+    const clueImg = {...this.state.clueImg};
+    const {clueNum, clueText, clueHint} = this.state;
+    const clue = {
+      clueNum,
+      clueImgId: clueImg.id,
+      clueText,
+      clueAccessPic: clueImg.accessPic,
+      clueHint
+    };
+
+    const newGameClues = [clue];
+    this.state.gameClues.forEach(el => {
+      newGameClues.push({...el});
+    });
     this.setState({
       gameClues: newGameClues,
-      clueNum: this.state.clueNum + 1,
+      clueNum: clue.clueNum + 1,
       clueImg: {},
       clueText: '',
       createClue: false,
@@ -90,19 +225,32 @@ class MakeGame extends React.Component {
     });
   }
 
+  removeClue(id) {
+    const gameClues = [];
+    this.state.gameClues.forEach(el => {
+      if (el.clueNum !== id) gameClues.push({...el});
+    });
+    this.setState({gameClues});
+  }
+
   addDBClue(clue) {
-    let newGameClues = this.state.gameClues.concat([
-      {
-        clueNum: this.state.clueNum,
-        clueImgId: clue.pictures[0].id,
-        clueText: clue.text,
-        clueAccessPic: clue.pictures[0].accessPic,
-        clueHint: clue.hint
-      }
-    ]);
+    const clueNum = this.state.clueNum;
+    const newClue = {
+      clueNum,
+      clueImgId: clue.pictures[0].id,
+      clueText: clue.text,
+      clueAccessPic: clue.pictures[0].accessPic,
+      clueHint: clue.hint
+    };
+
+    const newGameClues = [newClue];
+    this.state.gameClues.forEach(el => {
+      newGameClues.push({...el});
+    });
+
     this.setState({
       gameClues: newGameClues,
-      clueNum: this.state.clueNum + 1,
+      clueNum: newClue.clueNum + 1,
       showOverlay: false
     });
   }
@@ -117,6 +265,7 @@ class MakeGame extends React.Component {
       passcode: this.state.keyCode
     };
     this.props.navigation.navigate('GamesPage');
+    this.props.navigation.state.params.setGameMade(true);
     this.props.addGameThunk(newGame);
   }
 
@@ -266,9 +415,7 @@ class MakeGame extends React.Component {
                   isDarkModeEnabled={this.state.isDarkModeEnabled}
                   onCancel={() =>
                     this.setState({
-                      isDatePickerVisible: false,
-                      pickingStart: false,
-                      pickingEnd: false
+                      isDatePickerVisible: false
                     })
                   }
                 />
@@ -285,19 +432,32 @@ class MakeGame extends React.Component {
                     return (
                       <React.Fragment key={clue.clueNum}>
                         <Text style={styles.newGameSubHeader}>
-                          Clue {clue.clueNum}:{' '}
+                          Clue {clue.clueNum}:
                         </Text>
                         <Text style={styles.newGameText}>Image: </Text>
-                        <Image
-                          style={{width: 50, height: 50}}
-                          source={{uri: clue.clueAccessPic}}
-                        />
+                        <View style={styles.imgContainer}>
+                          <Image
+                            style={{
+                              width: 200,
+                              height: 200,
+                              borderColor: 'black',
+                              borderWidth: 1
+                            }}
+                            source={{uri: clue.clueAccessPic}}
+                          />
+                        </View>
                         <Text style={styles.newGameText}>
                           Clue Text: {clue.clueText}
                         </Text>
                         <Text style={styles.newGameText}>
                           Clue Hint: {clue.clueHint}
                         </Text>
+                        <TouchableOpacity
+                          style={styles.removeBtn}
+                          onPress={() => this.removeClue(clue.clueNum)}
+                        >
+                          <Text style={styles.text}>remove Clue</Text>
+                        </TouchableOpacity>
                       </React.Fragment>
                     );
                   }}
@@ -422,124 +582,3 @@ const mapDispatch = {
 };
 
 export default connect(mapState, mapDispatch)(MakeGame);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20
-  },
-  headerContainer: {
-    alignItems: 'center',
-    marginBottom: 50
-  },
-  input: {
-    width: WIDTH - 55,
-    height: 45,
-    paddingLeft: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: 'rgba(219,249,244,0.35)',
-    fontSize: 16,
-    marginBottom: 20
-  },
-  inputIcon: {
-    position: 'absolute',
-    top: 8,
-    left: 14
-  },
-  newGameHeader: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 40
-  },
-  newGameSubHeader: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 30
-  },
-  newGameText: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 25
-  },
-  timeBtn: {
-    width: WIDTH - 55,
-    height: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#ebdda0',
-    justifyContent: 'center',
-    marginTop: 8
-  },
-  btn: {
-    width: WIDTH - 55,
-    height: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#ebdda0',
-    justifyContent: 'center',
-    marginBottom: 30
-  },
-  createBtn: {
-    width: WIDTH - 55,
-    height: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#E20014',
-    justifyContent: 'center',
-    marginBottom: 30
-  },
-  overlayBtn: {
-    width: WIDTH - 240,
-    height: 30,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#E20014',
-    justifyContent: 'center',
-    marginTop: 20
-  },
-  text: {
-    fontFamily: 'Kranky-Regular',
-    color: 'black',
-    fontSize: 22,
-    textAlign: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  },
-  overlayItem: {
-    backgroundColor: '#ebdda0',
-    borderWidth: 1,
-    borderColor: 'black'
-  },
-  logo: {
-    width: 75,
-    height: 75
-  },
-  inputContainer: {
-    marginTop: 10
-  },
-  timeContainer: {
-    marginTop: 8
-  },
-  addClueBtnContainer: {
-    alignItems: 'center',
-    paddingBottom: 5
-  },
-  imgContainer: {
-    alignItems: 'center',
-    paddingTop: 5
-  },
-  newImgContainer: {
-    alignItems: 'center',
-    marginBottom: 20
-  }
-});

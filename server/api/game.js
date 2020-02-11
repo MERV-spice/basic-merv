@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const {Game, Clue, User, Picture} = require('../db/models');
 const {input} = require('../clarifai/compare');
-const {Op} = require('sequelize');
+//const {Op} = require('sequelize');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {

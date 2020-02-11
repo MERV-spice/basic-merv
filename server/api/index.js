@@ -8,6 +8,7 @@ router.use('/auth', require('../auth'));
 router.use('/games', require('./game'));
 router.use('/score', require('./score'));
 router.use('/clue', require('./clue'));
+router.use('/notification', require('../notifications/notification'));
 
 router.use((req, res, next) => {
   const error = new Error('Not Found');

@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import * as Permissions from 'expo-permissions';
 import {Camera} from 'expo-camera';
-import {View, TouchableOpacity, Image, Text} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import axios from 'axios';
 import {findCoordinates} from '../helperFunctions';
@@ -26,7 +26,9 @@ export default class CameraComp extends Component {
 
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA);
-    findCoordinates(position => (this.position = position));
+    findCoordinates(position => {
+      this.position = position;
+    });
   }
 
   async snapPhoto() {

@@ -46,7 +46,7 @@ router.get('/gameUser/:userId/:gameId', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
-    const selectedRow = await Score.findOrCreate({
+    await Score.findOrCreate({
       where: {
         userId: req.body.userId,
         gameId: req.body.gameId

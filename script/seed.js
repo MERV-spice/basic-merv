@@ -1,14 +1,7 @@
 'use strict';
 
 const db = require('../server/db'); //Will this change on the basis of our new db location
-const {
-  User,
-  Game,
-  Clue,
-  Picture,
-  CluePicture,
-  Score
-} = require('../server/db/models');
+const {User, Game, Clue, Picture, Score} = require('../server/db/models');
 const faker = require('faker/locale/en_US');
 
 // https://www.npmjs.com/package/faker --- for further use in faking it til we make it
@@ -65,18 +58,18 @@ const makeUsers = () => {
   return users;
 };
 
-const makeScores = () => {
-  const scores = [];
-  for (let i = 0; i < 50; i++) {
-    scores.push({
-      userId: Math.ceil(Math.random() * 10),
-      gameId: Math.ceil(Math.random() * 10),
-      score: Math.floor(Math.random() * 100),
-      itemsFound: Math.floor(Math.random() * 10)
-    });
-  }
-  return scores;
-};
+// const makeScores = () => {
+//   const scores = [];
+//   for (let i = 0; i < 50; i++) {
+//     scores.push({
+//       userId: Math.ceil(Math.random() * 10),
+//       gameId: Math.ceil(Math.random() * 10),
+//       score: Math.floor(Math.random() * 100),
+//       itemsFound: Math.floor(Math.random() * 10)
+//     });
+//   }
+//   return scores;
+// };
 
 async function seed() {
   await db.sync({force: true});
@@ -85,7 +78,7 @@ async function seed() {
   const pics = await Picture.bulkCreate(makePics());
   const games = await Game.bulkCreate(makeGames());
   const users = await User.bulkCreate(makeUsers());
-  const scores = await Score.bulkCreate(makeScores());
+  // const scores = await Score.bulkCreate(makeScores());
 
   await Promise.all(
     clues.map((clue, i) => clue.addGame(games[Math.floor(i / 3)]))
@@ -94,7 +87,7 @@ async function seed() {
   await Promise.all(
     users.map((user, i) => user.setGame(games[Math.floor(i / 3)]))
   );
-  await Promise.all(scores);
+  // await Promise.all(scores);
 
   await Promise.all(
     clues.map((clue, i) => clue.addGame(games[Math.floor(i / 3)]))
