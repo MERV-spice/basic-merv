@@ -1,9 +1,7 @@
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import Camera from '../screens/Camera';
 import {createStackNavigator} from 'react-navigation-stack';
-import {Button} from 'react-native';
 
 import CluePage from '../screens/CluePage';
 import GameOver from '../components/GameOver';

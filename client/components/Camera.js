@@ -17,7 +17,6 @@ export default class CameraComp extends Component {
   constructor() {
     super();
     this.state = {
-      hasCameraPermission: null,
       type: Camera.Constants.Type.back,
       photo: {},
       id: 0,
@@ -28,8 +27,7 @@ export default class CameraComp extends Component {
   }
 
   async componentDidMount() {
-    const {status} = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({hasCameraPermission: status === 'granted'});
+    await Permissions.askAsync(Permissions.CAMERA);
     findCoordinates(position => this.setState({position}));
   }
 
@@ -41,18 +39,17 @@ export default class CameraComp extends Component {
         fixOrientation: true,
         exif: true
       };
+      const id = this.state.id;
       await this.camera.takePictureAsync(options).then(photo => {
         photo.exif.Orientation = 1;
         this.setState({
           photo: photo,
-          id: ++this.state.id
+          id: id + 1
         });
       });
       this.upload(this.state.photo.base64);
       await findCoordinates(position => this.setState({position}));
     }
-    // let photo = this.state.photo.uri;
-    // let id = this.state.id;
   }
 
   async upload(picBase64) {
@@ -100,9 +97,10 @@ export default class CameraComp extends Component {
                 alignItems: 'center'
               }}
               onPress={() => {
+                const type = this.state.type;
                 this.setState({
                   type:
-                    this.state.type === Camera.Constants.Type.back
+                    type === Camera.Constants.Type.back
                       ? Camera.Constants.Type.front
                       : Camera.Constants.Type.back
                 });
