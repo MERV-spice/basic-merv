@@ -273,18 +273,20 @@ const GamesPage = ({
                 height={300}
                 overlayBackgroundColor="#ebdda0"
               >
-                <Text style={styles.currGamesListText}>
-                  Your Game: {games[games.length - 1].name} has been created!
-                </Text>
                 <React.Fragment>
-                  <TouchableOpacity
-                    style={styles.btnJoinGame}
-                    onPress={() =>
-                      joinGamePressHandler(games[games.length - 1].id, userId)
-                    }
-                  >
-                    <Text style={styles.text}>Join Game</Text>
-                  </TouchableOpacity>
+                  <Text style={styles.currGamesListText}>
+                    Your Game: {games[games.length - 1].name} has been created!
+                  </Text>
+                  <React.Fragment>
+                    <TouchableOpacity
+                      style={styles.btnJoinGame}
+                      onPress={() =>
+                        joinGamePressHandler(games[games.length - 1].id, userId)
+                      }
+                    >
+                      <Text style={styles.text}>Join Game</Text>
+                    </TouchableOpacity>
+                  </React.Fragment>
                 </React.Fragment>
               </Overlay>
             </React.Fragment>
