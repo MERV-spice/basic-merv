@@ -96,8 +96,11 @@ const appCon = createStackNavigator({
   MakeGame: {
     screen: MakeGame,
     navigationOptions: {
-      tabBarLabel: 'MakeGame',
-      activeTintColor: '#E20014'
+      headerTitle: 'MakeGame',
+      headerTintColor: '#E20014',
+      headerStyle: {
+        backgroundColor: '#ebdda0'
+      }
     }
   },
   MakeClueCamera: {
