@@ -248,10 +248,11 @@ class MakeGame extends React.Component {
       clueHint
     };
 
-    const newGameClues = [clue];
+    const newGameClues = [];
     this.state.gameClues.forEach(el => {
       newGameClues.push({...el});
     });
+    newGameClues.push(clue);
     this.setState({
       gameClues: newGameClues,
       clueNum: clue.clueNum + 1,
@@ -264,10 +265,17 @@ class MakeGame extends React.Component {
 
   removeClue(id) {
     const gameClues = [];
+    let removed = false;
     this.state.gameClues.forEach(el => {
-      if (el.clueNum !== id) gameClues.push({...el});
+      if (el.clueNum !== id) {
+        if (removed) gameClues.push({...el, clueNum: el.clueNum - 1});
+        else gameClues.push({...el});
+      } else {
+        removed = true;
+      }
     });
-    this.setState({gameClues});
+    const {clueNum} = this.state;
+    this.setState({gameClues, clueNum: clueNum - 1});
   }
 
   addDBClue(clue) {
@@ -279,12 +287,11 @@ class MakeGame extends React.Component {
       clueAccessPic: clue.pictures[0].accessPic,
       clueHint: clue.hint
     };
-
-    const newGameClues = [newClue];
+    const newGameClues = [];
     this.state.gameClues.forEach(el => {
       newGameClues.push({...el});
     });
-
+    newGameClues.push(newClue);
     this.setState({
       gameClues: newGameClues,
       clueNum: newClue.clueNum + 1,
