@@ -48,6 +48,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20
   },
+  overlayInput: {
+    width: WIDTH - 100,
+    height: 90,
+    paddingLeft: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: 'rgba(219,249,244,0.35)',
+    fontSize: 16,
+    marginBottom: 20
+  },
   inputIcon: {
     position: 'absolute',
     top: 8,
@@ -91,7 +102,7 @@ const styles = StyleSheet.create({
   removeBtn: {
     width: WIDTH - 55,
     height: 45,
-    borderRadius: 5,
+    borderRadius: 25,
     borderWidth: 1,
     borderColor: 'black',
     backgroundColor: '#7A8B8B',
@@ -101,6 +112,26 @@ const styles = StyleSheet.create({
   },
   createBtn: {
     width: WIDTH - 55,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#E20014',
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  takePictureOverlayBtn: {
+    width: WIDTH - 100,
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#7A8B8B',
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  addClueOverlayBtn: {
+    width: WIDTH - 100,
     height: 45,
     borderRadius: 25,
     borderWidth: 1,
@@ -172,6 +203,7 @@ class MakeGame extends React.Component {
       private: false,
       keyCode: null,
       showOverlay: false,
+      showCreateClueOverlay: false,
       isDatePickerVisible: false,
       isDarkModeEnabled: false,
       start: '',
@@ -187,6 +219,7 @@ class MakeGame extends React.Component {
     this.handleConfirm = this.handleConfirm.bind(this);
     this.pickingStart = true;
     this.removeClue = this.removeClue.bind(this);
+    this.toggleCreateClueOverlay = this.toggleCreateClueOverlay.bind(this);
   }
 
   async componentDidMount() {
@@ -204,6 +237,7 @@ class MakeGame extends React.Component {
   }
 
   addClue() {
+    this.setState({showCreateClueOverlay: false});
     const clueImg = {...this.state.clueImg};
     const {clueNum, clueText, clueHint} = this.state;
     const clue = {
@@ -214,10 +248,11 @@ class MakeGame extends React.Component {
       clueHint
     };
 
-    const newGameClues = [clue];
+    const newGameClues = [];
     this.state.gameClues.forEach(el => {
       newGameClues.push({...el});
     });
+    newGameClues.push(clue);
     this.setState({
       gameClues: newGameClues,
       clueNum: clue.clueNum + 1,
@@ -230,10 +265,17 @@ class MakeGame extends React.Component {
 
   removeClue(id) {
     const gameClues = [];
+    let removed = false;
     this.state.gameClues.forEach(el => {
-      if (el.clueNum !== id) gameClues.push({...el});
+      if (el.clueNum !== id) {
+        if (removed) gameClues.push({...el, clueNum: el.clueNum - 1});
+        else gameClues.push({...el});
+      } else {
+        removed = true;
+      }
     });
-    this.setState({gameClues});
+    const {clueNum} = this.state;
+    this.setState({gameClues, clueNum: clueNum - 1});
   }
 
   addDBClue(clue) {
@@ -245,12 +287,11 @@ class MakeGame extends React.Component {
       clueAccessPic: clue.pictures[0].accessPic,
       clueHint: clue.hint
     };
-
-    const newGameClues = [newClue];
+    const newGameClues = [];
     this.state.gameClues.forEach(el => {
       newGameClues.push({...el});
     });
-
+    newGameClues.push(newClue);
     this.setState({
       gameClues: newGameClues,
       clueNum: newClue.clueNum + 1,
@@ -321,8 +362,17 @@ class MakeGame extends React.Component {
 
   goToCamera() {
     this.props.navigation.navigate('MakeClueCamera', {
-      fn: img => this.setState({clueImg: img})
+      fn: img => this.setState({clueImg: img}),
+      toggleOverlay: this.toggleCreateClueOverlay
     });
+    this.setState({showCreateClueOverlay: false});
+  }
+
+  toggleCreateClueOverlay() {
+    console.log('HHHHIIIIIIIII');
+    if (!this.state.showCreateClueOverlay) {
+      this.setState({showCreateClueOverlay: true});
+    }
   }
 
   // eslint-disable-next-line complexity
@@ -332,6 +382,66 @@ class MakeGame extends React.Component {
       <ImageBackground source={parchment} style={styles.container}>
         {this.state.fontLoaded ? (
           <React.Fragment>
+            <Overlay
+              isVisible={this.state.showCreateClueOverlay}
+              onBackdropPress={() =>
+                this.setState({showCreateClueOverlay: false})
+              }
+              overlayBackgroundColor="#ebdda0"
+            >
+              <ScrollView showsVerticalScrollIndicator="false">
+                <React.Fragment>
+                  <Text style={styles.newGameSubHeader}>
+                    Clue {this.state.clueNum}:
+                  </Text>
+                  <Text style={styles.newGameText}>Description: </Text>
+                  <TextInput
+                    multline={true}
+                    numberOfLines={4}
+                    style={styles.overlayInput}
+                    value={this.state.clueText}
+                    onChangeText={clueText => this.setState({clueText})}
+                  />
+                  <Text style={styles.newGameText}>Hint: </Text>
+                  <TextInput
+                    multline={true}
+                    numberOfLines={4}
+                    style={styles.overlayInput}
+                    value={this.state.clueHint}
+                    onChangeText={clueHint => this.setState({clueHint})}
+                  />
+
+                  {this.state.clueImg.accessPic ? (
+                    <View style={styles.newImgContainer}>
+                      <Image
+                        style={{
+                          width: 200,
+                          height: 200,
+                          borderColor: 'black',
+                          borderWidth: 1
+                        }}
+                        source={{uri: this.state.clueImg.accessPic}}
+                      />
+                    </View>
+                  ) : null}
+                  <TouchableOpacity
+                    style={styles.takePictureOverlayBtn}
+                    onPress={this.goToCamera.bind(this)}
+                  >
+                    <Text style={styles.text}>take a picture</Text>
+                  </TouchableOpacity>
+                  <View>
+                    <TouchableOpacity
+                      style={styles.addClueOverlayBtn}
+                      onPress={this.addClue.bind(this)}
+                      disabled={!this.state.clueText || !this.state.clueImg}
+                    >
+                      <Text style={styles.text}>add clue</Text>
+                    </TouchableOpacity>
+                  </View>
+                </React.Fragment>
+              </ScrollView>
+            </Overlay>
             <Overlay
               isVisible={this.state.showOverlay}
               onBackdropPress={() => this.setState({showOverlay: false})}
@@ -357,8 +467,8 @@ class MakeGame extends React.Component {
                         <TouchableOpacity
                           onPress={() => {
                             this.addDBClue(item);
-                            this.setState({clueText: item.text});
                             this.setState({
+                              clueText: item.text,
                               clueImg: item.pictures[0].accessPic
                             });
                           }}
@@ -373,7 +483,7 @@ class MakeGame extends React.Component {
                 keyExtractor={item => item.id.toString()}
               />
             </Overlay>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator="false">
               <View style={styles.headerContainer}>
                 <Text style={styles.newGameHeader}>Create A New Game!</Text>
                 <Image
@@ -505,70 +615,22 @@ class MakeGame extends React.Component {
                 <TouchableOpacity
                   style={styles.btn}
                   onPress={() =>
-                    this.setState({createClue: false, showOverlay: true})
+                    this.setState({
+                      createClue: true,
+                      showCreateClueOverlay: true
+                    })
                   }
-                >
-                  <Text style={styles.text}>pick a clue</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.btn}
-                  onPress={() => this.setState({createClue: true})}
                 >
                   <Text style={styles.text}>create a clue</Text>
                 </TouchableOpacity>
-                {this.state.createClue === null ? (
-                  <React.Fragment />
-                ) : this.state.createClue === true ? (
-                  // if you are creating a clue from scratch
-                  <React.Fragment>
-                    <Text style={styles.newGameSubHeader}>
-                      Clue {this.state.clueNum}:{' '}
-                    </Text>
-                    <Text style={styles.newGameText}>Clue Text: </Text>
-                    <TextInput
-                      style={styles.input}
-                      value={this.state.clueText}
-                      onChangeText={clueText => this.setState({clueText})}
-
-                    />
-                    <Text style={styles.newGameText}>Clue Hint: </Text>
-                    <TextInput
-                      style={styles.input}
-                      value={this.state.clueHint}
-                      onChangeText={clueHint => this.setState({clueHint})}
-                    />
-
-                    {this.state.clueImg.accessPic ? (
-                      <View style={styles.newImgContainer}>
-                        <Image
-                          style={{
-                            width: 200,
-                            height: 200,
-                            borderColor: 'black',
-                            borderWidth: 1
-                          }}
-                          source={{uri: this.state.clueImg.accessPic}}
-                        />
-                      </View>
-                    ) : null}
-                    <TouchableOpacity
-                      style={styles.btn}
-                      onPress={this.goToCamera.bind(this)}
-                    >
-                      <Text style={styles.text}>take a picture</Text>
-                    </TouchableOpacity>
-                    <View>
-                      <TouchableOpacity
-                        style={styles.btn}
-                        onPress={this.addClue.bind(this)}
-                        disabled={!this.state.clueText || !this.state.clueImg}
-                      >
-                        <Text style={styles.text}>add clue</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </React.Fragment>
-                ) : // // if you are using a clue from the database all changes on overlay
-                null}
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() =>
+                    this.setState({createClue: false, showOverlay: true})
+                  }
+                >
+                  <Text style={styles.text}>pick an existing clue</Text>
+                </TouchableOpacity>
               </React.Fragment>
               <Text style={styles.newGameText}>This game will be: </Text>
               <RadioForm
