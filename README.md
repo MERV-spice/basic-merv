@@ -59,6 +59,10 @@ Once you have added the PostGIS extension, npm i. You can also npm run seed to p
 
 * service allowing access to a user's current position
 
+### Heroku
+
+* a platform as a service that enables developers to build, run, and operate applications entirely in the cloud
+
 ### PostGIS
 
 * PostGreSQL extension that adds support for geographic objects
