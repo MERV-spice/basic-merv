@@ -66,10 +66,11 @@ export default class CameraComp extends Component {
     }
   }
   pressHandler = () => {
-    //
-    this.snapPhoto(); //
-    this.props.navigation.navigate('MakeGame'); //
-  }; //
+    console.log(this.props);
+    this.snapPhoto();
+    this.props.navigation.navigate('MakeGame');
+    this.props.navigation.state.params.toggleOverlay();
+  };
   render() {
     return (
       <View style={{flex: 1}}>
