@@ -28,7 +28,6 @@ const makePics = () => {
       dislikes: faker.random.number(),
       accessPic:
         'https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-      //location: [faker.random.number(), faker.random.number()]
     });
   }
   return pics;
