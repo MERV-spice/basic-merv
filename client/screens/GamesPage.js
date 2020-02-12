@@ -265,6 +265,11 @@ const GamesPage = ({
           >
             <Text style={styles.text}>Create A Game</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btnLogout} onPress={() => logOut()}>
+            <Text style={styles.text}>Logout</Text>
+          </TouchableOpacity>
+
           {games.length ? (
             <React.Fragment key={420}>
               <Overlay

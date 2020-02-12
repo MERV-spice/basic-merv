@@ -21,6 +21,7 @@ import {addScoreThunk, fetchGameUserScore} from '../store/gameUserScore';
 
 const {width: WIDTH} = Dimensions.get('window');
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -190,6 +191,7 @@ const CluePage = props => {
           makeSuccessOverlayVisible(false);
           props.currentCluePlus(props.user);
         }}
+
         height={200}
         overlayBackgroundColor="#ebdda0"
       >
@@ -201,6 +203,7 @@ const CluePage = props => {
               makeSuccessOverlayVisible(false);
               props.currentCluePlus(props.user);
             }}
+
           >
             <Text style={styles.text}>Next Clue</Text>
           </TouchableOpacity>

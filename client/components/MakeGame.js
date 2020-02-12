@@ -22,7 +22,6 @@ import {Appearance} from 'react-native-appearance';
 import parchment from '../../assets/parchment.jpg';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
-import {Alert} from 'react-native';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -96,7 +95,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     backgroundColor: '#7A8B8B',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+
     marginBottom: 30
   },
   createBtn: {
@@ -406,6 +406,7 @@ class MakeGame extends React.Component {
                 >
                   <Text style={styles.text}>pick a start time</Text>
                 </TouchableOpacity>
+
                 {this.state.showStartError ? (
                   <Text
                     style={{...styles.text, color: 'red', fontWeight: 'bold'}}
@@ -426,6 +427,7 @@ class MakeGame extends React.Component {
                 >
                   <Text style={styles.text}>pick an end time</Text>
                 </TouchableOpacity>
+
                 {this.state.showEndError ? (
                   <Text
                     style={{...styles.text, color: 'red', fontWeight: 'bold'}}
@@ -437,6 +439,7 @@ class MakeGame extends React.Component {
                     <Text style={styles.text}>{this.state.end}</Text>
                   </View>
                 )}
+
                 <DateTimePickerModal
                   isVisible={this.state.isDatePickerVisible}
                   mode="datetime"
@@ -526,6 +529,7 @@ class MakeGame extends React.Component {
                       style={styles.input}
                       value={this.state.clueText}
                       onChangeText={clueText => this.setState({clueText})}
+
                     />
                     <Text style={styles.newGameText}>Clue Hint: </Text>
                     <TextInput
@@ -533,6 +537,7 @@ class MakeGame extends React.Component {
                       value={this.state.clueHint}
                       onChangeText={clueHint => this.setState({clueHint})}
                     />
+
                     {this.state.clueImg.accessPic ? (
                       <View style={styles.newImgContainer}>
                         <Image

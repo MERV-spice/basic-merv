@@ -1,39 +1,61 @@
+/* eslint-disable react/display-name */
+import React from 'react';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createAppContainer} from 'react-navigation';
 import Camera from '../screens/Camera';
 import {createStackNavigator} from 'react-navigation-stack';
+import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
+import {Text} from 'react-native';
 
 import CluePage from '../screens/CluePage';
 import GameOver from '../components/GameOver';
 import FriendsPage from '../screens/FriendsPage';
 import GamesPage from '../screens/GamesPage'; //
-import {MakeClueCamera, MakeGame, Login, SignUp} from '../components'; //
+import {MakeClueCamera, MakeGame, Login, SignUp} from '../components';
 
 const screens = {
   GamesPage: {
     screen: GamesPage,
     navigationOptions: {
       headerShown: false,
-      tabBarLabel: 'GamesPage'
+
+      tabBarLabel: () => <Text>Games</Text>,
+      tabBarIcon: ({tintColor}) => (
+        <MaterialCommunityIcons
+          name="treasure-chest"
+          size={25}
+          color={tintColor}
+        />
+      )
     }
   },
   CluePage: {
     screen: CluePage,
     navigationOptions: {
-      tabBarLabel: 'CluePage'
+      tabBarLabel: () => <Text>Clues</Text>,
+      tabBarIcon: ({tintColor}) => (
+        <Ionicons name="ios-search" size={25} color={tintColor} />
+      )
     }
   },
   FriendsPage: {
     screen: FriendsPage,
     navigationOptions: {
-      tabBarLabel: 'FriendsPage'
+      tabBarLabel: () => <Text>Friends</Text>,
+      tabBarIcon: ({tintColor}) => (
+        <Ionicons name="ios-people" size={25} color={tintColor} />
+      )
     }
   }
 };
 
 const tab = createBottomTabNavigator(screens, {
   tabBarOptions: {
-    visible: false
+    visible: false,
+    activeTintColor: '#E20014',
+    style: {
+      backgroundColor: '#ebdda0'
+    }
   },
   navigationOptions: {
     headerShown: false, // this hides the header for gamespage and clue page
