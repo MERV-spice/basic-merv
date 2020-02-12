@@ -180,7 +180,7 @@ const CluePage = props => {
   }
 
   if (currentClue >= clues.length) {
-    props.navigation.navigate('GameOver');
+    props.navigation.navigate('GameOver', {setHint});
     return <Text>Join a new game!</Text>;
   }
   return (

@@ -80,7 +80,11 @@ const appCon = createStackNavigator({
   Camera: {
     screen: Camera,
     navigationOptions: {
-      tabBarLabel: 'Camera'
+      headerTitle: 'Camera',
+      headerTintColor: '#E20014',
+      headerStyle: {
+        backgroundColor: '#ebdda0'
+      }
     }
   },
   GameOver: {
@@ -92,13 +96,18 @@ const appCon = createStackNavigator({
   MakeGame: {
     screen: MakeGame,
     navigationOptions: {
-      tabBarLabel: 'MakeGame'
+      tabBarLabel: 'MakeGame',
+      activeTintColor: '#E20014'
     }
   },
   MakeClueCamera: {
     screen: MakeClueCamera,
     navigationOptions: {
-      tabBarLabel: 'MakeClueCamera'
+      headerTitle: 'MakeClueCamera',
+      headerTintColor: '#E20014',
+      headerStyle: {
+        backgroundColor: '#ebdda0'
+      }
     }
   }
 });
