@@ -1,10 +1,10 @@
 # Ahoy!
 
-Ahoy! is an app that allows you to build and participate in treasure with your friends. When a you locate a clue, use the app to snap a picture; if it's a match you add coins to your treasure chest. Compare your scores to see who’s the sneakiest scalawag on the high seas!
+Ahoy! is an app that allows you to build and participate in treasure hunts with your friends. When a you locate a clue, use the app to snap a picture; if it's a match you add coins to your treasure chest. Compare your scores to see who’s the sneakiest scalawag on the high seas!
 
 ## Getting Started:
 
-To use Ahoy! from GitHub fork and clone the repository.
+To use Ahoy! from GitHub fork and clone this repository.
 In order to run Ahoy! you will need to add a PostGIS extension to PostGreSQL. This extension adds support for geographic objects, allowing location queries to be run in SQL.
 
 Once you have added the PostGIS extension, npm i. You can also npm run seed to populate the database, or add users and games yourself using the sign up and make game functionality in the app!
@@ -17,19 +17,19 @@ Once you have added the PostGIS extension, npm i. You can also npm run seed to p
 
 ### Axios
 
-* promise based HTTP client for the browser and node.js
+* a promise based HTTP client for the browser and node.js
 
 ### Chai
 
-* unit testing BDD/TDD assertion library
+* a unit testing BDD/TDD assertion library
 
 ### Clarifai
 
-* image identification and analysis API that uses machine learning and deep neural networks
+* an image identification and analysis API that uses machine learning and deep neural networks
 
 ### Cloudinary
 
-* Cloud based image and video management
+* a cloud based image and video management
 
 ### Crypto
 
@@ -37,7 +37,7 @@ Once you have added the PostGIS extension, npm i. You can also npm run seed to p
 
 ### Expo
 
-* an open-source platform for making unicersal native apps for Android, iOS, and the web using Javascript and React
+* an open-source platform for making universal native apps for Android, iOS, and the web using Javascript and React
 
 ### Expo-Camera
 
@@ -57,7 +57,7 @@ Once you have added the PostGIS extension, npm i. You can also npm run seed to p
 
 ### Geolocation
 
-* service allowing access to a user's current position
+* an Expo service allowing access to a user's current position
 
 ### Heroku
 
@@ -65,19 +65,19 @@ Once you have added the PostGIS extension, npm i. You can also npm run seed to p
 
 ### PostGIS
 
-* PostGreSQL extension that adds support for geographic objects
+* a PostGreSQL extension that adds support for geographical objects
 
 ### Modal Time Picker
 
-* a cross-platform interface for showing the native date-picker and time-picker inside a model
+* a cross-platform interface which renders the native date-picker and time-picker
 
 ### Morgan
 
-* logging middleware
+* a logging middleware
 
 ### Ngrok
 
-* connects to the ngrok cloud service, which accepts traffic on a public address and relays that traffic through to the ngrok process running on your machine and then to your specified local address
+* connects to the ngrok cloud service, which accepts traffic on a public address and relays that traffic through the ngrok process running on your machine and then to your specified local address
 
 ### React Native
 
@@ -97,11 +97,11 @@ Once you have added the PostGIS extension, npm i. You can also npm run seed to p
 
 ### React Tab Navigator
 
-* onPress navigation between scenes using tabs across the bottom of the screen
+* provides onPress navigation between scenes using tabs across the bottom of the screen
 
 ### Redux
 
-* a predictable state container for JS apps
+* a predictable state container for JavaScript apps
 
 ### Sequelize
 
