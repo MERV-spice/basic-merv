@@ -44,7 +44,7 @@ export const addScoreThunk = (userId, gameId, score, itemsFound) => {
     try {
       const reqObject = {userId, gameId, score, itemsFound};
       const {data} = await axios.put(`${url}/api/score`, reqObject);
-      console.log('data', data);
+      // console.log('data', data);
       return dispatch(addScore(data));
     } catch (err) {
       console.error(err);

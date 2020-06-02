@@ -1,6 +1,6 @@
 # Ahoy!
 
-Ahoy! is an app that allows you to build and participate in treasure with your friends. When a you locate a clue, use the app to snap a picture; if it's a match you add coins to your treasure chest. Compare your scores to see who’s the sneakiest scalawag on the high seas!
+Ahoy! is a mobile app that allows you to build and participate in treasure hunts with your friends. When a you locate a clue, use the app to snap a picture; if it's a match you add coins to your treasure chest. Compare your scores to see who’s the sneakiest scalawag on the high seas!
 
 ## Getting Started:
 
